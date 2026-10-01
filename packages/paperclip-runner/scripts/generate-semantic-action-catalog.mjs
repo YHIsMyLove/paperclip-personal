@@ -12,7 +12,10 @@ const outputPath = resolve(
 const generated = canonicalPaperclipSemanticActionCatalog();
 
 if (process.argv.includes("--check")) {
-  const current = await readFile(outputPath, "utf8").catch(() => "");
+  // Normalize line endings: git checks this repo out with `core.autocrlf` on
+  // Windows, so the committed catalog arrives with CRLF and compared raw against
+  // LF-generated content it always looked stale.
+  const current = (await readFile(outputPath, "utf8").catch(() => "")).replaceAll("\r\n", "\n");
   if (current !== generated) {
     process.stderr.write(
       "generated/semantic-action-catalog.json is stale; run generate:semantic-action-catalog\n",

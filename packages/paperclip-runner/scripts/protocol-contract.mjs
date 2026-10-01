@@ -38,8 +38,27 @@ export function portableRelative(root, path) {
   return relative(root, path).split(sep).join("/");
 }
 
+/**
+ * Canonical sha256 of a text or binary source.
+ *
+ * Line endings are normalized to LF before hashing. Git checks this repo out
+ * with `core.autocrlf` on Windows, so the schema and fixture files on disk carry
+ * CRLF there and LF everywhere else. Hashing raw bytes made the generated
+ * manifest platform-dependent: `generate:protocol-manifest --check` failed on a
+ * clean Windows checkout, and regenerating there would have committed
+ * CRLF-specific hashes that then failed for every LF platform.
+ *
+ * Normalizing keeps a single canonical hash for a given content, so the
+ * committed manifest is valid on every platform. Binary input is passed through
+ * untouched — detected by a NUL byte, which the JSON/text inputs never contain.
+ */
 export function sha256(source) {
-  return createHash("sha256").update(source).digest("hex");
+  const isText = typeof source === "string" || !source.includes?.(0);
+  if (!isText) return createHash("sha256").update(source).digest("hex");
+
+  const text = typeof source === "string" ? source : source.toString("utf8");
+  const canonical = text.includes("\r\n") ? text.replaceAll("\r\n", "\n") : text;
+  return createHash("sha256").update(canonical).digest("hex");
 }
 
 function collectReferences(value, output = []) {

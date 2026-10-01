@@ -90,7 +90,10 @@ const document = {
 };
 const encoded = `${JSON.stringify(document, null, 2)}\n`;
 if (process.argv.includes("--check")) {
-  const current = await readFile(outputPath, "utf8").catch(() => "");
+  // Normalize line endings: git checks this repo out with `core.autocrlf` on
+  // Windows, so the committed artifact arrives with CRLF and compared raw
+  // against LF-encoded content it always looked stale.
+  const current = (await readFile(outputPath, "utf8").catch(() => "")).replaceAll("\r\n", "\n");
   if (current !== encoded) throw new Error("protocol coverage artifact is stale; run pnpm generate:protocol-coverage");
 } else {
   await writeFile(outputPath, encoded);

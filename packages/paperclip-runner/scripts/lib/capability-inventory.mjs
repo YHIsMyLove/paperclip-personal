@@ -82,8 +82,16 @@ export function encodeInventory(value) {
 }
 
 export function decodeInventory(source) {
-  const json = source.startsWith(sourceHeader) ? source.slice(sourceHeader.length) : source;
-  return JSON.parse(json);
+  // Line endings first: git checks this repo out with `core.autocrlf` on
+  // Windows, so the committed header arrives as CRLF and the exact
+  // `startsWith(sourceHeader)` test below silently failed, handing a comment
+  // line to JSON.parse and crashing with "Unexpected token '#'".
+  const text = source.replaceAll("\r\n", "\n");
+  if (text.startsWith(sourceHeader)) return JSON.parse(text.slice(sourceHeader.length));
+  // Tolerate a header whose wording or trailing whitespace has drifted: this is
+  // a generated file, so everything before the first `{` is a comment.
+  const bodyStart = text.indexOf("{");
+  return JSON.parse(bodyStart === -1 ? text : text.slice(bodyStart));
 }
 
 function slug(value) {

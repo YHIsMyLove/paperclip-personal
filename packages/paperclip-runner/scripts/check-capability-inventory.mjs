@@ -48,7 +48,11 @@ const expected = {
   [resolve(packageRoot, "docs/capability-contract.md")]: renderDocumentation(inventories),
 };
 for (const [path, source] of Object.entries(expected)) {
-  if (await readFile(path, "utf8").catch(() => "") !== source) errors.push(`Generated output is stale: ${path}.`);
+  // Normalize line endings: git checks this repo out with `core.autocrlf` on
+  // Windows, so the committed output arrives with CRLF and compared raw against
+  // LF-rendered content it was always reported stale.
+  const onDisk = (await readFile(path, "utf8").catch(() => "")).replaceAll("\r\n", "\n");
+  if (onDisk !== source) errors.push(`Generated output is stale: ${path}.`);
 }
 if (errors.length > 0) {
   process.stderr.write(`Capability inventory check failed:\n${errors.map((error) => `- ${error}`).join("\n")}\n`);

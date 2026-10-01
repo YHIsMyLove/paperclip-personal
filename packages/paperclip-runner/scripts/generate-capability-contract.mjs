@@ -199,7 +199,11 @@ export async function main() {
   const output = await buildContract();
   for (const [path, contents] of Object.entries(output)) {
     if (checkOnly) {
-      if (!existsSync(path) || await readFile(path, "utf8") !== contents) throw new Error(`Generated contract drift: ${relative(packageRoot, path)}`);
+      // Normalize line endings: git checks this repo out with `core.autocrlf`
+      // on Windows, so the committed contract arrives with CRLF and compared
+      // raw against LF-generated content it always looked drifted.
+      const onDisk = (await readFile(path, "utf8").catch(() => "")).replaceAll("\r\n", "\n");
+      if (!existsSync(path) || onDisk !== contents) throw new Error(`Generated contract drift: ${relative(packageRoot, path)}`);
     } else {
       await writeFile(path, contents);
     }

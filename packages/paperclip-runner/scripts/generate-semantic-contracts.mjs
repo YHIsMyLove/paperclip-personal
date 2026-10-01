@@ -16,7 +16,11 @@ const fixture = JSON.parse(await readFile(fixturePath, "utf8"));
 const fixtureCurrent = fixture.runner.catalogSha256 === PAPERCLIP_RUNNER_BUILD_METADATA.semanticCatalog.sha256;
 
 if (process.argv.includes("--check")) {
-  const current = await readFile(outputPath, "utf8").catch(() => "");
+  // Normalize line endings: git checks this repo out with `core.autocrlf` on
+  // Windows, so committed artifacts arrive with CRLF and compared raw against
+  // LF-generated content they always looked stale.
+  const canonicalize = (text) => text.replaceAll("\r\n", "\n");
+  const current = canonicalize(await readFile(outputPath, "utf8").catch(() => ""));
   if (current !== generated) {
     process.stderr.write("semantic-tool-contracts.json is stale; run generate:semantic-contracts\n");
     process.exitCode = 1;
@@ -26,7 +30,7 @@ if (process.argv.includes("--check")) {
     process.exitCode = 1;
   }
   const manifest = `${JSON.stringify(await buildProtocolManifest(), null, 2)}\n`;
-  if (await readFile(manifestPath, "utf8").catch(() => "") !== manifest) {
+  if (canonicalize(await readFile(manifestPath, "utf8").catch(() => "")) !== manifest) {
     process.stderr.write("protocol/manifest.json is stale; run generate:semantic-contracts\n");
     process.exitCode = 1;
   }

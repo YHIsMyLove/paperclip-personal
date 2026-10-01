@@ -45,7 +45,11 @@ for (const fixtureName of fixtureNames) {
     const path = resolve(goldenDirectory, `${fixtureName}.${kind}.json`);
     const generated = `${JSON.stringify(value, null, 2)}\n`;
     if (check) {
-      if ((await readFile(path, "utf8").catch(() => "")) !== generated) {
+      // Normalize line endings: git checks this repo out with `core.autocrlf`
+      // on Windows, so the committed goldens arrive with CRLF and compared raw
+      // against LF-serialized content every fixture looked stale.
+      const onDisk = (await readFile(path, "utf8").catch(() => "")).replaceAll("\r\n", "\n");
+      if (onDisk !== generated) {
         stale.push(`${fixtureName}.${kind}.json`);
       }
     } else {

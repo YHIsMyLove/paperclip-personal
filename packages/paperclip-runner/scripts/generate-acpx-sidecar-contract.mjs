@@ -69,9 +69,13 @@ const outputs = [
   ],
 ];
 if (process.argv.includes("--check")) {
+  // Normalize line endings on the on-disk side: git checks this repo out with
+  // `core.autocrlf` on Windows, so the committed contract arrives with CRLF and
+  // compared raw against LF-generated content it always looked stale.
+  const canonicalize = (text) => text.replaceAll("\r\n", "\n");
   const stale = [];
   for (const [path, content] of outputs)
-    if ((await readFile(path, "utf8").catch(() => "")) !== content)
+    if (canonicalize(await readFile(path, "utf8").catch(() => "")) !== content)
       stale.push(path);
   if (stale.length > 0) {
     process.stderr.write(

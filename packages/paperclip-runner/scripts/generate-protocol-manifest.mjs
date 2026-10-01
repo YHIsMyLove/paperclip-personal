@@ -117,7 +117,11 @@ export async function buildProtocolManifest() {
 async function main() {
   const encoded = `${JSON.stringify(await buildProtocolManifest(), null, 2)}\n`;
   if (process.argv.includes("--check")) {
-    const current = await readFile(outputPath, "utf8").catch(() => "");
+    // Normalize line endings: git checks this repo out with `core.autocrlf` on
+    // Windows, so the committed manifest arrives with CRLF. The manifest's own
+    // hashes are line-ending independent (see `sha256` in protocol-contract.mjs),
+    // but this byte comparison is not.
+    const current = (await readFile(outputPath, "utf8").catch(() => "")).replaceAll("\r\n", "\n");
     if (current !== encoded) {
       process.stderr.write(
         "The generated PRP contract manifest is stale. Run pnpm generate:protocol-manifest.\n",
