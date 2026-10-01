@@ -1,5 +1,5 @@
 import { useWorkspaceIsolationControls } from "@/hooks/useWorkspaceIsolationControls";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { environmentDisplayLabel, filterManagedSandboxSelectableEnvironments } from "@/lib/managed-sandbox-environment";
 import { Link } from "@/lib/router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -202,12 +202,114 @@ function ArchiveDangerZone({
   );
 }
 
+/**
+ * One editable local-folder row.
+ *
+ * Inline edit rather than a modal: a project may hold several of these, and
+ * making each one a dialog turns adding a second folder into a multi-step
+ * errand for something that is a single field.
+ */
+function LocalFolderRow({
+  cwd,
+  pending,
+  onSave,
+  onRemove,
+}: {
+  cwd: string;
+  pending: boolean;
+  onSave: (cwd: string) => void;
+  onRemove: () => void;
+}) {
+  const [draft, setDraft] = useState(cwd);
+  const [editing, setEditing] = useState(false);
+
+  // Follow the row when the value changes underneath us — a mutation landing
+  // from another tab, or a save of this row.
+  useEffect(() => {
+    setDraft(cwd);
+  }, [cwd]);
+
+  if (!editing) {
+    return (
+      <div className="flex items-center justify-between gap-2">
+        <div className="min-w-0 break-all font-mono text-xs text-muted-foreground">{cwd}</div>
+        <div className="flex shrink-0 items-center gap-1">
+          <Button
+            variant="ghost"
+            size="xs"
+            className="h-6 px-2"
+            disabled={pending}
+            onClick={() => setEditing(true)}
+          >
+            Edit
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon-xs"
+            disabled={pending}
+            onClick={onRemove}
+            aria-label={`Remove local folder ${cwd}`}
+          >
+            <Trash2 className="h-3 w-3" />
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <input
+        className="w-full rounded border border-border bg-transparent px-2 py-1 font-mono text-xs outline-none"
+        value={draft}
+        autoFocus
+        onChange={(event) => setDraft(event.target.value)}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            onSave(draft);
+            setEditing(false);
+          } else if (event.key === "Escape") {
+            event.preventDefault();
+            setDraft(cwd);
+            setEditing(false);
+          }
+        }}
+      />
+      <Button
+        variant="outline"
+        size="xs"
+        className="h-6 px-2"
+        disabled={pending || draft.trim() === cwd}
+        onClick={() => {
+          onSave(draft);
+          setEditing(false);
+        }}
+      >
+        Save
+      </Button>
+      <Button
+        variant="ghost"
+        size="xs"
+        className="h-6 px-2"
+        disabled={pending}
+        onClick={() => {
+          setDraft(cwd);
+          setEditing(false);
+        }}
+      >
+        Cancel
+      </Button>
+    </div>
+  );
+}
+
 export function ProjectProperties({ project, repositories, onUpdate, onFieldUpdate, getFieldSaveState, onArchive, archivePending }: ProjectPropertiesProps) {
   const { visible: workspaceIsolationControlsVisible } = useWorkspaceIsolationControls();
   const { selectedCompanyId } = useCompany();
   const queryClient = useQueryClient();
   const [executionWorkspaceAdvancedOpen, setExecutionWorkspaceAdvancedOpen] = useState(false);
-  const [workspaceMode, setWorkspaceMode] = useState<"local" | null>(null);
+  const [workspaceMode, setWorkspaceMode] = useState<"local" | "add-local" | null>(null);
   const [workspaceCwd, setWorkspaceCwd] = useState("");
   const [workspaceError, setWorkspaceError] = useState<string | null>(null);
 
@@ -258,6 +360,21 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
   const workspaces = project.workspaces ?? [];
   const codebase = project.codebase;
   const primaryCodebaseWorkspace = project.primaryWorkspace ?? null;
+  /**
+   * Every workspace row that carries a local path, primary first.
+   *
+   * A project is allowed several local folders — a main checkout, a mirror, a
+   * scratch copy — alongside its one remote. `project.codebase` only ever
+   * reports the primary row's `cwd`, so the full set has to come from
+   * `workspaces` directly. Rendering only `codebase.localFolder` is what made it
+   * look like only one local address was possible.
+   */
+  const localFolderWorkspaces = workspaces.filter(
+    (workspace) => (workspace.cwd ?? "").trim().length > 0,
+  );
+  const additionalLocalFolderWorkspaces = localFolderWorkspaces.filter(
+    (workspace) => workspace.id !== primaryCodebaseWorkspace?.id,
+  );
   const hasAdditionalLegacyWorkspaces = workspaces.some((workspace) => workspace.id !== primaryCodebaseWorkspace?.id && !workspace.metadata?.githubRepositoryId);
   const executionWorkspacePolicy = project.executionWorkspacePolicy ?? null;
   const executionWorkspacesEnabled = executionWorkspacePolicy?.enabled === true;
@@ -400,18 +517,66 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
       setWorkspaceError("Local folder must be a full absolute path.");
       return;
     }
+    if (localFolderWorkspaces.some((workspace) => workspace.cwd === cwd)) {
+      setWorkspaceError("That local folder is already on this project.");
+      return;
+    }
     setWorkspaceError(null);
     persistCodebase({ cwd });
   };
 
-  const clearLocalWorkspace = () => {
+  /**
+   * Add another local folder to the same project.
+   *
+   * Goes in as its own workspace row rather than overwriting the primary one, so
+   * a project can hold several local addresses at once and only the primary
+   * stays the default working location. `isPrimary: false` keeps the primary
+   * from being reassigned out from under whatever agents are already running
+   * there.
+   */
+  const submitAdditionalLocalWorkspace = () => {
+    const cwd = workspaceCwd.trim();
+    if (!isAbsolutePath(cwd)) {
+      setWorkspaceError("Local folder must be a full absolute path.");
+      return;
+    }
+    if (localFolderWorkspaces.some((workspace) => workspace.cwd === cwd)) {
+      setWorkspaceError("That local folder is already on this project.");
+      return;
+    }
+    setWorkspaceError(null);
+    createWorkspace.mutate({ cwd, sourceType: "local_path", isPrimary: false });
+    setWorkspaceCwd("");
+    setWorkspaceMode(null);
+  };
+
+  const updateAdditionalLocalWorkspace = (workspaceId: string, cwd: string) => {
+    const next = cwd.trim();
+    if (!isAbsolutePath(next)) {
+      setWorkspaceError("Local folder must be a full absolute path.");
+      return;
+    }
+    if (localFolderWorkspaces.some((workspace) => workspace.id !== workspaceId && workspace.cwd === next)) {
+      setWorkspaceError("That local folder is already on this project.");
+      return;
+    }
+    setWorkspaceError(null);
+    updateWorkspace.mutate({ workspaceId, data: { cwd: next } });
+  };
+
+  const removeLocalWorkspace = (workspace: { id: string; cwd: string | null }, isPrimary: boolean) => {
     const confirmed = window.confirm(
-      codebase.repoUrl
-        ? "Clear local folder from this workspace?"
-        : "Delete this workspace local folder?",
+      isPrimary && codebase.repoUrl
+        ? "Clear the local folder from this workspace? The remote repository stays."
+        : `Remove local folder ${workspace.cwd ?? ""} from this project?`,
     );
     if (!confirmed) return;
-    persistCodebase({ cwd: null });
+    if (isPrimary) {
+      // Keep the repo: clearing only the folder is `cwd: null`, not a delete.
+      persistCodebase({ cwd: null });
+      return;
+    }
+    removeWorkspace.mutate(workspace.id);
   };
 
   return (
@@ -547,7 +712,7 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
                       <Button
                         variant="ghost"
                         size="icon-xs"
-                        onClick={clearLocalWorkspace}
+                        onClick={() => removeLocalWorkspace(primaryCodebaseWorkspace!, true)}
                         aria-label="Clear local folder"
                       >
                         <Trash2 className="h-3 w-3" />
@@ -555,9 +720,50 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
                     ) : null}
                   </div>
                 </div>
+
+                {/*
+                  Additional local folders. Same project, same shape as the
+                  primary — a workspace row carrying only a `cwd`. The primary
+                  stays the default working location; these are extra addresses
+                  agents can be pointed at.
+                */}
+                {additionalLocalFolderWorkspaces.length > 0 && (
+                  <div className="space-y-1 pt-1">
+                    <div className="text-(length:--text-micro) uppercase tracking-wide text-muted-foreground">
+                      Additional local folders
+                    </div>
+                    {additionalLocalFolderWorkspaces.map((workspace) => (
+                      <LocalFolderRow
+                        key={workspace.id}
+                        cwd={workspace.cwd ?? ""}
+                        pending={updateWorkspace.isPending || removeWorkspace.isPending}
+                        onSave={(next) => updateAdditionalLocalWorkspace(workspace.id, next)}
+                        onRemove={() => removeLocalWorkspace(workspace, false)}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                <Button
+                  variant="ghost"
+                  size="xs"
+                  className="h-6 px-2"
+                  onClick={() => {
+                    setWorkspaceMode("add-local");
+                    setWorkspaceCwd("");
+                    setWorkspaceError(null);
+                  }}
+                >
+                  + Add local folder
+                </Button>
               </div>
             )}
 
+            {/*
+              Rows that exist without a `cwd` — an extra remote, or a
+              GitHub-linked record. They are not local addresses, so they are
+              listed rather than merged into the folders above.
+            */}
             {hasAdditionalLegacyWorkspaces && (
               <div className="text-(length:--text-micro) text-muted-foreground">
                 Additional legacy workspace records exist on this project. Paperclip is using the primary workspace as the codebase view.
@@ -622,7 +828,7 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
               </div>
             ) : null}
           </div>
-          {!hideHostPaths && workspaceMode === "local" && (
+          {!hideHostPaths && workspaceMode !== null && (
             <div className="space-y-1.5 rounded-md border border-border p-2">
               <div className="flex items-center gap-2">
                 <input
@@ -638,10 +844,18 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
                   variant="outline"
                   size="xs"
                   className="h-6 px-2"
-                  disabled={(!workspaceCwd.trim() && !primaryCodebaseWorkspace) || createWorkspace.isPending || updateWorkspace.isPending}
-                  onClick={submitLocalWorkspace}
+                  disabled={
+                    workspaceMode === "add-local"
+                      // An added folder must be a real path. The primary can be
+                      // blank because blank means "remove the folder".
+                      ? !workspaceCwd.trim() || createWorkspace.isPending
+                      : (!workspaceCwd.trim() && !primaryCodebaseWorkspace) ||
+                        createWorkspace.isPending ||
+                        updateWorkspace.isPending
+                  }
+                  onClick={workspaceMode === "add-local" ? submitAdditionalLocalWorkspace : submitLocalWorkspace}
                 >
-                  Save
+                  {workspaceMode === "add-local" ? "Add folder" : "Save"}
                 </Button>
                 <Button
                   variant="ghost"
