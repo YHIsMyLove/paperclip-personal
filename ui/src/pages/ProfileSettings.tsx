@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Camera, LoaderCircle, Save, Trash2, UserRoundPen } from "lucide-react";
 import type { AuthSession, CurrentUserProfile, UpdateCurrentUserProfile } from "@paperclipai/shared";
@@ -120,7 +121,7 @@ export function ProfileSettings() {
   });
 
   if (sessionQuery.isLoading) {
-    return <div className="text-sm text-muted-foreground">Loading profile...</div>;
+    return <div className="text-sm text-muted-foreground">{t("pages.profileSettings.loadingProfile", { defaultValue: "Loading profile..." })}</div>;
   }
 
   if (sessionQuery.error || !sessionQuery.data) {
@@ -144,10 +145,10 @@ export function ProfileSettings() {
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <UserRoundPen className="h-5 w-5 text-muted-foreground" />
-          <h1 className="text-lg font-semibold">Profile</h1>
+          <h1 className="text-lg font-semibold">{t("pages.profileSettings.profile", { defaultValue: "Profile" })}</h1>
         </div>
         <p className="text-sm text-muted-foreground">
-          Control how your account appears in the sidebar and other board surfaces.
+          {t("pages.profileSettings.controlHowYourAccountAppearsInTheSidebarAndOther", { defaultValue: "Control how your account appears in the sidebar and other board surfaces." })}
         </p>
       </div>
 
@@ -236,21 +237,21 @@ export function ProfileSettings() {
           }}
         >
           <div className="space-y-2">
-            <Label htmlFor="profile-name">Display name</Label>
+            <Label htmlFor="profile-name">{t("pages.profileSettings.displayName", { defaultValue: "Display name" })}</Label>
             <Input
               id="profile-name"
               value={name}
               onChange={(event) => setName(event.target.value)}
               maxLength={120}
-              placeholder="Board"
+              placeholder={t("pages.profileSettings.board", { defaultValue: "Board" })}
             />
             <p className="text-xs text-muted-foreground">
-              Shown in the sidebar account footer and comment author surfaces.
+              {t("pages.profileSettings.shownInTheSidebarAccountFooterAndCommentAuthorSu", { defaultValue: "Shown in the sidebar account footer and comment author surfaces." })}
             </p>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="profile-email">Email</Label>
+            <Label htmlFor="profile-email">{t("pages.profileSettings.email", { defaultValue: "Email" })}</Label>
             <Input
               id="profile-email"
               value={sessionQuery.data.user.email ?? ""}
@@ -258,7 +259,7 @@ export function ProfileSettings() {
               disabled
             />
             <p className="text-xs text-muted-foreground">
-              Email is managed by your auth session and is read-only here.
+              {t("pages.profileSettings.emailIsManagedByYourAuthSessionAndIsReadOnlyHere", { defaultValue: "Email is managed by your auth session and is read-only here." })}
             </p>
           </div>
 

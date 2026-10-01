@@ -1,5 +1,6 @@
 import { AgentAvatar } from "@/components/AgentAvatar";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { t } from "@/i18n";
 import { Ban, Check, FlaskConical, Loader2, RefreshCw, Search, ShieldQuestion } from "lucide-react";
 import type { Agent, ToolCatalogEntry, ToolConnectionCapabilities } from "@paperclipai/shared";
 import { useSearchParams } from "@/lib/router";
@@ -122,14 +123,14 @@ function AgentAccessSection({
   return (
     <section className="space-y-4 border-t border-border pt-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-sm font-semibold text-foreground">Which agents can use this connection?</h2>
-        {disabled ? <span className="text-xs text-muted-foreground">Saving…</span> : null}
+        <h2 className="text-sm font-semibold text-foreground">{t("pages.apps.appDetail.permissionsPanel.whichAgentsCanUseThisConnection2", { defaultValue: "Which agents can use this connection?" })}</h2>
+        {disabled ? <span className="text-xs text-muted-foreground">{t("pages.apps.appDetail.permissionsPanel.saving", { defaultValue: "Saving…" })}</span> : null}
       </div>
 
       {canManage ? (
         <div className="space-y-3">
           <RadioCardGroup
-            ariaLabel="Which agents can use this connection"
+            ariaLabel={t("pages.apps.appDetail.permissionsPanel.whichAgentsCanUseThisConnection", { defaultValue: "Which agents can use this connection" })}
             value={access.mode}
             disabled={disabled}
             className="sm:grid-cols-2"
@@ -165,7 +166,7 @@ function AgentAccessSection({
               triggerLabel={access.agentIds.size === 0
                 ? "Choose agents"
                 : `${access.agentIds.size} ${access.agentIds.size === 1 ? "agent" : "agents"} selected`}
-              emptyMessage="You cannot edit any agents yet."
+              emptyMessage={t("pages.apps.appDetail.permissionsPanel.youCannotEditAnyAgentsYet", { defaultValue: "You cannot edit any agents yet." })}
               isAgentDisabled={(agent) => requiredAgentIds.has(agent.id)}
               getDescription={(agent) => requiredAgentIds.has(agent.id) ? "Required by this connection's install setting" : agent.title}
               onChange={(agentIds) => onSave({
@@ -176,9 +177,9 @@ function AgentAccessSection({
           ) : null}
         </div>
       ) : access.mode === "all" ? (
-        <p className="text-sm text-muted-foreground">Any agent can use this connection.</p>
+        <p className="text-sm text-muted-foreground">{t("pages.apps.appDetail.permissionsPanel.anyAgentCanUseThisConnection", { defaultValue: "Any agent can use this connection." })}</p>
       ) : selectedAgents.length === 0 ? (
-        <p className="text-sm text-muted-foreground">No agents can use this connection.</p>
+        <p className="text-sm text-muted-foreground">{t("pages.apps.appDetail.permissionsPanel.noAgentsCanUseThisConnection", { defaultValue: "No agents can use this connection." })}</p>
       ) : (
         <div className="space-y-0.5">
           {selectedAgents.map((agent) => (
@@ -246,10 +247,10 @@ export function ActionsSection({
   return (
     <section className="space-y-6 border-t border-border pt-8">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-lg font-semibold text-foreground">Actions</h2>
+        <h2 className="text-lg font-semibold text-foreground">{t("pages.apps.appDetail.permissionsPanel.actions", { defaultValue: "Actions" })}</h2>
         {canConfigure ? (
           <div className="flex items-center gap-2">
-            {disabled ? <span className="text-xs text-muted-foreground">Saving…</span> : null}
+            {disabled ? <span className="text-xs text-muted-foreground">{t("pages.apps.appDetail.permissionsPanel.saving", { defaultValue: "Saving…" })}</span> : null}
             <Button
               variant="outline"
               size="sm"
@@ -286,8 +287,8 @@ export function ActionsSection({
           <div className="relative min-w-(--sz-12rem) flex-1">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              aria-label="Find an action"
-              placeholder="Find an action…"
+              aria-label={t("pages.apps.appDetail.permissionsPanel.findAnAction", { defaultValue: "Find an action" })}
+              placeholder={t("pages.apps.appDetail.permissionsPanel.findAnAction2", { defaultValue: "Find an action…" })}
               className="pl-9"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
@@ -506,7 +507,7 @@ function ActionRow({
           )}
           <Button type="button" size="sm" variant="outline" onClick={() => setTestOpen(true)}>
             <FlaskConical className="mr-1.5 h-3.5 w-3.5" />
-            Test
+            {t("pages.apps.appDetail.permissionsPanel.test", { defaultValue: "Test" })}
           </Button>
         </div>
       </div>

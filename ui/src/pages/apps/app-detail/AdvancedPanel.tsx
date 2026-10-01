@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { t } from "@/i18n";
 import { useMutation } from "@tanstack/react-query";
 import { ArrowUpRight, ChevronRight, Loader2, Lock } from "lucide-react";
 import type {
@@ -115,7 +116,7 @@ function KeySection({
         <div className="flex items-start gap-3">
           <Lock className="mt-0.5 h-4 w-4 text-muted-foreground" />
           <div>
-            <h2 className="text-sm font-medium text-foreground">Reconnect</h2>
+            <h2 className="text-sm font-medium text-foreground">{t("pages.apps.appDetail.advancedPanel.reconnect", { defaultValue: "Reconnect" })}</h2>
             <p className="mt-0.5 text-xs text-muted-foreground">
               {canReplace ? "Replace the stored credential." : unavailableMessage}
             </p>
@@ -123,7 +124,7 @@ function KeySection({
         </div>
         {canReplace && !open && (
           <Button size="sm" variant="outline" onClick={() => setOpen(true)}>
-            Reconnect
+            {t("pages.apps.appDetail.advancedPanel.reconnect", { defaultValue: "Reconnect" })}
           </Button>
         )}
       </div>
@@ -231,16 +232,16 @@ export function ReconnectCard({
         ) : methodUnavailable ? (
           <Button size="sm" variant="outline" asChild>
             <Link to={`/apps/connect?source=${encodeURIComponent(galleryEntry!.slug)}`}>
-              Add supported connection
+              {t("pages.apps.appDetail.advancedPanel.addSupportedConnection", { defaultValue: "Add supported connection" })}
             </Link>
           </Button>
         ) : onReconnect ? (
-          <Button size="sm" variant="outline" onClick={onReconnect}>Reconnect</Button>
+          <Button size="sm" variant="outline" onClick={onReconnect}>{t("pages.apps.appDetail.advancedPanel.reconnect", { defaultValue: "Reconnect" })}</Button>
         ) : managedByVercel && !oauth ? (
           <div className="flex items-center gap-2">
             <Button type="button" size="sm" variant="outline" asChild>
               <a href="https://vercel.com/connect" target="_blank" rel="noreferrer">
-                Manage in Vercel <ArrowUpRight className="ml-1.5 h-3.5 w-3.5" />
+                {t("pages.apps.appDetail.advancedPanel.manageInVercel", { defaultValue: "Manage in Vercel" })} <ArrowUpRight className="ml-1.5 h-3.5 w-3.5" />
               </a>
             </Button>
             <Button
@@ -338,7 +339,7 @@ function ReconnectForm({
   if (connection.credentialSource === "vercel_connect") {
     return (
       <p className="text-sm text-muted-foreground">
-        Credentials for this connection are managed in Vercel Connect.
+        {t("pages.apps.appDetail.advancedPanel.credentialsForThisConnectionAreManagedInVercelCo", { defaultValue: "Credentials for this connection are managed in Vercel Connect." })}
       </p>
     );
   }
@@ -364,7 +365,7 @@ function ReconnectForm({
                 rel="noreferrer"
                 className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-foreground underline underline-offset-2"
               >
-                Where do I find this? <ArrowUpRight className="h-3 w-3" />
+                {t("pages.apps.appDetail.advancedPanel.whereDoIFindThis", { defaultValue: "Where do I find this?" })} <ArrowUpRight className="h-3 w-3" />
               </a>
             )}
           </div>
@@ -375,7 +376,7 @@ function ReconnectForm({
           autoComplete="off"
           value={single}
           onChange={(e) => setSingle(e.target.value)}
-          placeholder="Paste your new key"
+          placeholder={t("pages.apps.appDetail.advancedPanel.pasteYourNewKey", { defaultValue: "Paste your new key" })}
           className="h-10 font-mono"
         />
       )}
@@ -386,7 +387,7 @@ function ReconnectForm({
         </Button>
         {onCancel && (
           <Button size="sm" variant="ghost" onClick={onCancel} disabled={reconnect.isPending}>
-            Cancel
+            {t("pages.apps.appDetail.advancedPanel.cancel", { defaultValue: "Cancel" })}
           </Button>
         )}
       </div>
@@ -401,7 +402,7 @@ function TechnicalDetails({ connection }: { connection: ToolConnection }) {
       <section>
         <CollapsibleTrigger asChild>
           <button type="button" className="flex w-full items-center gap-3 py-1 text-left">
-            <span className="min-w-0 flex-1 text-sm font-medium text-foreground">Connection details</span>
+            <span className="min-w-0 flex-1 text-sm font-medium text-foreground">{t("pages.apps.appDetail.advancedPanel.connectionDetails", { defaultValue: "Connection details" })}</span>
             <ChevronRight
               className={cn("h-4 w-4 shrink-0 text-muted-foreground transition-transform", open && "rotate-90")}
             />
@@ -409,9 +410,9 @@ function TechnicalDetails({ connection }: { connection: ToolConnection }) {
         </CollapsibleTrigger>
         <CollapsibleContent>
           <dl className="mt-4 grid gap-2 pb-2 text-xs sm:grid-cols-(--gtc-59)">
-            <dt className="text-muted-foreground">Address</dt>
+            <dt className="text-muted-foreground">{t("pages.apps.appDetail.advancedPanel.address", { defaultValue: "Address" })}</dt>
             <dd className="break-all font-mono text-foreground">{connectionAddress(connection)}</dd>
-            <dt className="text-muted-foreground">Type</dt>
+            <dt className="text-muted-foreground">{t("pages.apps.appDetail.advancedPanel.type", { defaultValue: "Type" })}</dt>
             <dd className="text-foreground">{connectionTransportLabel(connection.transport)}</dd>
           </dl>
         </CollapsibleContent>
@@ -480,7 +481,7 @@ export function DangerZone({
             type="button"
             className="flex w-full items-center gap-3 py-1 text-left"
           >
-            <span className="min-w-0 flex-1 text-sm font-medium text-destructive">Danger zone</span>
+            <span className="min-w-0 flex-1 text-sm font-medium text-destructive">{t("pages.apps.appDetail.advancedPanel.dangerZone", { defaultValue: "Danger zone" })}</span>
             <ChevronRight
               className={cn("h-4 w-4 shrink-0 text-muted-foreground transition-transform", open && "rotate-90")}
             />
@@ -491,9 +492,9 @@ export function DangerZone({
           <div className="mt-3 divide-y divide-border border-t border-border">
             {connection && onToggleConnection ? (
               <div className="flex items-center justify-between gap-4 py-4">
-                <h2 className="text-sm font-medium text-foreground">Pause connection</h2>
+                <h2 className="text-sm font-medium text-foreground">{t("pages.apps.appDetail.advancedPanel.pauseConnection", { defaultValue: "Pause connection" })}</h2>
                 <ToggleSwitch
-                  aria-label="Pause connection"
+                  aria-label={t("pages.apps.appDetail.advancedPanel.pauseConnection", { defaultValue: "Pause connection" })}
                   checked={paused}
                   disabled={toggleDisabled}
                   onCheckedChange={onToggleConnection}
@@ -517,7 +518,7 @@ export function DangerZone({
             {connection?.authKind === "oauth" && !methodUnavailable && (onReconnectIdentity || !canReplaceCredential) ? (
               <div className="flex flex-wrap items-center justify-between gap-3 py-4">
                 <div>
-                  <p className="text-sm font-medium text-foreground">Reconnect</p>
+                  <p className="text-sm font-medium text-foreground">{t("pages.apps.appDetail.advancedPanel.reconnect", { defaultValue: "Reconnect" })}</p>
                   <p className="text-xs text-muted-foreground">
                     {canReplaceCredential
                       ? `Sign in to ${identityProviderName} again.`
@@ -543,9 +544,9 @@ export function DangerZone({
               && onRevokeIdentity ? (
                 <div className="flex flex-wrap items-center justify-between gap-3 py-4">
                   <div>
-                    <p className="text-sm font-medium text-foreground">Revoke identity</p>
+                    <p className="text-sm font-medium text-foreground">{t("pages.apps.appDetail.advancedPanel.revokeIdentity", { defaultValue: "Revoke identity" })}</p>
                     <p className="text-xs text-muted-foreground">
-                      Disconnect the identity currently used by this app.
+                      {t("pages.apps.appDetail.advancedPanel.disconnectTheIdentityCurrentlyUsedByThisApp", { defaultValue: "Disconnect the identity currently used by this app." })}
                     </p>
                   </div>
                   <Button
@@ -553,14 +554,14 @@ export function DangerZone({
                     size="sm"
                     onClick={() => setRevokeTarget(identityGrant)}
                   >
-                    Revoke
+                    {t("pages.apps.appDetail.advancedPanel.revoke", { defaultValue: "Revoke" })}
                   </Button>
                 </div>
             ) : null}
 
             <div className="flex flex-wrap items-center justify-between gap-3 py-4">
               <div>
-                <p className="text-sm font-medium text-foreground">Remove this app</p>
+                <p className="text-sm font-medium text-foreground">{t("pages.apps.appDetail.advancedPanel.removeThisApp", { defaultValue: "Remove this app" })}</p>
                 <p className="text-xs text-muted-foreground">
                   {`Deletes credentials for ${appName} and removes agent access. Reconnecting requires a new sign-in or key.`}
                 </p>
@@ -568,7 +569,7 @@ export function DangerZone({
               {confirming ? (
                 <div className="flex items-center gap-2">
                   <Button variant="ghost" size="sm" onClick={() => setConfirming(false)} disabled={removing}>
-                    Cancel
+                    {t("pages.apps.appDetail.advancedPanel.cancel", { defaultValue: "Cancel" })}
                   </Button>
                   <Button variant="destructive" size="sm" onClick={onRemove} disabled={removing}>
                     {removing && <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />}
@@ -577,7 +578,7 @@ export function DangerZone({
                 </div>
               ) : (
                 <Button variant="destructive" size="sm" onClick={() => setConfirming(true)}>
-                  Remove app
+                  {t("pages.apps.appDetail.advancedPanel.removeApp", { defaultValue: "Remove app" })}
                 </Button>
               )}
             </div>

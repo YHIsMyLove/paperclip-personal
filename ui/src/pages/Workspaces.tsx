@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from "react";
+import { t } from "@/i18n";
 import { Link, Navigate } from "@/lib/router";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import type { WorkspaceOverviewItem } from "@paperclipai/shared";
@@ -118,18 +119,18 @@ export function Workspaces() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-bold">Workspaces</h2>
+        <h2 className="text-xl font-bold">{t("pages.workspaces.workspaces", { defaultValue: "Workspaces" })}</h2>
       </div>
 
       <SummarySlotCard
         companyId={selectedCompanyId}
         scopeKind="workspaces_overview"
-        title="Workspace summary"
-        description="Summarizer tracks workspace activity, live services, and follow-up needs across projects."
+        title={t("pages.workspaces.workspaceSummary", { defaultValue: "Workspace summary" })}
+        description={t("pages.workspaces.summarizerTracksWorkspaceActivityLiveServicesAnd", { defaultValue: "Summarizer tracks workspace activity, live services, and follow-up needs across projects." })}
       />
 
       {groups.length === 0 ? (
-        <p className="text-sm text-muted-foreground">No workspace activity yet.</p>
+        <p className="text-sm text-muted-foreground">{t("pages.workspaces.noWorkspaceActivityYet", { defaultValue: "No workspace activity yet." })}</p>
       ) : (
         <div className="space-y-8">
           {groups.map((group) => (

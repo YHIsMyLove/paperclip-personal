@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { t } from "@/i18n";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import {
@@ -167,7 +168,7 @@ export function ProposalsTab({
   if (proposalsQuery.isError) {
     return (
       <div className="flex items-center gap-2 py-4 text-sm text-destructive">
-        <AlertCircle className="size-4" /> Couldn’t load proposals. Try again.
+        <AlertCircle className="size-4" /> {t("pages.secrets.proposalsTab.couldntLoadProposalsTryAgain", { defaultValue: "Couldn’t load proposals. Try again." })}
       </div>
     );
   }
@@ -175,7 +176,7 @@ export function ProposalsTab({
   if (proposalsQuery.isPending) {
     return (
       <div className="flex items-center gap-2 py-8 text-sm text-muted-foreground">
-        <Loader2 className="size-4 animate-spin" /> Loading proposals…
+        <Loader2 className="size-4 animate-spin" /> {t("pages.secrets.proposalsTab.loadingProposals", { defaultValue: "Loading proposals…" })}
       </div>
     );
   }
@@ -184,8 +185,8 @@ export function ProposalsTab({
     return (
       <EmptyState
         icon={Inbox}
-        title="No pending proposals"
-        message="When an agent proposes a secret or an access binding, it shows up here for review."
+        title={t("pages.secrets.proposalsTab.noPendingProposals", { defaultValue: "No pending proposals" })}
+        message={t("pages.secrets.proposalsTab.whenAnAgentProposesASecretOrAnAccessBindingItSho", { defaultValue: "When an agent proposes a secret or an access binding, it shows up here for review." })}
       />
     );
   }

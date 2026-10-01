@@ -1,4 +1,5 @@
 import { useCallback, useEffect } from "react";
+import { t } from "@/i18n";
 import { History } from "lucide-react";
 import { EmptyState } from "@/components/EmptyState";
 import { PageTabBar } from "@/components/PageTabBar";
@@ -78,16 +79,15 @@ export function AuditHub({ section }: { section: AuditSection }) {
   );
 
   if (!selectedCompanyId) {
-    return <EmptyState icon={History} message="Select an organization to view Audit." />;
+    return <EmptyState icon={History} message={t("pages.audit.auditHub.selectAnOrganizationToViewAudit", { defaultValue: "Select an organization to view Audit." })} />;
   }
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight text-foreground">Audit</h1>
+        <h1 className="text-3xl font-semibold tracking-tight text-foreground">{t("pages.audit.auditHub.audit", { defaultValue: "Audit" })}</h1>
         <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-          Review what happened, inspect agent runs, and understand the costs and budget controls
-          behind your organization.
+          {t("pages.audit.auditHub.reviewWhatHappenedInspectAgentRunsAndUnderstandT", { defaultValue: "Review what happened, inspect agent runs, and understand the costs and budget controls behind your organization." })}
         </p>
       </div>
 

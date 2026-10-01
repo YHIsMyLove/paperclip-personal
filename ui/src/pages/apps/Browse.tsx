@@ -1,6 +1,7 @@
 import { isRetiredComposioConnection, RETIRED_COMPOSIO_MESSAGE } from "@paperclipai/shared";
 import { ManagedAiConnectionRow } from "@/components/ai-connections/ManagedAiConnectionDetails";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   AlertTriangle,
@@ -621,7 +622,7 @@ export function Browse({ renderAccountDetails = (connection) => connection.conne
   if (!selectedCompanyId) {
     return (
       <div className="p-6 text-sm text-muted-foreground">
-        Select an organization to manage connectors.
+        {t("pages.apps.browse.selectAnOrganizationToManageConnectors", { defaultValue: "Select an organization to manage connectors." })}
       </div>
     );
   }
@@ -647,8 +648,8 @@ export function Browse({ renderAccountDetails = (connection) => connection.conne
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search connectors…"
-            aria-label="Search connectors"
+            placeholder={t("pages.apps.browse.searchConnectors", { defaultValue: "Search connectors…" })}
+            aria-label={t("pages.apps.browse.searchConnectors2", { defaultValue: "Search connectors" })}
             className="pl-9"
           />
         </div>
@@ -661,8 +662,7 @@ export function Browse({ renderAccountDetails = (connection) => connection.conne
         >
           <AlertTriangle className="h-4 w-4 shrink-0" />
           <p className="min-w-0 flex-1">
-            Couldn’t load every connector. Existing accounts are shown where
-            available.
+            {t("pages.apps.browse.couldntLoadEveryConnectorExistingAccountsAreShow", { defaultValue: "Couldn’t load every connector. Existing accounts are shown where available." })}
           </p>
           <Button
             type="button"
@@ -675,13 +675,13 @@ export function Browse({ renderAccountDetails = (connection) => connection.conne
               if (chatConnectorsEnabled) void chatEndpointsQuery.refetch();
             }}
           >
-            Try again
+            {t("pages.apps.browse.tryAgain", { defaultValue: "Try again" })}
           </Button>
         </div>
       ) : null}
 
       {loading ? (
-        <div className="space-y-3" aria-label="Loading connectors">
+        <div className="space-y-3" aria-label={t("pages.apps.browse.loadingConnectors", { defaultValue: "Loading connectors" })}>
           {Array.from({ length: 6 }).map((_, index) => (
             <Skeleton key={index} className="h-24 w-full rounded-xl" />
           ))}
@@ -692,7 +692,7 @@ export function Browse({ renderAccountDetails = (connection) => connection.conne
           No connectors match “{query.trim()}”.
         </p>
       ) : (
-        <div className="space-y-3" role="list" aria-label="Connector list">
+        <div className="space-y-3" role="list" aria-label={t("pages.apps.browse.connectorList", { defaultValue: "Connector list" })}>
           {visibleRows.map((row) => (
             <ConnectorCard
               renderAccountDetails={renderAccountDetails}
@@ -733,7 +733,7 @@ export function Browse({ renderAccountDetails = (connection) => connection.conne
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={removeConnection.isPending}>
-              Cancel
+              {t("pages.apps.browse.cancel", { defaultValue: "Cancel" })}
             </AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
@@ -885,7 +885,7 @@ export function ConnectorCard({
                     variant="outline"
                     onClick={() => onNavigate(`/apps/chat/connect?provider=${endpoint.provider}&purpose=chat&resume=${endpoint.id}`)}
                   >
-                    Finish setup
+                    {t("pages.apps.browse.finishSetup", { defaultValue: "Finish setup" })}
                   </Button>
                 ) : null}
                 <DropdownMenu>
@@ -901,7 +901,7 @@ export function ConnectorCard({
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem onSelect={() => onNavigate(`/apps/chat/${endpoint.id}/settings`)}>
-                      Manage
+                      {t("pages.apps.browse.manage", { defaultValue: "Manage" })}
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
@@ -915,7 +915,7 @@ export function ConnectorCard({
                       })}
                     >
                       <Trash2 />
-                      Remove connection
+                      {t("pages.apps.browse.removeConnection", { defaultValue: "Remove connection" })}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -981,7 +981,7 @@ function ConnectionAccountRow({
 
       <div className="flex flex-wrap items-center gap-2 sm:justify-end">
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          <span>Connected by</span>
+          <span>{t("pages.apps.browse.connectedBy", { defaultValue: "Connected by" })}</span>
           <ConnectionOwnerIdentity owner={owner} />
         </div>
         {state.kind === "attention" || state.kind === "draft" ? (
@@ -1013,12 +1013,12 @@ function ConnectionAccountRow({
             <DropdownMenuItem
               onSelect={() => onNavigate(`/apps/${connection.id}/permissions`)}
             >
-              Permissions
+              {t("pages.apps.browse.permissions", { defaultValue: "Permissions" })}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem variant="destructive" onSelect={onRemove}>
               <Trash2 />
-              Remove connection
+              {t("pages.apps.browse.removeConnection", { defaultValue: "Remove connection" })}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -1085,10 +1085,10 @@ function CustomConnectorCard({
         </div>
         <div className="min-w-0 flex-1">
           <h2 className="text-sm font-semibold text-foreground">
-            Connect your own tool
+            {t("pages.apps.browse.connectYourOwnTool", { defaultValue: "Connect your own tool" })}
           </h2>
           <p className="mt-0.5 text-xs text-muted-foreground">
-            Add a custom MCP server or paste an existing configuration.
+            {t("pages.apps.browse.addACustomMcpServerOrPasteAnExistingConfiguratio", { defaultValue: "Add a custom MCP server or paste an existing configuration." })}
           </p>
         </div>
         <Button
@@ -1110,14 +1110,14 @@ function CustomConnectorCard({
         >
           <CustomConnectorOption
             icon={ServerCog}
-            title="Connect your own MCP server"
-            description="Enter the URL for a custom or self-hosted MCP server."
+            title={t("pages.apps.browse.connectYourOwnMcpServer", { defaultValue: "Connect your own MCP server" })}
+            description={t("pages.apps.browse.enterTheUrlForACustomOrSelfHostedMcpServer", { defaultValue: "Enter the URL for a custom or self-hosted MCP server." })}
             onClick={() => onNavigate("/apps/byo")}
           />
           <CustomConnectorOption
             icon={ClipboardPaste}
-            title="Paste a config"
-            description="Paste an existing setup snippet and connect it."
+            title={t("pages.apps.browse.pasteAConfig", { defaultValue: "Paste a config" })}
+            description={t("pages.apps.browse.pasteAnExistingSetupSnippetAndConnectIt", { defaultValue: "Paste an existing setup snippet and connect it." })}
             onClick={() => onNavigate("/apps/advanced/paste-config")}
           />
         </div>

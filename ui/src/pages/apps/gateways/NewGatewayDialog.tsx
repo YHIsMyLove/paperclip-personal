@@ -1,4 +1,5 @@
 import { type FormEvent, useEffect, useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ToolMcpGatewayContextScopeType, ToolProfileWithDetails } from "@paperclipai/shared";
 import { toolsApi } from "@/api/tools";
@@ -92,25 +93,24 @@ export function NewGatewayDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>New gateway</DialogTitle>
+          <DialogTitle>{t("pages.apps.gateways.newGatewayDialog.newGateway", { defaultValue: "New gateway" })}</DialogTitle>
           <DialogDescription>
-            One safe MCP endpoint that exposes only the apps in its access profile. Hand it to a client
-            like Cursor or Claude Desktop.
+            {t("pages.apps.gateways.newGatewayDialog.oneSafeMcpEndpointThatExposesOnlyTheAppsInItsAcc", { defaultValue: "One safe MCP endpoint that exposes only the apps in its access profile. Hand it to a client like Cursor or Claude Desktop." })}
           </DialogDescription>
         </DialogHeader>
         <form className="space-y-4" onSubmit={submit}>
           <label className="block space-y-1.5">
-            <span className="text-xs font-medium text-muted-foreground">Name</span>
+            <span className="text-xs font-medium text-muted-foreground">{t("pages.apps.gateways.newGatewayDialog.name", { defaultValue: "Name" })}</span>
             <Input
               value={name}
               onChange={(event) => setName(event.target.value)}
-              placeholder="CTO agents"
+              placeholder={t("pages.apps.gateways.newGatewayDialog.ctoAgents", { defaultValue: "CTO agents" })}
               required
               autoFocus
             />
           </label>
           <label className="block space-y-1.5">
-            <span className="text-xs font-medium text-muted-foreground">Access profile</span>
+            <span className="text-xs font-medium text-muted-foreground">{t("pages.apps.gateways.newGatewayDialog.accessProfile", { defaultValue: "Access profile" })}</span>
             <select
               className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
               value={profileId}
@@ -128,7 +128,7 @@ export function NewGatewayDialog({
               ))}
             </select>
             <span className="text-xs text-muted-foreground">
-              The profile decides which tools this gateway allows. You can change it later.
+              {t("pages.apps.gateways.newGatewayDialog.theProfileDecidesWhichToolsThisGatewayAllowsYouC", { defaultValue: "The profile decides which tools this gateway allows. You can change it later." })}
             </span>
           </label>
           <label className="block space-y-1.5">
@@ -137,17 +137,17 @@ export function NewGatewayDialog({
               className="min-h-16 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
               value={description}
               onChange={(event) => setDescription(event.target.value)}
-              placeholder="Who this endpoint is for and when it should be rotated."
+              placeholder={t("pages.apps.gateways.newGatewayDialog.whoThisEndpointIsForAndWhenItShouldBeRotated", { defaultValue: "Who this endpoint is for and when it should be rotated." })}
             />
           </label>
           {noProfiles ? (
             <p className="text-xs text-destructive">
-              Create an access profile under Advanced before adding a gateway.
+              {t("pages.apps.gateways.newGatewayDialog.createAnAccessProfileUnderAdvancedBeforeAddingAG", { defaultValue: "Create an access profile under Advanced before adding a gateway." })}
             </p>
           ) : null}
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
-              Cancel
+              {t("pages.apps.gateways.newGatewayDialog.cancel", { defaultValue: "Cancel" })}
             </Button>
             <Button
               type="submit"

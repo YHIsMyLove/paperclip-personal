@@ -1,4 +1,5 @@
 import { type FormEvent, useEffect, useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { ToolMcpGatewayWithTokens, ToolProfileWithDetails } from "@paperclipai/shared";
 import { toolsApi } from "@/api/tools";
@@ -74,18 +75,18 @@ export function EditGatewayDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Edit gateway</DialogTitle>
+          <DialogTitle>{t("pages.apps.gateways.editGatewayDialog.editGateway", { defaultValue: "Edit gateway" })}</DialogTitle>
           <DialogDescription>
-            Change the label or the access profile that controls which tools this endpoint exposes.
+            {t("pages.apps.gateways.editGatewayDialog.changeTheLabelOrTheAccessProfileThatControlsWhic", { defaultValue: "Change the label or the access profile that controls which tools this endpoint exposes." })}
           </DialogDescription>
         </DialogHeader>
         <form className="space-y-4" onSubmit={submit}>
           <label className="block space-y-1.5">
-            <span className="text-xs font-medium text-muted-foreground">Name</span>
+            <span className="text-xs font-medium text-muted-foreground">{t("pages.apps.gateways.editGatewayDialog.name", { defaultValue: "Name" })}</span>
             <Input value={name} onChange={(event) => setName(event.target.value)} required autoFocus />
           </label>
           <label className="block space-y-1.5">
-            <span className="text-xs font-medium text-muted-foreground">Access profile</span>
+            <span className="text-xs font-medium text-muted-foreground">{t("pages.apps.gateways.editGatewayDialog.accessProfile", { defaultValue: "Access profile" })}</span>
             <select
               className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
               value={profileId}
@@ -105,12 +106,12 @@ export function EditGatewayDialog({
               className="min-h-16 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
               value={description}
               onChange={(event) => setDescription(event.target.value)}
-              placeholder="Who this endpoint is for."
+              placeholder={t("pages.apps.gateways.editGatewayDialog.whoThisEndpointIsFor", { defaultValue: "Who this endpoint is for." })}
             />
           </label>
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
-              Cancel
+              {t("pages.apps.gateways.editGatewayDialog.cancel", { defaultValue: "Cancel" })}
             </Button>
             <Button type="submit" disabled={updateMutation.isPending || !name.trim() || !profileId}>
               {updateMutation.isPending ? "Saving…" : "Save changes"}

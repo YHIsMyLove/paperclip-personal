@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Copy } from "lucide-react";
 import type { ToolMcpGatewayWithTokens } from "@paperclipai/shared";
@@ -75,12 +76,12 @@ export function GatewayAdvancedPanel({
   return (
     <div className="space-y-5">
       <section className="space-y-2">
-        <h3 className="text-sm font-semibold text-foreground">Transport</h3>
+        <h3 className="text-sm font-semibold text-foreground">{t("pages.apps.gateways.panels.gatewayAdvancedPanel.transport", { defaultValue: "Transport" })}</h3>
         <dl className="grid gap-x-6 gap-y-2 text-sm sm:grid-cols-2">
-          <Row label="Transport" value="streamable_http" />
-          <Row label="Authentication" value="bearer" />
-          <Row label="Protocol version" value="2025-03-26" />
-          <Row label="Public ID" value={gateway.gatewayPublicId} mono />
+          <Row label={t("pages.apps.gateways.panels.gatewayAdvancedPanel.transport", { defaultValue: "Transport" })} value="streamable_http" />
+          <Row label={t("pages.apps.gateways.panels.gatewayAdvancedPanel.authentication", { defaultValue: "Authentication" })} value="bearer" />
+          <Row label={t("pages.apps.gateways.panels.gatewayAdvancedPanel.protocolVersion", { defaultValue: "Protocol version" })} value="2025-03-26" />
+          <Row label={t("pages.apps.gateways.panels.gatewayAdvancedPanel.publicId", { defaultValue: "Public ID" })} value={gateway.gatewayPublicId} mono />
         </dl>
         <div className="flex items-center gap-2">
           <code className="min-w-0 flex-1 truncate rounded-md bg-muted px-3 py-2 font-mono text-xs text-muted-foreground">
@@ -88,17 +89,17 @@ export function GatewayAdvancedPanel({
           </code>
           <Button variant="outline" size="sm" onClick={() => void copy(endpoint, "Endpoint URL")}>
             <Copy className="mr-1 h-3.5 w-3.5" />
-            Copy
+            {t("pages.apps.gateways.panels.gatewayAdvancedPanel.copy", { defaultValue: "Copy" })}
           </Button>
         </div>
       </section>
 
       <section className="space-y-2">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-foreground">Raw configuration</h3>
+          <h3 className="text-sm font-semibold text-foreground">{t("pages.apps.gateways.panels.gatewayAdvancedPanel.rawConfiguration", { defaultValue: "Raw configuration" })}</h3>
           <Button variant="outline" size="sm" onClick={() => void copy(rawConfig, "Gateway config JSON")}>
             <Copy className="mr-1 h-3.5 w-3.5" />
-            Copy JSON
+            {t("pages.apps.gateways.panels.gatewayAdvancedPanel.copyJson", { defaultValue: "Copy JSON" })}
           </Button>
         </div>
         <pre className="max-h-96 overflow-auto whitespace-pre-wrap break-words rounded-md bg-muted p-3 font-mono text-xs text-muted-foreground">
@@ -107,10 +108,9 @@ export function GatewayAdvancedPanel({
       </section>
 
       <section className="space-y-2 rounded-lg border border-destructive/40 p-4">
-        <h3 className="text-sm font-semibold text-destructive">Danger zone</h3>
+        <h3 className="text-sm font-semibold text-destructive">{t("pages.apps.gateways.panels.gatewayAdvancedPanel.dangerZone", { defaultValue: "Danger zone" })}</h3>
         <p className="text-sm text-muted-foreground">
-          Archiving takes the gateway offline for every client. Existing tokens stop working. Type the
-          gateway name to confirm.
+          {t("pages.apps.gateways.panels.gatewayAdvancedPanel.archivingTakesTheGatewayOfflineForEveryClientExi", { defaultValue: "Archiving takes the gateway offline for every client. Existing tokens stop working. Type the gateway name to confirm." })}
         </p>
         {confirming ? (
           <div className="space-y-2">
@@ -118,7 +118,7 @@ export function GatewayAdvancedPanel({
               value={confirmName}
               onChange={(e) => setConfirmName(e.target.value)}
               placeholder={gateway.name}
-              aria-label="Type the gateway name to confirm archive"
+              aria-label={t("pages.apps.gateways.panels.gatewayAdvancedPanel.typeTheGatewayNameToConfirmArchive", { defaultValue: "Type the gateway name to confirm archive" })}
             />
             <div className="flex gap-2">
               <Button
@@ -130,13 +130,13 @@ export function GatewayAdvancedPanel({
                 {archiveMutation.isPending ? "Archiving…" : "Archive gateway"}
               </Button>
               <Button variant="ghost" size="sm" onClick={() => { setConfirming(false); setConfirmName(""); }}>
-                Cancel
+                {t("pages.apps.gateways.panels.gatewayAdvancedPanel.cancel", { defaultValue: "Cancel" })}
               </Button>
             </div>
           </div>
         ) : (
           <Button variant="outline" size="sm" className="text-destructive" onClick={() => setConfirming(true)}>
-            Archive gateway
+            {t("pages.apps.gateways.panels.gatewayAdvancedPanel.archiveGateway", { defaultValue: "Archive gateway" })}
           </Button>
         )}
       </section>

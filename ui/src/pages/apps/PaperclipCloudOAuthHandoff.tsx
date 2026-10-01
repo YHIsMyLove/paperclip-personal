@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { t } from "@/i18n";
 import { Link2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { navigateTopLevel } from "@/lib/browserNavigation";
@@ -45,8 +46,8 @@ export function ManagedOAuthHandoffState({
           </p>
           {failed ? (
             <div className="mt-6 flex items-center gap-2">
-              <Button type="button" onClick={onRetry}>Try again</Button>
-              <Button type="button" variant="ghost" onClick={onCancel}>Return to Paperclip</Button>
+              <Button type="button" onClick={onRetry}>{t("pages.apps.paperclipCloudOAuthHandoff.tryAgain", { defaultValue: "Try again" })}</Button>
+              <Button type="button" variant="ghost" onClick={onCancel}>{t("pages.apps.paperclipCloudOAuthHandoff.returnToPaperclip", { defaultValue: "Return to Paperclip" })}</Button>
             </div>
           ) : null}
         </div>

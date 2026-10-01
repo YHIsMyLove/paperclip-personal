@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { t } from "@/i18n";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import type { ToolMcpGatewayWithTokens, ToolRedactedValueSummary } from "@paperclipai/shared";
@@ -107,13 +108,13 @@ function ActivityRow({ event }: { event: ToolGatewayActivityEvent }) {
       {open ? (
         <div className="border-t border-border bg-muted/30 px-4 py-3 pl-10 text-xs">
           <dl>
-            {rawTool ? <Fact label="Tool" value={rawTool} mono /> : null}
-            {event.invocation?.status ? <Fact label="Call status" value={event.invocation.status} /> : null}
-            {event.invocation?.policyDecision ? <Fact label="Decision" value={event.invocation.policyDecision} /> : null}
-            {reason ? <Fact label="Reason" value={reason} mono /> : null}
-            {duration ? <Fact label="Duration" value={duration} /> : null}
-            {event.invocation?.id ? <Fact label="Invocation ID" value={event.invocation.id} mono /> : null}
-            {event.invocation?.errorCode ? <Fact label="Error code" value={event.invocation.errorCode} mono /> : null}
+            {rawTool ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.tool", { defaultValue: "Tool" })} value={rawTool} mono /> : null}
+            {event.invocation?.status ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.callStatus", { defaultValue: "Call status" })} value={event.invocation.status} /> : null}
+            {event.invocation?.policyDecision ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.decision", { defaultValue: "Decision" })} value={event.invocation.policyDecision} /> : null}
+            {reason ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.reason", { defaultValue: "Reason" })} value={reason} mono /> : null}
+            {duration ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.duration", { defaultValue: "Duration" })} value={duration} /> : null}
+            {event.invocation?.id ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.invocationId", { defaultValue: "Invocation ID" })} value={event.invocation.id} mono /> : null}
+            {event.invocation?.errorCode ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.errorCode", { defaultValue: "Error code" })} value={event.invocation.errorCode} mono /> : null}
             {event.invocation?.errorMessage ? <Fact label="Error" value={event.invocation.errorMessage} /> : null}
           </dl>
           {argumentsText ? (
@@ -179,11 +180,11 @@ export function GatewayActivityPanel({
   return (
     <div className="space-y-3">
       <p className="text-sm text-muted-foreground">
-        Calls through this gateway from the last 30 days. Open a row to inspect its tool, redacted arguments, result, and decision.
+        {t("pages.apps.gateways.panels.gatewayActivityPanel.callsThroughThisGatewayFromTheLast30DaysOpenARow", { defaultValue: "Calls through this gateway from the last 30 days. Open a row to inspect its tool, redacted arguments, result, and decision." })}
       </p>
       {events.length === 0 ? (
         <div className="rounded-md border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-          No calls have gone through this gateway yet.
+          {t("pages.apps.gateways.panels.gatewayActivityPanel.noCallsHaveGoneThroughThisGatewayYet", { defaultValue: "No calls have gone through this gateway yet." })}
         </div>
       ) : (
         <ul className="divide-y divide-border rounded-lg border border-border">

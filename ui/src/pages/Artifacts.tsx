@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { t } from "@/i18n";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { ArrowLeft, Check, Layers, Package, Search, X } from "lucide-react";
 import type { To } from "react-router-dom";
@@ -227,7 +228,7 @@ export function Artifacts() {
   }, [setBreadcrumbs, viewingSelectedStack, selectedGroup]);
 
   if (!selectedCompanyId) {
-    return <EmptyState icon={Package} message="Select an organization to view artifacts." />;
+    return <EmptyState icon={Package} message={t("pages.artifacts.selectAnOrganizationToViewArtifacts", { defaultValue: "Select an organization to view artifacts." })} />;
   }
 
   const showGroupCards = viewingStackList;
@@ -253,15 +254,15 @@ export function Artifacts() {
           <Input
             value={draftQuery}
             onChange={(event) => setDraftQuery(event.currentTarget.value)}
-            placeholder="Search artifacts..."
-            aria-label="Search artifacts"
+            placeholder={t("pages.artifacts.searchArtifacts", { defaultValue: "Search artifacts..." })}
+            aria-label={t("pages.artifacts.searchArtifacts2", { defaultValue: "Search artifacts" })}
             className="h-9 pl-9 pr-9 text-sm"
           />
           {draftQuery.length > 0 ? (
             <button
               type="button"
               onClick={() => setDraftQuery("")}
-              aria-label="Clear artifact search"
+              aria-label={t("pages.artifacts.clearArtifactSearch", { defaultValue: "Clear artifact search" })}
               className="absolute right-2 top-1/2 inline-flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded text-muted-foreground transition-colors hover:bg-accent/50 hover:text-foreground"
             >
               <X className="h-3.5 w-3.5" />
@@ -277,7 +278,7 @@ export function Artifacts() {
                 variant="outline"
                 size="icon"
                 aria-label={`Group artifacts (currently ${artifactGroupByLabel(groupBy)})`}
-                title="Group artifacts"
+                title={t("pages.artifacts.groupArtifacts", { defaultValue: "Group artifacts" })}
                 data-testid="artifact-group-control"
                 data-group-by={groupBy}
                 className={cn("h-8 w-8 shrink-0", grouping && "bg-accent")}
@@ -286,7 +287,7 @@ export function Artifacts() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-44">
-              <DropdownMenuLabel>Group by</DropdownMenuLabel>
+              <DropdownMenuLabel>{t("pages.artifacts.groupBy", { defaultValue: "Group by" })}</DropdownMenuLabel>
               {ARTIFACT_GROUP_OPTIONS.map((option) => (
                 <DropdownMenuItem
                   key={option.value}
@@ -302,7 +303,7 @@ export function Artifacts() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <div className="flex flex-wrap items-center gap-1.5" role="tablist" aria-label="Filter artifacts by type">
+          <div className="flex flex-wrap items-center gap-1.5" role="tablist" aria-label={t("pages.artifacts.filterArtifactsByType", { defaultValue: "Filter artifacts by type" })}>
             {ARTIFACT_KIND_FILTERS.map((filter) => (
               <button
                 key={filter.value}
@@ -332,7 +333,7 @@ export function Artifacts() {
             className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent/50 hover:text-foreground"
           >
             <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
-            All stacks
+            {t("pages.artifacts.allStacks", { defaultValue: "All stacks" })}
           </Link>
           {selectedGroup ? (
             <span className="truncate text-muted-foreground">

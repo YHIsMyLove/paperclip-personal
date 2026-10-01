@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useSearchParams } from "@/lib/router";
 import { authApi } from "../api/auth";
@@ -92,7 +93,7 @@ export function AuthPage() {
 
   // A health/session failure must not be mistaken for a self-hosted instance.
   if (healthQuery.error || sessionError) {
-    return <p role="alert" className="p-6 text-sm text-destructive">Unable to check sign-in. Refresh and try again.</p>;
+    return <p role="alert" className="p-6 text-sm text-destructive">{t("pages.auth.unableToCheckSignInRefreshAndTryAgain", { defaultValue: "Unable to check sign-in. Refresh and try again." })}</p>;
   }
 
   if (healthQuery.data?.cloud) {
@@ -136,7 +137,7 @@ export function AuthPage() {
           >
             {mode === "sign_up" && (
               <div>
-                <label htmlFor="name" className="text-xs text-muted-foreground mb-1 block">Name</label>
+                <label htmlFor="name" className="text-xs text-muted-foreground mb-1 block">{t("pages.auth.name", { defaultValue: "Name" })}</label>
                 <input
                   id="name"
                   name="name"
@@ -153,7 +154,7 @@ export function AuthPage() {
               </div>
             )}
             <div>
-              <label htmlFor="email" className="text-xs text-muted-foreground mb-1 block">Email</label>
+              <label htmlFor="email" className="text-xs text-muted-foreground mb-1 block">{t("pages.auth.email", { defaultValue: "Email" })}</label>
               <input
                 id="email"
                 name="email"
@@ -170,7 +171,7 @@ export function AuthPage() {
               />
             </div>
             <div>
-              <label htmlFor="password" className="text-xs text-muted-foreground mb-1 block">Password</label>
+              <label htmlFor="password" className="text-xs text-muted-foreground mb-1 block">{t("pages.auth.password", { defaultValue: "Password" })}</label>
               <input
                 id="password"
                 name="password"

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { t } from "@/i18n";
 import { MessageCircle } from "lucide-react";
 import { AgentAvatar } from "@/components/AgentAvatar";
 import { Button } from "@/components/ui/button";
@@ -18,17 +19,17 @@ function AgentChatsContent({ companyId, userId, enabled, loaded, agents, session
   const openChat = useOpenAgentChat(companyId, userId);
   const [openingId, setOpeningId] = useState<string | null>(null);
   const [openError, setOpenError] = useState<string | null>(null);
-  if (!loaded) return <p role="status" className="text-sm text-muted-foreground">Loading chat…</p>;
-  if (!enabled) return <p className="text-sm text-muted-foreground">Agent Chat is disabled. Enable it in Experimental settings.</p>;
+  if (!loaded) return <p role="status" className="text-sm text-muted-foreground">{t("pages.agentChats.loadingChat", { defaultValue: "Loading chat…" })}</p>;
+  if (!enabled) return <p className="text-sm text-muted-foreground">{t("pages.agentChats.agentChatIsDisabledEnableItInExperimentalSetting", { defaultValue: "Agent Chat is disabled. Enable it in Experimental settings." })}</p>;
   const error = agents.error ?? session.error;
   return <div className="mx-auto flex h-full max-w-xl flex-col justify-center gap-6 px-4 py-12">
     <div className="flex flex-col gap-3">
       <MessageCircle className="size-6 text-muted-foreground" />
-      <h1 className="text-xl font-semibold">Who would you like to talk to?</h1>
-      <p className="text-sm leading-relaxed text-muted-foreground">Ask a question, think through an idea, or plan the next step with your team.</p>
+      <h1 className="text-xl font-semibold">{t("pages.agentChats.whoWouldYouLikeToTalkTo", { defaultValue: "Who would you like to talk to?" })}</h1>
+      <p className="text-sm leading-relaxed text-muted-foreground">{t("pages.agentChats.askAQuestionThinkThroughAnIdeaOrPlanTheNextStepW", { defaultValue: "Ask a question, think through an idea, or plan the next step with your team." })}</p>
     </div>
-    {error ? <div role="alert" className="flex flex-col items-start gap-3"><p className="text-sm">Couldn’t load your agents.</p><Button variant="outline" onClick={() => { void agents.refetch(); void session.refetch(); }}>Try again</Button></div>
-      : agents.isPending || session.isPending ? <p role="status" className="text-sm text-muted-foreground">Loading agents…</p>
+    {error ? <div role="alert" className="flex flex-col items-start gap-3"><p className="text-sm">{t("pages.agentChats.couldntLoadYourAgents", { defaultValue: "Couldn’t load your agents." })}</p><Button variant="outline" onClick={() => { void agents.refetch(); void session.refetch(); }}>{t("pages.agentChats.tryAgain", { defaultValue: "Try again" })}</Button></div>
+      : agents.isPending || session.isPending ? <p role="status" className="text-sm text-muted-foreground">{t("pages.agentChats.loadingAgents", { defaultValue: "Loading agents…" })}</p>
       : <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         {(agents.data ?? []).slice(0, 6).map(agent => <button key={agent.id} type="button" disabled={openingId !== null}
           onClick={async () => {
@@ -40,7 +41,7 @@ function AgentChatsContent({ companyId, userId, enabled, loaded, agents, session
         </button>)}
       </div>}
     {openError && <p role="alert" className="text-sm text-destructive">{openError}</p>}
-    {agents.data?.length === 0 && <p className="text-sm text-muted-foreground">Add an agent to start a conversation.</p>}
-    <Button variant="ghost" className="self-start" asChild><Link to="/agents/all">Browse all agents</Link></Button>
+    {agents.data?.length === 0 && <p className="text-sm text-muted-foreground">{t("pages.agentChats.addAnAgentToStartAConversation", { defaultValue: "Add an agent to start a conversation." })}</p>}
+    <Button variant="ghost" className="self-start" asChild><Link to="/agents/all">{t("pages.agentChats.browseAllAgents", { defaultValue: "Browse all agents" })}</Link></Button>
   </div>;
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { t } from "@/i18n";
 import { useNavigate, useLocation } from "@/lib/router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { approvalsApi } from "../api/approvals";
@@ -76,7 +77,7 @@ export function Approvals() {
   ).length;
 
   if (!selectedCompanyId) {
-    return <p className="text-sm text-muted-foreground">Select an organization first.</p>;
+    return <p className="text-sm text-muted-foreground">{t("pages.approvals.selectAnOrganizationFirst", { defaultValue: "Select an organization first." })}</p>;
   }
 
   if (isLoading) {

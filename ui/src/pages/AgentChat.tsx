@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
+import { t } from "@/i18n";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { agentChatsApi } from "@/api/agentChats";
 import { agentsApi } from "@/api/agents";
@@ -71,13 +72,12 @@ export function AgentChat() {
   }, [agent, selectedCompanyId, chat.data, client, userId]);
   if (!loaded || agents.isPending || session.isPending || historyAgent.isFetching && !agent)
     return (
-      <p className="text-sm text-muted-foreground">Loading conversation…</p>
+      <p className="text-sm text-muted-foreground">{t("pages.agentChat.loadingConversation", { defaultValue: "Loading conversation…" })}</p>
     );
   if (!enabled && !chat.data)
     return (
       <p className="text-sm text-muted-foreground">
-        Agent Chat is disabled. Enable it in Experimental settings. Existing
-        history remains available through task links.
+        {t("pages.agentChat.agentChatIsDisabledEnableItInExperimentalSetting", { defaultValue: "Agent Chat is disabled. Enable it in Experimental settings. Existing history remains available through task links." })}
       </p>
     );
   if (agents.error || chat.error || !rosterAgent && historyAgent.error)
@@ -87,10 +87,10 @@ export function AgentChat() {
       </p>
     );
   if (!agent)
-    return <p className="text-sm text-destructive">Agent not found.</p>;
+    return <p className="text-sm text-destructive">{t("pages.agentChat.agentNotFound", { defaultValue: "Agent not found." })}</p>;
   if (chat.isPending)
     return (
-      <p className="text-sm text-muted-foreground">Loading conversation…</p>
+      <p className="text-sm text-muted-foreground">{t("pages.agentChat.loadingConversation", { defaultValue: "Loading conversation…" })}</p>
     );
   return (
     <TaskDetailSurface

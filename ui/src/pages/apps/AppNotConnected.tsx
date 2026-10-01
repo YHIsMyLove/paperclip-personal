@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from "react";
+import { t } from "@/i18n";
 import { useQuery } from "@tanstack/react-query";
 import type { ToolConnection } from "@paperclipai/shared";
 import { isConnectableAppSlug } from "@paperclipai/shared";
@@ -93,7 +94,7 @@ export function AppNotConnected() {
     return <Navigate to={appApplicationTabHref(applicationId, "permissions")} replace />;
   }
   if (!selectedCompanyId) {
-    return <div className="p-6 text-sm text-muted-foreground">Select an organization to manage apps.</div>;
+    return <div className="p-6 text-sm text-muted-foreground">{t("pages.apps.appNotConnected.selectAnOrganizationToManageApps", { defaultValue: "Select an organization to manage apps." })}</div>;
   }
   if (!applicationId || !activeTab) {
     return <Navigate to={applicationId ? appApplicationTabHref(applicationId, "permissions") : "/apps"} replace />;
@@ -109,8 +110,8 @@ export function AppNotConnected() {
   if (!application) {
     return (
       <div className="max-w-3xl space-y-3 p-6 text-sm text-muted-foreground">
-        <p>This app doesn’t exist anymore.</p>
-        <Button variant="outline" size="sm" onClick={() => navigate("/apps")}>Back to connectors</Button>
+        <p>{t("pages.apps.appNotConnected.thisAppDoesntExistAnymore", { defaultValue: "This app doesn’t exist anymore." })}</p>
+        <Button variant="outline" size="sm" onClick={() => navigate("/apps")}>{t("pages.apps.appNotConnected.backToConnectors", { defaultValue: "Back to connectors" })}</Button>
       </div>
     );
   }
@@ -185,8 +186,8 @@ export function AppNotConnected() {
           <ReviewPanel connectionId={previousConnection.id} />
         ) : (
           <EmptyTab
-            title="Nothing is waiting for your OK right now."
-            body="Review requests will appear here after this app is connected."
+            title={t("pages.apps.appNotConnected.nothingIsWaitingForYourOkRightNow", { defaultValue: "Nothing is waiting for your OK right now." })}
+            body={t("pages.apps.appNotConnected.reviewRequestsWillAppearHereAfterThisAppIsConnec", { defaultValue: "Review requests will appear here after this app is connected." })}
           />
         )
       )}
@@ -268,13 +269,13 @@ function ConnectionCallout({
 function PermissionsTab({ previousConnection }: { previousConnection: ToolConnection | null }) {
   return (
     <section>
-      <h2 className="text-sm font-bold text-foreground">Permissions paused</h2>
+      <h2 className="text-sm font-bold text-foreground">{t("pages.apps.appNotConnected.permissionsPaused", { defaultValue: "Permissions paused" })}</h2>
       <p className="mt-1 text-sm text-muted-foreground">
-        Reconnect this app to edit who can use it and which actions need a human first.
+        {t("pages.apps.appNotConnected.reconnectThisAppToEditWhoCanUseItAndWhichActions", { defaultValue: "Reconnect this app to edit who can use it and which actions need a human first." })}
       </p>
       {previousConnection && (
         <p className="mt-3 text-xs text-muted-foreground">
-          Previous setup is retained for reconnect, but access controls stay read-only until the app is online.
+          {t("pages.apps.appNotConnected.previousSetupIsRetainedForReconnectButAccessCont", { defaultValue: "Previous setup is retained for reconnect, but access controls stay read-only until the app is online." })}
         </p>
       )}
     </section>

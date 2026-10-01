@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { useQuery } from "@tanstack/react-query";
 import { Activity } from "lucide-react";
 import { routinesApi } from "@/api/routines";
@@ -30,7 +31,7 @@ export function RoutineAuditActivity({
   if (activity.isLoading) {
     return (
       <div className="border-y border-border py-14 text-center text-sm text-muted-foreground">
-        Loading routine activity…
+        {t("pages.audit.routineAuditActivity.loadingRoutineActivity", { defaultValue: "Loading routine activity…" })}
       </div>
     );
   }
@@ -42,7 +43,7 @@ export function RoutineAuditActivity({
           {activity.error instanceof Error ? activity.error.message : "Failed to load routine activity."}
         </p>
         <Button variant="outline" size="sm" onClick={() => activity.refetch()}>
-          Try again
+          {t("pages.audit.routineAuditActivity.tryAgain", { defaultValue: "Try again" })}
         </Button>
       </div>
     );
@@ -50,11 +51,11 @@ export function RoutineAuditActivity({
 
   const events = activity.data ?? [];
   if (events.length === 0) {
-    return <EmptyState icon={Activity} message="No routine activity yet." />;
+    return <EmptyState icon={Activity} message={t("pages.audit.routineAuditActivity.noRoutineActivityYet", { defaultValue: "No routine activity yet." })} />;
   }
 
   return (
-    <div className="border-y border-border" aria-label="Routine activity">
+    <div className="border-y border-border" aria-label={t("pages.audit.routineAuditActivity.routineActivity", { defaultValue: "Routine activity" })}>
       {events.map((event) => (
         <RoutineActivityRow key={event.id} event={event} />
       ))}

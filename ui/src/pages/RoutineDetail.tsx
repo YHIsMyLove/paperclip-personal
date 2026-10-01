@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { t } from "@/i18n";
 import { Navigate, useNavigate, useParams, useSearchParams } from "@/lib/router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AlertCircle, History, Pencil, Repeat, Sparkles, X } from "lucide-react";
@@ -653,7 +654,7 @@ export function RoutineDetail() {
   );
 
   if (!selectedCompanyId) {
-    return <EmptyState icon={Repeat} message="Select an organization to view routines." />;
+    return <EmptyState icon={Repeat} message={t("pages.routineDetail.selectAnOrganizationToViewRoutines", { defaultValue: "Select an organization to view routines." })} />;
   }
 
   const legacyTab = new URLSearchParams(window.location.search).get("tab");
@@ -774,7 +775,7 @@ export function RoutineDetail() {
         href="#routine-section"
         className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-20 focus:rounded focus:bg-background focus:px-3 focus:py-1.5 focus:text-sm"
       >
-        Skip to section
+        {t("pages.routineDetail.skipToSection", { defaultValue: "Skip to section" })}
       </a>
 
       {/* The global shell owns routine navigation. This surface keeps one
@@ -806,7 +807,7 @@ export function RoutineDetail() {
                 ref={titleInputRef}
                 data-autosize-title
                 className="min-w-0 flex-1 resize-none overflow-hidden bg-transparent text-base font-semibold leading-7 outline-none placeholder:text-muted-foreground/50"
-                placeholder="Routine title"
+                placeholder={t("pages.routineDetail.routineTitle", { defaultValue: "Routine title" })}
                 rows={1}
                 value={editDraft.title}
                 onChange={(event) => {
@@ -838,7 +839,7 @@ export function RoutineDetail() {
                 size="sm"
                 onClick={() => navigate(routineDetailHref(routine.id))}
               >
-                Back to overview
+                {t("pages.routineDetail.backToOverview", { defaultValue: "Back to overview" })}
               </Button>
             ) : (
               <Button
@@ -847,7 +848,7 @@ export function RoutineDetail() {
                 onClick={() => navigate(routineDetailHref(routine.id, "history"))}
               >
                 <History className="h-3.5 w-3.5" />
-                History
+                {t("pages.routineDetail.history", { defaultValue: "History" })}
               </Button>
             )}
             {section === "overview" ? (
@@ -861,12 +862,12 @@ export function RoutineDetail() {
                   }}
                 >
                   <X className="h-3.5 w-3.5" />
-                  Cancel editing
+                  {t("pages.routineDetail.cancelEditing", { defaultValue: "Cancel editing" })}
                 </Button>
               ) : (
                 <Button variant="outline" size="sm" onClick={() => setOverviewEditing(true)}>
                   <Pencil className="h-3.5 w-3.5" />
-                  Edit routine
+                  {t("pages.routineDetail.editRoutine", { defaultValue: "Edit routine" })}
                 </Button>
               )
             ) : null}

@@ -1,5 +1,6 @@
 import { AgentAvatar } from "@/components/AgentAvatar";
 import { useCallback, useMemo, useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Copy, Fingerprint, KeyRound, Link2, ShieldAlert, Variable, ServerCog } from "lucide-react";
 import type {
@@ -108,7 +109,7 @@ export function ProposalJustification({
 }) {
   return (
     <div className={cn("space-y-0.5", className)}>
-      <p className="text-(length:--text-micro) text-muted-foreground">Reason given by the agent</p>
+      <p className="text-(length:--text-micro) text-muted-foreground">{t("pages.secrets.proposalReview.reasonGivenByTheAgent", { defaultValue: "Reason given by the agent" })}</p>
       <p className="whitespace-pre-wrap break-words text-xs text-foreground/80">
         “{justification}”
       </p>
@@ -164,7 +165,7 @@ export function ProposedBadge({ className }: { className?: string }) {
         className,
       )}
     >
-      <ShieldAlert className="size-3" /> Proposed
+      <ShieldAlert className="size-3" /> {t("pages.secrets.proposalReview.proposed", { defaultValue: "Proposed" })}
     </Badge>
   );
 }
@@ -409,7 +410,7 @@ function ApproveDialog({
             {/* Provenance recap — keeps the social-engineering surface visible. */}
             <div className="space-y-1.5 rounded-md border border-border bg-muted/30 p-2.5 text-xs">
               <div className="flex items-center gap-1.5 text-muted-foreground">
-                <span>Proposed by</span>
+                <span>{t("pages.secrets.proposalReview.proposedBy", { defaultValue: "Proposed by" })}</span>
                 <AgentRefChip agent={draft.proposal.proposedBy} className="font-medium text-foreground" />
               </div>
               <ProposalJustification justification={draft.proposal.justification} />
@@ -419,17 +420,17 @@ function ApproveDialog({
               <div className="space-y-3">
                 <div className="grid grid-cols-2 gap-2">
                   <div className="space-y-1">
-                    <Label htmlFor="approve-folder">Folder</Label>
+                    <Label htmlFor="approve-folder">{t("pages.secrets.proposalReview.folder", { defaultValue: "Folder" })}</Label>
                     <Input
                       id="approve-folder"
                       value={draft.folder}
                       onChange={(event) => onChange({ ...draft, folder: event.target.value })}
-                      placeholder="dev/github"
+                      placeholder={t("pages.secrets.proposalReview.devGithub", { defaultValue: "dev/github" })}
                       className="font-mono text-xs"
                     />
                   </div>
                   <div className="space-y-1">
-                    <Label htmlFor="approve-name">Name</Label>
+                    <Label htmlFor="approve-name">{t("pages.secrets.proposalReview.name", { defaultValue: "Name" })}</Label>
                     <Input
                       id="approve-name"
                       value={draft.leaf}
@@ -451,18 +452,18 @@ function ApproveDialog({
                 </p>
 
                 <div className="space-y-1">
-                  <Label htmlFor="approve-description">Description</Label>
+                  <Label htmlFor="approve-description">{t("pages.secrets.proposalReview.description", { defaultValue: "Description" })}</Label>
                   <Input
                     id="approve-description"
                     value={draft.description}
                     onChange={(event) => onChange({ ...draft, description: event.target.value })}
-                    placeholder="Optional"
+                    placeholder={t("pages.secrets.proposalReview.optional", { defaultValue: "Optional" })}
                   />
                 </div>
 
                 {localConfigs.length > 0 ? (
                   <div className="space-y-1">
-                    <Label htmlFor="approve-provider-config">Provider vault</Label>
+                    <Label htmlFor="approve-provider-config">{t("pages.secrets.proposalReview.providerVault", { defaultValue: "Provider vault" })}</Label>
                     <select
                       id="approve-provider-config"
                       value={draft.providerConfigId}
@@ -471,7 +472,7 @@ function ApproveDialog({
                       }
                       className="h-9 w-full rounded-md border border-input bg-transparent px-2 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
                     >
-                      <option value="">Deployment default</option>
+                      <option value="">{t("pages.secrets.proposalReview.deploymentDefault", { defaultValue: "Deployment default" })}</option>
                       {localConfigs.map((config) => (
                         <option key={config.id} value={config.id}>
                           {config.displayName}
@@ -500,7 +501,7 @@ function ApproveDialog({
 
             <DialogFooter>
               <Button variant="ghost" onClick={onCancel} disabled={pending}>
-                Cancel
+                {t("pages.secrets.proposalReview.cancel", { defaultValue: "Cancel" })}
               </Button>
               <Button onClick={onConfirm} disabled={pending || !canConfirm}>
                 {pending
@@ -533,7 +534,7 @@ function BindingApproveBody({
     <div className="space-y-3 text-sm">
       <div className="space-y-2 rounded-md border border-border p-3">
         <div className="flex items-center justify-between gap-2">
-          <span className="text-xs text-muted-foreground">Target agent</span>
+          <span className="text-xs text-muted-foreground">{t("pages.secrets.proposalReview.targetAgent", { defaultValue: "Target agent" })}</span>
           {proposal.target ? (
             <AgentRefChip agent={proposal.target} className="text-sm font-medium" />
           ) : (
@@ -541,14 +542,14 @@ function BindingApproveBody({
           )}
         </div>
         <div className="flex items-center justify-between gap-2">
-          <span className="text-xs text-muted-foreground">Delivered as</span>
+          <span className="text-xs text-muted-foreground">{t("pages.secrets.proposalReview.deliveredAs", { defaultValue: "Delivered as" })}</span>
           <span className="flex items-center gap-1.5">
             <DeliveryBadge configPath={proposal.configPath} />
             <code className="font-mono text-xs">{envKey || proposal.configPath}</code>
           </span>
         </div>
         <div className="flex items-center justify-between gap-2">
-          <span className="text-xs text-muted-foreground">Secret</span>
+          <span className="text-xs text-muted-foreground">{t("pages.secrets.proposalReview.secret", { defaultValue: "Secret" })}</span>
           <span className="flex items-center gap-1.5">
             <KeyRound className="size-3.5 text-muted-foreground" />
             <span className="font-medium">{secret.name}</span>
@@ -564,7 +565,7 @@ function BindingApproveBody({
             checked={draft.cascade}
             onCheckedChange={(checked) => onChange({ ...draft, cascade: checked === true })}
             className="mt-0.5"
-            aria-label="Also approve the proposed secret"
+            aria-label={t("pages.secrets.proposalReview.alsoApproveTheProposedSecret", { defaultValue: "Also approve the proposed secret" })}
           />
           <span className="text-foreground/90">
             Also approve the proposed secret{" "}
@@ -605,7 +606,7 @@ function RejectDialog({
         {proposal ? (
           <>
             <DialogHeader>
-              <DialogTitle>Reject proposal</DialogTitle>
+              <DialogTitle>{t("pages.secrets.proposalReview.rejectProposal", { defaultValue: "Reject proposal" })}</DialogTitle>
               <DialogDescription>
                 The reason is sent back to{" "}
                 <AgentRefChip agent={proposal.proposedBy} className="text-foreground" />. Dependent
@@ -613,14 +614,14 @@ function RejectDialog({
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-1">
-              <Label htmlFor="reject-reason">Reason</Label>
+              <Label htmlFor="reject-reason">{t("pages.secrets.proposalReview.reason", { defaultValue: "Reason" })}</Label>
               <Textarea
                 id="reject-reason"
                 value={reason}
                 onChange={(event) => onReasonChange(event.target.value)}
                 rows={3}
                 autoFocus
-                placeholder="Why is this being rejected?"
+                placeholder={t("pages.secrets.proposalReview.whyIsThisBeingRejected", { defaultValue: "Why is this being rejected?" })}
               />
             </div>
             {error ? (
@@ -630,7 +631,7 @@ function RejectDialog({
             ) : null}
             <DialogFooter>
               <Button variant="ghost" onClick={onCancel} disabled={pending}>
-                Cancel
+                {t("pages.secrets.proposalReview.cancel", { defaultValue: "Cancel" })}
               </Button>
               <Button variant="destructive" onClick={onConfirm} disabled={pending || !canConfirm}>
                 {pending ? "Rejecting…" : "Reject"}
@@ -669,7 +670,7 @@ export function ProposalActions({
       disabled={disabled || blocked}
       onClick={() => onApprove(proposal)}
     >
-      Approve
+      {t("pages.secrets.proposalReview.approve", { defaultValue: "Approve" })}
     </Button>
   );
   return (
@@ -695,7 +696,7 @@ export function ProposalActions({
         disabled={disabled}
         onClick={() => onReject(proposal)}
       >
-        Reject
+        {t("pages.secrets.proposalReview.reject", { defaultValue: "Reject" })}
       </Button>
     </div>
   );

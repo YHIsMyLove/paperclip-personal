@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type {
   Agent,
@@ -539,7 +540,7 @@ function ExportPreviewPane({
 }) {
   if (!selectedFile || content === null) {
     return (
-      <EmptyState icon={Package} message="Select a file to preview its contents." />
+      <EmptyState icon={Package} message={t("pages.companyExport.selectAFileToPreviewItsContents", { defaultValue: "Select a file to preview its contents." })} />
     );
   }
 
@@ -576,7 +577,7 @@ function ExportPreviewPane({
           </pre>
         ) : (
           <div className="rounded-lg border border-border bg-accent/10 px-4 py-3 text-sm text-muted-foreground">
-            Binary asset preview is not available for this file type.
+            {t("pages.companyExport.binaryAssetPreviewIsNotAvailableForThisFileType", { defaultValue: "Binary asset preview is not available for this file type." })}
           </div>
         )}
       </div>
@@ -1024,7 +1025,7 @@ export function CompanyExport() {
   }
 
   if (!selectedCompanyId) {
-    return <EmptyState icon={Package} message="Select an organization to export." />;
+    return <EmptyState icon={Package} message={t("pages.companyExport.selectAnOrganizationToExport", { defaultValue: "Select an organization to export." })} />;
   }
 
   if (exportPreviewMutation.isPending && !exportData) {
@@ -1035,9 +1036,9 @@ export function CompanyExport() {
     return (
       <EmptyState
         icon={Package}
-        title="Export preview cancelled"
-        message="The preview request was cancelled. Your export settings are unchanged."
-        action="Retry preview"
+        title={t("pages.companyExport.exportPreviewCancelled", { defaultValue: "Export preview cancelled" })}
+        message={t("pages.companyExport.thePreviewRequestWasCancelledYourExportSettingsA", { defaultValue: "The preview request was cancelled. Your export settings are unchanged." })}
+        action={t("pages.companyExport.retryPreview", { defaultValue: "Retry preview" })}
         onAction={startPreviewRequest}
         hideActionIcon
       />
@@ -1048,10 +1049,10 @@ export function CompanyExport() {
     return (
       <EmptyState
         icon={Package}
-        title="Export preview failed"
+        title={t("pages.companyExport.exportPreviewFailed", { defaultValue: "Export preview failed" })}
         message={previewErrorMessage(exportPreviewMutation.error)}
-        description="Retry the preview. You do not need to reload this page."
-        action="Retry preview"
+        description={t("pages.companyExport.retryThePreviewYouDoNotNeedToReloadThisPage", { defaultValue: "Retry the preview. You do not need to reload this page." })}
+        action={t("pages.companyExport.retryPreview", { defaultValue: "Retry preview" })}
         onAction={startPreviewRequest}
         hideActionIcon
       />
@@ -1062,9 +1063,9 @@ export function CompanyExport() {
     return (
       <EmptyState
         icon={Package}
-        title="Export preview unavailable"
-        message="No export preview is loaded."
-        action="Load preview"
+        title={t("pages.companyExport.exportPreviewUnavailable", { defaultValue: "Export preview unavailable" })}
+        message={t("pages.companyExport.noExportPreviewIsLoaded", { defaultValue: "No export preview is loaded." })}
+        action={t("pages.companyExport.loadPreview", { defaultValue: "Load preview" })}
         onAction={startPreviewRequest}
         hideActionIcon
       />
@@ -1127,7 +1128,7 @@ export function CompanyExport() {
       {/* Export fidelity: data the bundle will not carry */}
       {fidelityReport && fidelityReport.warnings.length > 0 && (
         <div className="mx-5 mt-3 rounded-md border border-amber-500/30 bg-amber-500/5 px-4 py-3">
-          <h3 className="mb-1.5 text-xs font-medium">Not included in this export</h3>
+          <h3 className="mb-1.5 text-xs font-medium">{t("pages.companyExport.notIncludedInThisExport", { defaultValue: "Not included in this export" })}</h3>
           {fidelityReport.warnings.map((warning) => (
             <div
               key={warning.code}
@@ -1146,11 +1147,11 @@ export function CompanyExport() {
       <div className="grid gap-4 xl:h-(--sz-calc-30) xl:grid-cols-(--gtc-25) xl:gap-0">
         <aside className="flex max-h-(--sz-24rem) flex-col overflow-hidden border-b border-border xl:max-h-none xl:border-b-0 xl:border-r">
           <div className="border-b border-border px-4 py-3 shrink-0">
-            <h2 className="text-base font-semibold">Package files</h2>
+            <h2 className="text-base font-semibold">{t("pages.companyExport.packageFiles", { defaultValue: "Package files" })}</h2>
           </div>
           <div className="border-b border-border px-4 py-3 shrink-0">
-            <h3 className="mb-2 text-xs font-medium text-muted-foreground">What to include</h3>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-1.5" role="group" aria-label="What to include">
+            <h3 className="mb-2 text-xs font-medium text-muted-foreground">{t("pages.companyExport.whatToInclude", { defaultValue: "What to include" })}</h3>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1.5" role="group" aria-label={t("pages.companyExport.whatToInclude", { defaultValue: "What to include" })}>
               {EXPORT_CATEGORY_ORDER.map((key) => {
                 const isAttachments = key === "attachments";
                 const disabled = isAttachments && !isAttachmentsCategoryEnabled(categories);
@@ -1188,7 +1189,7 @@ export function CompanyExport() {
               })}
             </div>
             <p className="mt-2 text-xs text-muted-foreground">
-              Task and routine history is opt-in because it can be large.
+              {t("pages.companyExport.taskAndRoutineHistoryIsOptInBecauseItCanBeLarge", { defaultValue: "Task and routine history is opt-in because it can be large." })}
             </p>
           </div>
           <div className="border-b border-border px-3 py-2 shrink-0">
@@ -1198,7 +1199,7 @@ export function CompanyExport() {
                 type="text"
                 value={treeSearch}
                 onChange={(e) => handleSearchChange(e.target.value)}
-                placeholder="Search files..."
+                placeholder={t("pages.companyExport.searchFiles", { defaultValue: "Search files..." })}
                 className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 data-page-search-target="true"
               />
@@ -1247,14 +1248,14 @@ export function CompanyExport() {
               <div className="flex max-w-md flex-col items-center gap-3">
                 <LoaderCircle className="h-6 w-6 animate-spin text-muted-foreground" />
                 <div>
-                  <p className="text-sm font-medium">Updating export preview…</p>
+                  <p className="text-sm font-medium">{t("pages.companyExport.updatingExportPreview", { defaultValue: "Updating export preview…" })}</p>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Large task histories can take a minute. You can untick Tasks or cancel this update.
+                    {t("pages.companyExport.largeTaskHistoriesCanTakeAMinuteYouCanUntickTask", { defaultValue: "Large task histories can take a minute. You can untick Tasks or cancel this update." })}
                   </p>
                 </div>
                 <Button type="button" variant="outline" size="sm" onClick={handleCancelPreview}>
                   <X />
-                  Cancel update
+                  {t("pages.companyExport.cancelUpdate", { defaultValue: "Cancel update" })}
                 </Button>
               </div>
             </div>
@@ -1265,14 +1266,14 @@ export function CompanyExport() {
             >
               <div className="flex max-w-md flex-col items-center gap-3">
                 <div>
-                  <p className="text-sm font-medium">Preview update cancelled</p>
+                  <p className="text-sm font-medium">{t("pages.companyExport.previewUpdateCancelled", { defaultValue: "Preview update cancelled" })}</p>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    The previous preview remains available. Retry when you are ready.
+                    {t("pages.companyExport.thePreviousPreviewRemainsAvailableRetryWhenYouAr", { defaultValue: "The previous preview remains available. Retry when you are ready." })}
                   </p>
                 </div>
                 <Button type="button" variant="outline" size="sm" onClick={startPreviewRequest}>
                   <RotateCcw />
-                  Retry preview
+                  {t("pages.companyExport.retryPreview", { defaultValue: "Retry preview" })}
                 </Button>
               </div>
             </div>
@@ -1284,14 +1285,14 @@ export function CompanyExport() {
             >
               <div className="flex max-w-md flex-col items-center gap-3">
                 <div>
-                  <p className="text-sm font-medium text-destructive">Export preview failed</p>
+                  <p className="text-sm font-medium text-destructive">{t("pages.companyExport.exportPreviewFailed", { defaultValue: "Export preview failed" })}</p>
                   <p className="mt-1 text-xs text-muted-foreground">
                     {previewErrorMessage(exportPreviewMutation.error)}
                   </p>
                 </div>
                 <Button type="button" variant="outline" size="sm" onClick={startPreviewRequest}>
                   <RotateCcw />
-                  Retry preview
+                  {t("pages.companyExport.retryPreview", { defaultValue: "Retry preview" })}
                 </Button>
               </div>
             </div>

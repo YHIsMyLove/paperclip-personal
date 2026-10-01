@@ -1,4 +1,5 @@
 import { useEffect, useId, useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type {
   ConnectionGrantsResponse,
@@ -57,16 +58,15 @@ function CredentialSettings({
           min="0"
           step="0.01"
           value={limit}
-          placeholder="Use the remaining Paperclip budget"
+          placeholder={t("pages.apps.appDetail.browserUseSettingsPanel.useTheRemainingPaperclipBudget", { defaultValue: "Use the remaining Paperclip budget" })}
           onChange={(e) => setLimit(e.target.value)}
         />
         <p className="text-sm text-muted-foreground">
-          The agent can choose a lower limit. Paperclip also applies any
-          remaining hard budget limit.
+          {t("pages.apps.appDetail.browserUseSettingsPanel.theAgentCanChooseALowerLimitPaperclipAlsoApplies", { defaultValue: "The agent can choose a lower limit. Paperclip also applies any remaining hard budget limit." })}
         </p>
       </div>
       <fieldset className="space-y-2">
-        <legend className="text-sm font-medium">Allowed saved profiles</legend>
+        <legend className="text-sm font-medium">{t("pages.apps.appDetail.browserUseSettingsPanel.allowedSavedProfiles", { defaultValue: "Allowed saved profiles" })}</legend>
         <p className="text-sm text-muted-foreground">
           Fresh browsers are the default. Selected profiles let agents use their
           saved website logins. Manage profiles in{" "}
@@ -76,7 +76,7 @@ function CredentialSettings({
             rel="noreferrer"
             className="underline"
           >
-            Browser Use Cloud
+            {t("pages.apps.appDetail.browserUseSettingsPanel.browserUseCloud", { defaultValue: "Browser Use Cloud" })}
           </a>
           .
         </p>
@@ -96,10 +96,10 @@ function CredentialSettings({
           </Label>
         ))}
         {profiles.data?.length === 0 && (
-          <p className="text-sm text-muted-foreground">No saved profiles.</p>
+          <p className="text-sm text-muted-foreground">{t("pages.apps.appDetail.browserUseSettingsPanel.noSavedProfiles", { defaultValue: "No saved profiles." })}</p>
         )}
         {profiles.isLoading && (
-          <p className="text-sm text-muted-foreground">Loading profiles…</p>
+          <p className="text-sm text-muted-foreground">{t("pages.apps.appDetail.browserUseSettingsPanel.loadingProfiles", { defaultValue: "Loading profiles…" })}</p>
         )}
         {profiles.isError && (
           <p role="alert" className="text-sm text-destructive">
@@ -109,20 +109,19 @@ function CredentialSettings({
               variant="ghost"
               onClick={() => void profiles.refetch()}
             >
-              Retry
+              {t("pages.apps.appDetail.browserUseSettingsPanel.retry", { defaultValue: "Retry" })}
             </Button>
           </p>
         )}
       </fieldset>
       {saved.isError || save.isError ? (
         <p role="alert" className="text-sm text-destructive">
-          Could not save or load browser settings. Check your credential access
-          and try again.
+          {t("pages.apps.appDetail.browserUseSettingsPanel.couldNotSaveOrLoadBrowserSettingsCheckYourCreden", { defaultValue: "Could not save or load browser settings. Check your credential access and try again." })}
         </p>
       ) : null}
       {save.isSuccess && (
         <p role="status" className="text-sm text-muted-foreground">
-          Browser settings saved.
+          {t("pages.apps.appDetail.browserUseSettingsPanel.browserSettingsSaved", { defaultValue: "Browser settings saved." })}
         </p>
       )}
       <div className="flex justify-end">
@@ -137,7 +136,7 @@ function CredentialSettings({
           }
           onClick={() => save.mutate()}
         >
-          Save browser settings
+          {t("pages.apps.appDetail.browserUseSettingsPanel.saveBrowserSettings", { defaultValue: "Save browser settings" })}
         </Button>
       </div>
     </div>
@@ -162,10 +161,10 @@ export function BrowserUseSettingsPanel({
   const grantId = selected || eligible[0]?.id;
   return (
     <section className="space-y-4">
-      <h2 className="text-lg font-semibold">Browser settings</h2>
+      <h2 className="text-lg font-semibold">{t("pages.apps.appDetail.browserUseSettingsPanel.browserSettings", { defaultValue: "Browser settings" })}</h2>
       {eligible.length > 1 && (
         <Label className="flex flex-col gap-2">
-          Credential
+          {t("pages.apps.appDetail.browserUseSettingsPanel.credential", { defaultValue: "Credential" })}
           <select
             value={grantId}
             onChange={(e) => setSelected(e.target.value)}
@@ -187,8 +186,7 @@ export function BrowserUseSettingsPanel({
         />
       ) : (
         <p className="text-sm text-muted-foreground">
-          The credential owner or a shared connection manager can configure
-          saved profiles and cost limits.
+          {t("pages.apps.appDetail.browserUseSettingsPanel.theCredentialOwnerOrASharedConnectionManagerCanC", { defaultValue: "The credential owner or a shared connection manager can configure saved profiles and cost limits." })}
         </p>
       )}
     </section>

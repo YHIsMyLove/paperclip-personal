@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { t } from "@/i18n";
 import { Link } from "@/lib/router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AlertCircle, CheckCircle2, ChevronDown, Loader2, Search, Store, X } from "lucide-react";
@@ -425,15 +426,15 @@ export function AgentSkillsTab({ agent, companyId }: { agent: Agent; companyId?:
               <Input
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                placeholder="Search skills"
+                placeholder={t("pages.agentSkills.agentSkillsTab.searchSkills", { defaultValue: "Search skills" })}
                 className="h-8 w-full pl-8 sm:w-56"
-                aria-label="Search skills"
+                aria-label={t("pages.agentSkills.agentSkillsTab.searchSkills", { defaultValue: "Search skills" })}
               />
             </div>
             <Button asChild variant="outline" size="sm" className="shrink-0">
               <Link to="/skills" className="no-underline">
                 <Store className="h-3.5 w-3.5" />
-                Browse skills store
+                {t("pages.agentSkills.agentSkillsTab.browseSkillsStore", { defaultValue: "Browse skills store" })}
               </Link>
             </Button>
           </div>
@@ -470,7 +471,7 @@ export function AgentSkillsTab({ agent, companyId }: { agent: Agent; companyId?:
                 className="inline-flex shrink-0 items-center gap-1 rounded-md border border-amber-400/50 px-2 py-0.5 font-medium transition-colors hover:bg-amber-100/60 dark:hover:bg-amber-900/30"
               >
                 <X className="h-3 w-3" />
-                Remove
+                {t("pages.agentSkills.agentSkillsTab.remove", { defaultValue: "Remove" })}
               </button>
             </div>
           ))}
@@ -483,7 +484,7 @@ export function AgentSkillsTab({ agent, companyId }: { agent: Agent; companyId?:
         <EmptyLibraryCard />
       ) : (
         <div className="space-y-4">
-          <SkillSection title="Enabled on this agent" count={filteredEnabled.length}>
+          <SkillSection title={t("pages.agentSkills.agentSkillsTab.enabledOnThisAgent", { defaultValue: "Enabled on this agent" })} count={filteredEnabled.length}>
             {filteredEnabled.length > 0 ? (
               filteredEnabled.map((row) => renderRow(row, "enabled"))
             ) : (
@@ -493,7 +494,7 @@ export function AgentSkillsTab({ agent, companyId }: { agent: Agent; companyId?:
             )}
           </SkillSection>
 
-          <SkillSection title="Available from the library" count={filteredAvailable.length}>
+          <SkillSection title={t("pages.agentSkills.agentSkillsTab.availableFromTheLibrary", { defaultValue: "Available from the library" })} count={filteredAvailable.length}>
             {filteredAvailable.length > 0 ? (
               filteredAvailable.map((row) => renderRow(row, "available"))
             ) : (
@@ -528,7 +529,7 @@ export function AgentSkillsTab({ agent, companyId }: { agent: Agent; companyId?:
                       <AgentSkillRow key={row.key} variant="readonly" data={row} />
                     ))
                   ) : (
-                    <SectionEmpty>No detected skills match your search.</SectionEmpty>
+                    <SectionEmpty>{t("pages.agentSkills.agentSkillsTab.noDetectedSkillsMatchYourSearch", { defaultValue: "No detected skills match your search." })}</SectionEmpty>
                   )}
                 </CollapsibleContent>
               </div>
@@ -557,7 +558,7 @@ function SaveStatusChip({
     return (
       <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
         <Loader2 className="h-3.5 w-3.5 animate-spin" />
-        Saving…
+        {t("pages.agentSkills.agentSkillsTab.saving", { defaultValue: "Saving…" })}
       </span>
     );
   }
@@ -565,7 +566,7 @@ function SaveStatusChip({
     return (
       <span className="inline-flex items-center gap-1.5 text-xs text-destructive">
         <AlertCircle className="h-3.5 w-3.5" />
-        Couldn’t save
+        {t("pages.agentSkills.agentSkillsTab.couldntSave", { defaultValue: "Couldn’t save" })}
       </span>
     );
   }
@@ -573,14 +574,14 @@ function SaveStatusChip({
     return (
       <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
         <Loader2 className="h-3.5 w-3.5 animate-spin" />
-        Saving soon…
+        {t("pages.agentSkills.agentSkillsTab.savingSoon", { defaultValue: "Saving soon…" })}
       </span>
     );
   }
   return (
     <span className="inline-flex items-center gap-1.5 text-xs text-(--status-task-done)">
       <CheckCircle2 className="h-3.5 w-3.5" />
-      Saved
+      {t("pages.agentSkills.agentSkillsTab.saved", { defaultValue: "Saved" })}
     </span>
   );
 }
@@ -614,15 +615,15 @@ function EmptyLibraryCard() {
     <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed border-border px-6 py-10 text-center">
       <Store className="h-8 w-8 text-muted-foreground/60" />
       <div className="space-y-1">
-        <p className="text-sm font-medium text-foreground">No skills in the organization library</p>
+        <p className="text-sm font-medium text-foreground">{t("pages.agentSkills.agentSkillsTab.noSkillsInTheOrganizationLibrary", { defaultValue: "No skills in the organization library" })}</p>
         <p className="text-xs text-muted-foreground">
-          Install skills to the organization, then enable them on this agent.
+          {t("pages.agentSkills.agentSkillsTab.installSkillsToTheOrganizationThenEnableThemOnTh", { defaultValue: "Install skills to the organization, then enable them on this agent." })}
         </p>
       </div>
       <Button asChild variant="outline" size="sm">
         <Link to="/skills" className="no-underline">
           <Store className="h-3.5 w-3.5" />
-          Browse skills store
+          {t("pages.agentSkills.agentSkillsTab.browseSkillsStore", { defaultValue: "Browse skills store" })}
         </Link>
       </Button>
     </div>

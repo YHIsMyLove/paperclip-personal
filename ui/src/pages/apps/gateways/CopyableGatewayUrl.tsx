@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { Copy } from "lucide-react";
 import { useToast } from "@/context/ToastContext";
 import { copyTextToClipboard } from "@/lib/clipboard";
@@ -47,7 +48,7 @@ export function CopyableGatewayUrl({
         className,
       )}
       title={`${url} — click to copy`}
-      aria-label="Copy gateway URL"
+      aria-label={t("pages.apps.gateways.copyableGatewayUrl.copyGatewayUrl", { defaultValue: "Copy gateway URL" })}
     >
       <span className="min-w-0 truncate">{url}</span>
       <Copy className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />

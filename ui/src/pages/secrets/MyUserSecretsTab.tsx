@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { CompanySecret } from "@paperclipai/shared";
 import { AlertCircle, KeyRound, Trash2, UserRound } from "lucide-react";
@@ -75,13 +76,13 @@ export function MyUserSecretsTab({ companyId }: { companyId: string }) {
             <AlertCircle className="h-4 w-4" /> Failed to load your secrets:{" "}
             {(mySecretsQuery.error as Error).message}
             <Button variant="ghost" size="sm" onClick={() => mySecretsQuery.refetch()}>
-              Retry
+              {t("pages.secrets.myUserSecretsTab.retry", { defaultValue: "Retry" })}
             </Button>
           </div>
         ) : entries.length === 0 && !mySecretsQuery.isPending ? (
           <EmptyState
             icon={KeyRound}
-            message="No user secrets are defined for this organization yet. An admin defines which credentials each member supplies."
+            message={t("pages.secrets.myUserSecretsTab.noUserSecretsAreDefinedForThisOrganizationYetAnA", { defaultValue: "No user secrets are defined for this organization yet. An admin defines which credentials each member supplies." })}
           />
         ) : (
           <ul className="space-y-2">
@@ -171,7 +172,7 @@ function MyUserSecretRow({
             className="text-muted-foreground hover:text-destructive"
             onClick={onClear}
             disabled={clearing}
-            title="Clear my value"
+            title={t("pages.secrets.myUserSecretsTab.clearMyValue", { defaultValue: "Clear my value" })}
           >
             <Trash2 className="h-3.5 w-3.5" />
           </Button>

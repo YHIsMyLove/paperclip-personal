@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCompany } from "../context/CompanyContext";
 import { useDialogActions } from "../context/DialogContext";
@@ -113,13 +114,13 @@ export function Companies() {
         {isCloud ? null : (
           <Button size="sm" onClick={() => openOnboarding()}>
             <Plus className="h-3.5 w-3.5 mr-1.5" />
-            New Organization
+            {t("pages.companies.newOrganization", { defaultValue: "New Organization" })}
           </Button>
         )}
       </div>
 
       <div className="h-6">
-        {loading && <p className="text-sm text-muted-foreground">Loading organizations...</p>}
+        {loading && <p className="text-sm text-muted-foreground">{t("pages.companies.loadingOrganizations", { defaultValue: "Loading organizations..." })}</p>}
         {error && <p className="text-sm text-destructive">{error.message}</p>}
       </div>
 
@@ -236,7 +237,7 @@ export function Companies() {
                         onClick={() => startEdit(company.id, company.name)}
                       >
                         <Pencil className="h-3.5 w-3.5" />
-                        Rename
+                        {t("pages.companies.rename", { defaultValue: "Rename" })}
                       </DropdownMenuItem>
                       {company.status === "archived" && (
                         <DropdownMenuItem
@@ -244,7 +245,7 @@ export function Companies() {
                           onClick={() => unarchiveMutation.mutate(company.id)}
                         >
                           <ArchiveRestore className="h-3.5 w-3.5" />
-                          Unarchive
+                          {t("pages.companies.unarchive", { defaultValue: "Unarchive" })}
                         </DropdownMenuItem>
                       )}
                       <DropdownMenuSeparator />
@@ -253,7 +254,7 @@ export function Companies() {
                         onClick={() => setConfirmDeleteId(company.id)}
                       >
                         <Trash2 className="h-3.5 w-3.5" />
-                        Delete Organization
+                        {t("pages.companies.deleteOrganization", { defaultValue: "Delete Organization" })}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -280,7 +281,7 @@ export function Companies() {
                     {formatCents(company.spentMonthlyCents)}
                     {company.budgetMonthlyCents > 0
                       ? <> / {formatCents(company.budgetMonthlyCents)} <span className="text-xs">({budgetPct}%)</span></>
-                      : <span className="text-xs ml-1">Unlimited budget</span>}
+                      : <span className="text-xs ml-1">{t("pages.companies.unlimitedBudget", { defaultValue: "Unlimited budget" })}</span>}
                   </span>
                 </div>
                 <div className="flex items-center gap-1.5 ml-auto">
@@ -305,7 +306,7 @@ export function Companies() {
                       onClick={() => setConfirmDeleteId(null)}
                       disabled={deleteMutation.isPending}
                     >
-                      Cancel
+                      {t("pages.companies.cancel", { defaultValue: "Cancel" })}
                     </Button>
                     <Button
                       variant="destructive"

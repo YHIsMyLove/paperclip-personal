@@ -4,6 +4,7 @@ import { RemoteMcpManagement } from "@/features/connections/remote-mcp/RemoteMcp
 import { remoteMcpProviders } from "@/features/connections/remote-mcp/providers";
 import { ManagedAiConnectionDetails } from "@/components/ai-connections/ManagedAiConnectionDetails";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { t } from "@/i18n";
 import { EmailConnectionAccess } from "@/components/EmailConnectionAccess";
 import { EmailConnectionInboxes } from "./chat/EmailEndpointSetup";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -484,7 +485,7 @@ export function AppDetail({ renderActions, onReconnect }: {
   }
 
   if (!selectedCompanyId) {
-    return <div className="p-6 text-sm text-muted-foreground">Select an organization to manage apps.</div>;
+    return <div className="p-6 text-sm text-muted-foreground">{t("pages.apps.appDetail.selectAnOrganizationToManageApps", { defaultValue: "Select an organization to manage apps." })}</div>;
   }
   if (connectionQuery.isLoading) {
     return (
@@ -498,9 +499,9 @@ export function AppDetail({ renderActions, onReconnect }: {
   if (!connection) {
     return (
       <div className="max-w-3xl p-6">
-        <p className="text-sm text-muted-foreground">We couldn't find that app.</p>
+        <p className="text-sm text-muted-foreground">{t("pages.apps.appDetail.weCouldntFindThatApp", { defaultValue: "We couldn't find that app." })}</p>
         <Button className="mt-4" variant="outline" onClick={() => navigate("/apps")}>
-          Back to connectors
+          {t("pages.apps.appDetail.backToConnectors", { defaultValue: "Back to connectors" })}
         </Button>
       </div>
     );
@@ -510,10 +511,10 @@ export function AppDetail({ renderActions, onReconnect }: {
     return <div className="max-w-4xl space-y-6 pb-12">
       <h1 className="text-xl font-semibold">{appName}</h1>
       <section role="status" className="space-y-3 rounded-lg border border-border bg-muted p-4">
-        <h2 className="text-sm font-semibold">Connection retired</h2>
+        <h2 className="text-sm font-semibold">{t("pages.apps.appDetail.connectionRetired", { defaultValue: "Connection retired" })}</h2>
         <p className="text-sm text-muted-foreground">{RETIRED_COMPOSIO_MESSAGE}</p>
-        <p className="text-sm text-muted-foreground">Remove each obsolete connection separately. Removing this one does not remove other connections.</p>
-        <Button variant="outline" onClick={() => navigate("/apps/connect?source=composio")}>Add Composio MCP connection</Button>
+        <p className="text-sm text-muted-foreground">{t("pages.apps.appDetail.removeEachObsoleteConnectionSeparatelyRemovingTh", { defaultValue: "Remove each obsolete connection separately. Removing this one does not remove other connections." })}</p>
+        <Button variant="outline" onClick={() => navigate("/apps/connect?source=composio")}>{t("pages.apps.appDetail.addComposioMcpConnection", { defaultValue: "Add Composio MCP connection" })}</Button>
       </section>
       {grantsQuery.data?.capabilities.canConfigure === true && <DangerZone
         appName={appName}
@@ -568,7 +569,7 @@ export function AppDetail({ renderActions, onReconnect }: {
         <div role="status">
           <p>{connection.healthMessage || "GitHub access could not be checked. Try again."}</p>
           <Button variant="outline" disabled={refreshGitHubAccess.isPending} onClick={() => refreshGitHubAccess.mutate()}>
-            Retry access
+            {t("pages.apps.appDetail.retryAccess", { defaultValue: "Retry access" })}
           </Button>
         </div>
       )}
@@ -743,7 +744,7 @@ function AppDetailHeader({
               }}
             >
               <Input
-                aria-label="App name"
+                aria-label={t("pages.apps.appDetail.appName", { defaultValue: "App name" })}
                 value={nameDraft}
                 onChange={(event) => onNameDraftChange(event.target.value)}
                 className="h-9 w-64 text-lg font-bold"
@@ -753,7 +754,7 @@ function AppDetailHeader({
                 {renamePending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Save"}
               </Button>
               <Button type="button" size="sm" variant="ghost" onClick={onRenameCancel} disabled={renamePending}>
-                Cancel
+                {t("pages.apps.appDetail.cancel", { defaultValue: "Cancel" })}
               </Button>
             </form>
           ) : (
@@ -763,7 +764,7 @@ function AppDetailHeader({
                 variant="ghost"
                 size="icon"
                 className="h-7 w-7 text-muted-foreground"
-                aria-label="Rename app"
+                aria-label={t("pages.apps.appDetail.renameApp", { defaultValue: "Rename app" })}
                 onClick={onRenameStart}
               >
                 <Pencil className="h-3.5 w-3.5" />
@@ -803,8 +804,8 @@ function ToolsLoading({ mcpActions = false }: { mcpActions?: boolean }) {
 function ToolsLoadError({ onRetry }: { onRetry: () => void }) {
   return (
     <div className="space-y-3 py-8">
-      <p className="text-sm text-destructive">Couldn’t load tools for this app.</p>
-      <Button size="sm" variant="outline" onClick={onRetry}>Try again</Button>
+      <p className="text-sm text-destructive">{t("pages.apps.appDetail.couldntLoadToolsForThisApp", { defaultValue: "Couldn’t load tools for this app." })}</p>
+      <Button size="sm" variant="outline" onClick={onRetry}>{t("pages.apps.appDetail.tryAgain", { defaultValue: "Try again" })}</Button>
     </div>
   );
 }

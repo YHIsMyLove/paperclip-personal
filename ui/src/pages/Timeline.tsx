@@ -6,6 +6,7 @@
  * Direction C (PAP-12422): dense rows, mini-map brush, custom inline SVG.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { t } from "@/i18n";
 import { useQuery } from "@tanstack/react-query";
 import { Bot, Clock3, Coins, GanttChartSquare, Minus, Plus, RotateCcw, type LucideIcon } from "lucide-react";
 import type { WorkTimelineResult } from "@paperclipai/shared";
@@ -249,22 +250,22 @@ function TimelineLegend() {
     <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-border px-3.5 py-2 text-xs text-muted-foreground">
       <span className="flex items-center gap-1.5">
         <span className="h-2.5 w-4 rounded-sm" style={{ backgroundColor: TIMELINE_COLORS.delegated }} />
-        Delegated
+        {t("pages.timeline.delegated", { defaultValue: "Delegated" })}
       </span>
       <span className="flex items-center gap-1.5">
         <span className="h-2.5 w-4 rounded-sm" style={{ backgroundColor: TIMELINE_COLORS.automation }} />
-        Automation
+        {t("pages.timeline.automation", { defaultValue: "Automation" })}
       </span>
       <span className="flex items-center gap-1.5">
         <span
           className="h-2.5 w-4 rounded-sm border border-dashed bg-transparent"
           style={{ borderColor: TIMELINE_COLORS.cancelled }}
         />
-        Cancelled
+        {t("pages.timeline.cancelled", { defaultValue: "Cancelled" })}
       </span>
       <span className="flex items-center gap-1.5">
         <span className="h-3.5 w-0.5" style={{ backgroundColor: TIMELINE_COLORS.now }} />
-        Now
+        {t("pages.timeline.now", { defaultValue: "Now" })}
       </span>
     </div>
   );
@@ -362,7 +363,7 @@ export function Timeline({ embedded = false }: { embedded?: boolean } = {}) {
     return (
       <>
         {!embedded && <RequestCollapsedSidebar />}
-        <EmptyState icon={GanttChartSquare} message="Select an organization to view its work timeline." />
+        <EmptyState icon={GanttChartSquare} message={t("pages.timeline.selectAnOrganizationToViewItsWorkTimeline", { defaultValue: "Select an organization to view its work timeline." })} />
       </>
     );
   }
@@ -397,7 +398,7 @@ export function Timeline({ embedded = false }: { embedded?: boolean } = {}) {
 
   const rangeControls = (
     <label className="flex min-w-0 flex-wrap items-center gap-2 text-xs text-muted-foreground">
-      Range
+      {t("pages.timeline.range", { defaultValue: "Range" })}
       <Segmented
         value={rangePreset}
         onChange={(preset) => {
@@ -419,7 +420,7 @@ export function Timeline({ embedded = false }: { embedded?: boolean } = {}) {
           setDateRange((prev) => ({ ...prev, fromDate: event.target.value }));
         }}
         className="h-8 w-(--sz-150px) text-xs"
-        aria-label="Timeline start date"
+        aria-label={t("pages.timeline.timelineStartDate", { defaultValue: "Timeline start date" })}
       />
       <span>to</span>
       <Input
@@ -430,7 +431,7 @@ export function Timeline({ embedded = false }: { embedded?: boolean } = {}) {
           setDateRange((prev) => ({ ...prev, toDate: event.target.value }));
         }}
         className="h-8 w-(--sz-150px) text-xs"
-        aria-label="Timeline end date"
+        aria-label={t("pages.timeline.timelineEndDate", { defaultValue: "Timeline end date" })}
       />
     </label>
   );
@@ -438,14 +439,14 @@ export function Timeline({ embedded = false }: { embedded?: boolean } = {}) {
   const toolbar = (
     <div className="flex flex-wrap items-start gap-3">
       {summary && <TimelineSummaryStats summary={summary} />}
-      <div className="ml-auto flex items-center gap-1 pt-3" aria-label="Timeline zoom controls">
+      <div className="ml-auto flex items-center gap-1 pt-3" aria-label={t("pages.timeline.timelineZoomControls", { defaultValue: "Timeline zoom controls" })}>
         <Button
           type="button"
           variant="outline"
           size="icon-xs"
           onClick={() => adjustZoom(0.8)}
-          aria-label="Zoom out"
-          title="Zoom out"
+          aria-label={t("pages.timeline.zoomOut", { defaultValue: "Zoom out" })}
+          title={t("pages.timeline.zoomOut", { defaultValue: "Zoom out" })}
         >
           <Minus className="h-3 w-3" />
         </Button>
@@ -454,8 +455,8 @@ export function Timeline({ embedded = false }: { embedded?: boolean } = {}) {
           variant="outline"
           size="icon-xs"
           onClick={() => adjustZoom(1.25)}
-          aria-label="Zoom in"
-          title="Zoom in"
+          aria-label={t("pages.timeline.zoomIn", { defaultValue: "Zoom in" })}
+          title={t("pages.timeline.zoomIn", { defaultValue: "Zoom in" })}
         >
           <Plus className="h-3 w-3" />
         </Button>
@@ -464,8 +465,8 @@ export function Timeline({ embedded = false }: { embedded?: boolean } = {}) {
           variant="outline"
           size="icon-xs"
           onClick={resetZoom}
-          aria-label="Reset zoom"
-          title="Reset zoom"
+          aria-label={t("pages.timeline.resetZoom", { defaultValue: "Reset zoom" })}
+          title={t("pages.timeline.resetZoom", { defaultValue: "Reset zoom" })}
         >
           <RotateCcw className="h-3 w-3" />
         </Button>

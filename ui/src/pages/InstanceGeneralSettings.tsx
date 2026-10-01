@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { PatchInstanceGeneralSettings, BackupRetentionPolicy } from "@paperclipai/shared";
 import {
@@ -62,7 +63,7 @@ export function InstanceGeneralSettings({ embedded = false }: { embedded?: boole
   });
 
   if (generalQuery.isLoading || healthQuery.isLoading) {
-    return <div className="text-sm text-muted-foreground">Loading general settings...</div>;
+    return <div className="text-sm text-muted-foreground">{t("pages.instanceGeneralSettings.loadingGeneralSettings", { defaultValue: "Loading general settings..." })}</div>;
   }
 
   if (generalQuery.error) {
@@ -104,7 +105,7 @@ export function InstanceGeneralSettings({ embedded = false }: { embedded?: boole
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <SlidersHorizontal className="h-5 w-5 text-muted-foreground" />
-            <h1 className="text-lg font-semibold">General</h1>
+            <h1 className="text-lg font-semibold">{t("pages.instanceGeneralSettings.general", { defaultValue: "General" })}</h1>
           </div>
           <p className="text-sm text-muted-foreground">
             Configure instance-wide preferences
@@ -123,7 +124,7 @@ export function InstanceGeneralSettings({ embedded = false }: { embedded?: boole
       <section>
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <h2 className="text-sm font-semibold">Deployment and auth</h2>
+            <h2 className="text-sm font-semibold">{t("pages.instanceGeneralSettings.deploymentAndAuth", { defaultValue: "Deployment and auth" })}</h2>
             <ModeBadge
               deploymentMode={healthQuery.data?.deploymentMode}
               deploymentExposure={healthQuery.data?.deploymentExposure}
@@ -138,15 +139,15 @@ export function InstanceGeneralSettings({ embedded = false }: { embedded?: boole
           </div>
           <div className="grid gap-3 md:grid-cols-3">
             <StatusBox
-              label="Auth readiness"
+              label={t("pages.instanceGeneralSettings.authReadiness", { defaultValue: "Auth readiness" })}
               value={healthQuery.data?.authReady ? "Ready" : "Not ready"}
             />
             <StatusBox
-              label="Bootstrap status"
+              label={t("pages.instanceGeneralSettings.bootstrapStatus", { defaultValue: "Bootstrap status" })}
               value={healthQuery.data?.bootstrapStatus === "bootstrap_pending" ? "Setup required" : "Ready"}
             />
             <StatusBox
-              label="Bootstrap invite"
+              label={t("pages.instanceGeneralSettings.bootstrapInvite", { defaultValue: "Bootstrap invite" })}
               value={healthQuery.data?.bootstrapInviteActive ? "Active" : "None"}
             />
           </div>
@@ -158,7 +159,7 @@ export function InstanceGeneralSettings({ embedded = false }: { embedded?: boole
       <section>
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-1.5">
-            <h2 className="text-sm font-semibold">Censor username in logs</h2>
+            <h2 className="text-sm font-semibold">{t("pages.instanceGeneralSettings.censorUsernameInLogs", { defaultValue: "Censor username in logs" })}</h2>
             <p className="max-w-2xl text-sm text-muted-foreground">
               Hide the username segment in home-directory paths and similar operator-visible log output. Standalone
               username mentions outside of paths are not yet masked in the live transcript view. This is off by
@@ -169,7 +170,7 @@ export function InstanceGeneralSettings({ embedded = false }: { embedded?: boole
             checked={censorUsernameInLogs}
             onCheckedChange={() => updateGeneralMutation.mutate({ censorUsernameInLogs: !censorUsernameInLogs })}
             disabled={updateGeneralMutation.isPending || signOutMutation.isPending}
-            aria-label="Toggle username log censoring"
+            aria-label={t("pages.instanceGeneralSettings.toggleUsernameLogCensoring", { defaultValue: "Toggle username log censoring" })}
           />
         </div>
       </section>
@@ -179,7 +180,7 @@ export function InstanceGeneralSettings({ embedded = false }: { embedded?: boole
       <section>
         <div className="space-y-5">
           <div className="space-y-1.5">
-            <h2 className="text-sm font-semibold">Backup retention</h2>
+            <h2 className="text-sm font-semibold">{t("pages.instanceGeneralSettings.backupRetention", { defaultValue: "Backup retention" })}</h2>
             <p className="max-w-2xl text-sm text-muted-foreground">
               Configure how long automatic database backups are retained. Backups run roughly
               every hour and are compressed with gzip. Within the daily window all backups are
@@ -188,7 +189,7 @@ export function InstanceGeneralSettings({ embedded = false }: { embedded?: boole
           </div>
 
           <div className="space-y-1.5">
-            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Daily</h3>
+            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">{t("pages.instanceGeneralSettings.daily", { defaultValue: "Daily" })}</h3>
             <div className="flex flex-wrap gap-2">
               {DAILY_RETENTION_PRESETS.map((days) => {
                 const active = backupRetention.dailyDays === days;
@@ -217,7 +218,7 @@ export function InstanceGeneralSettings({ embedded = false }: { embedded?: boole
           </div>
 
           <div className="space-y-1.5">
-            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Weekly</h3>
+            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">{t("pages.instanceGeneralSettings.weekly", { defaultValue: "Weekly" })}</h3>
             <div className="flex flex-wrap gap-2">
               {WEEKLY_RETENTION_PRESETS.map((weeks) => {
                 const active = backupRetention.weeklyWeeks === weeks;
@@ -247,7 +248,7 @@ export function InstanceGeneralSettings({ embedded = false }: { embedded?: boole
           </div>
 
           <div className="space-y-1.5">
-            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Monthly</h3>
+            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">{t("pages.instanceGeneralSettings.monthly", { defaultValue: "Monthly" })}</h3>
             <div className="flex flex-wrap gap-2">
               {MONTHLY_RETENTION_PRESETS.map((months) => {
                 const active = backupRetention.monthlyMonths === months;
@@ -283,10 +284,9 @@ export function InstanceGeneralSettings({ embedded = false }: { embedded?: boole
       <section>
         <div className="space-y-4">
           <div className="space-y-1.5">
-            <h2 className="text-sm font-semibold">AI feedback sharing</h2>
+            <h2 className="text-sm font-semibold">{t("pages.instanceGeneralSettings.aiFeedbackSharing", { defaultValue: "AI feedback sharing" })}</h2>
             <p className="max-w-2xl text-sm text-muted-foreground">
-              Control whether thumbs up and thumbs down votes can send the voted AI output to
-              Paperclip Labs. Votes are always saved locally.
+              {t("pages.instanceGeneralSettings.controlWhetherThumbsUpAndThumbsDownVotesCanSendT", { defaultValue: "Control whether thumbs up and thumbs down votes can send the voted AI output to Paperclip Labs. Votes are always saved locally." })}
             </p>
             {FEEDBACK_TERMS_URL ? (
               <a
@@ -295,14 +295,13 @@ export function InstanceGeneralSettings({ embedded = false }: { embedded?: boole
                 rel="noreferrer"
                 className="inline-flex text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground"
               >
-                Read our terms of service
+                {t("pages.instanceGeneralSettings.readOurTermsOfService", { defaultValue: "Read our terms of service" })}
               </a>
             ) : null}
           </div>
           {feedbackDataSharingPreference === "prompt" ? (
             <div className="rounded-lg bg-accent/20 px-3 py-2 text-sm text-muted-foreground">
-              No default is saved yet. The next thumbs up or thumbs down choice will ask once and
-              then save the answer here.
+              {t("pages.instanceGeneralSettings.noDefaultIsSavedYetTheNextThumbsUpOrThumbsDownCh", { defaultValue: "No default is saved yet. The next thumbs up or thumbs down choice will ask once and then save the answer here." })}
             </div>
           ) : null}
           <div className="flex flex-wrap gap-2">
@@ -362,9 +361,9 @@ export function InstanceGeneralSettings({ embedded = false }: { embedded?: boole
       <section>
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-1.5">
-            <h2 className="text-sm font-semibold">Sign out</h2>
+            <h2 className="text-sm font-semibold">{t("pages.instanceGeneralSettings.signOut", { defaultValue: "Sign out" })}</h2>
             <p className="max-w-2xl text-sm text-muted-foreground">
-              Sign out of this Paperclip instance. You will be redirected to the login page.
+              {t("pages.instanceGeneralSettings.signOutOfThisPaperclipInstanceYouWillBeRedirecte", { defaultValue: "Sign out of this Paperclip instance. You will be redirected to the login page." })}
             </p>
           </div>
           <Button

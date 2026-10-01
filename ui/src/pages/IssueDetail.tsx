@@ -831,7 +831,8 @@ function IssueAttributionByline({
           // Not translated: this label is a semantic discriminator typed
           // "Assignee" | "Originating", and AttributionAvatar lowercases it to
           // build data-testid={`issue-${label}-avatar`}. Translating it would
-          // change the test selector rather than the UI.
+          // change the test selector rather than the UI. The rewriter tries to
+          // wrap this on every pass — put it back if typecheck complains.
           <AttributionAvatar label="Assignee" actor={assignee} />
         ) : null}
         {originator ? (
