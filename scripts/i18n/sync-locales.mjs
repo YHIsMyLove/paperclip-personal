@@ -8,12 +8,15 @@
 // Existing entries in both packs are preserved: this merges, never replaces.
 import { readFileSync, writeFileSync } from "node:fs";
 
-const MANIFEST = process.argv[2];
+// One batch rarely spans a single manifest — the components tree and the pages
+// tree were rewritten separately, and a translation set can cover both. Accept a
+// comma-separated list so a single run can finish the job.
+const MANIFESTS = process.argv[2].split(",").map((p) => p.trim()).filter(Boolean);
 const ZH = process.argv[3];      // hand-authored { "ns.key": "中文" }, may be partial
 const EN_OUT = process.argv[4];
 const ZH_OUT = process.argv[5];
 
-const manifest = JSON.parse(readFileSync(MANIFEST, "utf8"));
+const manifest = Object.assign({}, ...MANIFESTS.map((p) => JSON.parse(readFileSync(p, "utf8"))));
 const zhAuthored = ZH && ZH !== "-" ? JSON.parse(readFileSync(ZH, "utf8")) : {};
 const en = JSON.parse(readFileSync(EN_OUT, "utf8"));
 const zh = JSON.parse(readFileSync(ZH_OUT, "utf8"));
