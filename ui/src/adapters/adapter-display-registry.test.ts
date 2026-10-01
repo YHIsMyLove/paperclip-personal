@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { CONNECT_SOURCE_NAMES } from "../components/AdapterLoginChrome";
 import { getAdapterDisplay, getAdapterLabel, getAdapterLabels } from "./adapter-display-registry";
 
 describe("adapter display registry", () => {
@@ -45,5 +46,26 @@ describe("adapter display registry", () => {
       label: "Droid (gateway)",
       description: "External gateway adapter",
     });
+  });
+
+  it("marks every adapter the connect step can actually offer as recommended", () => {
+    // The connect step's tile row is built from `recommendedAdapters`, and its
+    // CTA is gated on membership in that same list. The "Advanced settings"
+    // disclosure that used to list everything else was deliberately removed, so
+    // `recommended` is the only route into the step — an unmarked adapter is not
+    // offered elsewhere, it is unreachable. Assert against the real registry
+    // rather than a mock so this cannot quietly regress.
+    expect(getAdapterDisplay("opencode_local").recommended).toBe(true);
+    expect(getAdapterDisplay("claude_local").recommended).toBe(true);
+    expect(getAdapterDisplay("codex_local").recommended).toBe(true);
+
+    // Every recommended adapter must have a provider name for the connect flow,
+    // because the fallback is the raw adapter type and would render as
+    // "opencode_local" in the tile label, the AI-connection name, and the card
+    // heading.
+    for (const type of ["claude_local", "codex_local", "opencode_local"]) {
+      expect(CONNECT_SOURCE_NAMES[type], type).toBeTruthy();
+      expect(CONNECT_SOURCE_NAMES[type], type).not.toBe(type);
+    }
   });
 });

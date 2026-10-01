@@ -24,6 +24,7 @@ import { AdapterLoginPanel } from "./AgentConfigForm";
 import {
   CONNECT_SOURCE_NAMES,
   OnboardingCardField,
+  OnboardingModelPicker,
   OnboardingLoginCard,
 } from "./AdapterLoginChrome";
 import {
@@ -569,6 +570,8 @@ function OnboardingWizardInner({
   const [error, setError] = useState<string | null>(null);
   const [modelOpen, setModelOpen] = useState(false);
   const [modelSearch, setModelSearch] = useState("");
+  /** Set once the customer picks a model, so discovery does not overwrite it. */
+  const [modelTouched, setModelTouched] = useState(false);
 
   // Step 1
   const [companyName, setCompanyName] = useState((saved?.companyName as string) ?? "");
@@ -1157,6 +1160,32 @@ function OnboardingWizardInner({
     sourcePicked && recommendedAdapters.some((opt) => opt.type === adapterType);
 
   /**
+   * Whether OpenCode's gateway is already usable on this instance.
+   *
+   * A successful model discovery *is* the proof: it ran against the real gateway
+   * with the credentials already in place. So the connect step can say "already
+   * configured" instead of asking for a key it would not use.
+   */
+  const discoveredOpenCodeModels = (adapterModels ?? []).length;
+  const openCodeGatewayReady =
+    adapterType === "opencode_local" &&
+    !adapterModelsLoading &&
+    !adapterModelsFetching &&
+    !adapterModelsError &&
+    discoveredOpenCodeModels > 0;
+
+  /**
+   * Whether the connect step still needs a credential typed into it.
+   *
+   * Only for the sources that read one. OpenCode authenticates its gateway from
+   * the instance's own configuration — `PAPERCLIP_OPENCODE_PROVIDERS`, or the
+   * OpenCode CLI's own auth file — and `apiKeyEnvKeyFor` has no OpenCode entry,
+   * so asking would collect a value nothing reads and store it under `API_KEY`.
+   */
+  const connectNeedsCredentialInput =
+    credentialMode === "api" && !openCodeGatewayReady && !apiKey.trim() && !selectedApiKey;
+
+  /**
    * Whether the connect step may advance.
    *
    * One predicate, because there are two ways to advance and they drifted. The
@@ -1164,6 +1193,10 @@ function OnboardingWizardInner({
    * button gained `sourceSelected` and `adapterEnvLoading` the keyboard kept the
    * older, shorter list — and hired against a source the row had never shown.
    * The same defect the button was just fixed for, one path over.
+   *
+   * The credential requirement lived on the button only, which is the drift
+   * again: the keyboard could hire a step the button called unready. It is in
+   * here now, and `openCodeGatewayReady` is what excuses it.
    *
    * `loading` is deliberately not here. The keyboard handler returns on it
    * before reaching any step, for a reason particular to keystrokes: a second
@@ -1173,7 +1206,11 @@ function OnboardingWizardInner({
    * Anything that gates this step belongs in here, so the next one is added
    * once rather than twice.
    */
-  const connectStepReady = sourceSelected && !adapterEnvLoading && !savedKeys.loading;
+  const connectStepReady =
+    sourceSelected &&
+    !adapterEnvLoading &&
+    !savedKeys.loading &&
+    !connectNeedsCredentialInput;
 
   /**
    * Whether this step has a sign-in to do before it can hire.
@@ -1383,8 +1420,10 @@ function OnboardingWizardInner({
             : {
                 label: "Connect",
                 icon: "arrow",
-                disabled:
-                  !connectStepReady || (credentialMode === "api" && !apiKey.trim() && !selectedApiKey),
+                // The credential requirement lives in `connectStepReady` with
+                // everything else that gates the step, so the button and
+                // Cmd+Enter cannot disagree about it.
+                disabled: !connectStepReady,
               }
           : // Nothing is chosen on arrival, and the row is what chooses. Until
             // it has been answered the button has nothing to do.
@@ -1589,6 +1628,46 @@ function OnboardingWizardInner({
       );
     });
   }, [adapterModels, modelSearch]);
+  /**
+   * Keep `model` pointing at something this gateway actually serves.
+   *
+   * The step used to seed `DEFAULT_OPENCODE_LOCAL_MODEL` and leave it there. That
+   * default is a guess about one gateway's catalogue, and the hire validates the
+   * value against the discovered list — so on any instance publishing a different
+   * set the step could not be completed at all: the only reachable value was the
+   * one the validation rejected. A default is a starting point, so it only
+   * survives while it is real; otherwise the first discovered model takes over,
+   * and the customer can still change it in the picker.
+   *
+   * `undefined` and an empty string are both treated as unset so a cleared field
+   * does not immediately get refilled under the customer.
+   */
+  useEffect(() => {
+    if (adapterType !== "opencode_local") return;
+    if (adapterModelsLoading || adapterModelsFetching || adapterModelsError) return;
+
+    const discovered = adapterModels ?? [];
+    if (discovered.length === 0) return;
+    // Already a real choice — the customer's, or the default if it happens to be.
+    if (model && discovered.some((entry) => entry.id === model)) return;
+    // Still settling, or deliberately empty: don't choose for them yet.
+    if (!model && modelTouched) return;
+
+    setModel(
+      discovered.some((entry) => entry.id === DEFAULT_OPENCODE_LOCAL_MODEL)
+        ? DEFAULT_OPENCODE_LOCAL_MODEL
+        : (discovered[0]?.id ?? ""),
+    );
+  }, [
+    adapterType,
+    adapterModels,
+    adapterModelsLoading,
+    adapterModelsFetching,
+    adapterModelsError,
+    model,
+    modelTouched,
+  ]);
+
   const groupedModels = useMemo(() => {
     if (adapterType !== "opencode_local") {
       return [
@@ -2768,6 +2847,30 @@ function OnboardingWizardInner({
                         <Loader2 className="size-4 animate-spin" />
                         {connectProgress}
                       </p>
+                    ) : credentialMode === "api" && openCodeGatewayReady ? (
+                      /* OpenCode authenticates its gateway from the instance's
+                         own configuration — PAPERCLIP_OPENCODE_PROVIDERS, or the
+                         OpenCode CLI's own auth file — not from an `API_KEY`
+                         field. `apiKeyEnvKeyFor` has no OpenCode entry, so this
+                         card would have asked for a variable the adapter never
+                         reads, and would have stored it under `API_KEY` for
+                         nothing.
+
+                         Discovering models is the proof that it does not need to
+                         ask: discovery ran against the real gateway using
+                         whatever is already configured locally. So when it
+                         succeeded, say which configuration is in play instead
+                         of asking for a second one. With nothing discovered the
+                         card stays, because then a key genuinely is what is
+                         missing. */
+                      <OnboardingLoginCard
+                        instruction={`Using the OpenCode gateway already configured on this instance (${discoveredOpenCodeModels} models available)`}
+                      >
+                        <p className="text-sm text-muted-foreground">
+                          No API key needed. OpenCode reads its providers from this
+                          instance&apos;s configuration.
+                        </p>
+                      </OnboardingLoginCard>
                     ) : credentialMode === "api" ? (
                       <OnboardingLoginCard
                         instruction={savedKeys.options.length ? "Choose a saved API key or enter a new one" : `Provide your ${
@@ -2896,11 +2999,47 @@ function OnboardingWizardInner({
                   </motion.div>
 
                   {/* Conditional adapter fields */}
-                  {/* No model picker. Every adapter this step offers resolves
-                      its own default (see buildAdapterConfig), so the picker
-                      asked the customer to choose a model before they had any
-                      way to judge one — and the agent's model is changeable
-                      later, where its work gives the choice meaning. */}
+                  {/*
+                    OpenCode gets a model picker; the other adapters do not.
+
+                    The original reasoning for having none was that every adapter
+                    resolves its own default (see buildAdapterConfig), so asking
+                    first showed a choice the customer had no basis to make. That
+                    holds for Claude and Codex. It does not hold for OpenCode: the
+                    default is a guess at one gateway's catalogue
+                    (`openai/gpt-5.2-codex`), and the hire validates the value
+                    against the models the gateway actually serves. On a gateway
+                    publishing a different set — which is the normal case when the
+                    provider list is configured — the step had exactly one
+                    reachable value and the validation rejected it, so the step
+                    could not be completed at all. A picker is what makes the
+                    step's own validation satisfiable.
+
+                    It sits outside the connect card rather than inside it: the
+                    card owns the credential, and this owns the model.
+                  */}
+                  {adapterType === "opencode_local" && (
+                    <OnboardingModelPicker
+                      groups={groupedModels}
+                      value={model}
+                      onChange={(next) => {
+                        setModel(next);
+                        setModelTouched(true);
+                      }}
+                      search={modelSearch}
+                      onSearchChange={setModelSearch}
+                      loading={adapterModelsLoading || adapterModelsFetching}
+                      error={
+                        adapterModelsError instanceof Error
+                          ? adapterModelsError.message
+                          : adapterModelsError
+                            ? "Failed to load OpenCode models."
+                            : undefined
+                      }
+                      emptyHint="No OpenCode models discovered. Authenticate a provider, then reopen this step."
+                      disabled={loading}
+                    />
+                  )}
 
                   {/* Progress is shown above; failed checks remain actionable here. */}
                   {/* Not while the hire is in flight. The probe's result lands

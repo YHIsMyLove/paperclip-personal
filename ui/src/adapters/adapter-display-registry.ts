@@ -116,6 +116,14 @@ const adapterDisplayMap: Record<string, AdapterDisplayInfo> = {
     label: "OpenCode",
     description: "OpenCode multi-provider harness",
     icon: OpenCodeLogoIcon,
+    // Recommended so the connect step offers it as a tile. The tile row is
+    // `recommendedAdapters` (OnboardingWizard.tsx), and the "Advanced settings"
+    // disclosure that used to list everything else was deliberately removed, so
+    // a non-recommended adapter has no route into this step at all. Leaving it
+    // unmarked is not "offered elsewhere": it is unreachable, and
+    // `sourceSelected` gates the CTA on membership in `recommendedAdapters`, so
+    // a saved `opencode_local` would sit invisible with the button disabled.
+    recommended: true,
   },
   pi_local: {
     label: "Pi",

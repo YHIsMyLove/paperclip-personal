@@ -190,6 +190,18 @@ vi.mock("../adapters", () => ({
   getUIAdapter: () => ({ buildAdapterConfig: mockAdapterBuild.buildAdapterConfig }),
 }));
 vi.mock("../adapters/metadata", () => ({ isVisualAdapterChoice: () => true }));
+/**
+ * Which adapter types the mocked display registry marks `recommended`.
+ *
+ * Defaults to the two the real registry used to carry, so the step's tile row is
+ * non-empty by default. A test that needs a different row — OpenCode, which the
+ * registry now also recommends — replaces this and the `beforeEach` puts it back.
+ */
+const mockRecommendedAdapterTypes = new Set(["claude_local", "codex_local"]);
+const useRecommendedAdapterTypes = (types: string[]) => {
+  for (const type of types) mockRecommendedAdapterTypes.add(type);
+};
+
 vi.mock("../adapters/adapter-display-registry", () => ({
   getAdapterDisplay: (type: string) => ({
     type,
@@ -198,7 +210,7 @@ vi.mock("../adapters/adapter-display-registry", () => ({
     // then sat in the "Advanced settings" disclosure and was reachable anyway;
     // with the step down to a tile row built from this flag, it made that row
     // empty in every test and hid the surface under it.
-    recommended: type === "claude_local" || type === "codex_local",
+    recommended: mockRecommendedAdapterTypes.has(type),
     label: type,
     description: "",
     icon: () => null,
@@ -1955,6 +1967,10 @@ describe("OnboardingWizard restore-gate (stale localStorage across accounts)", (
     };
 
     beforeEach(() => {
+      // Restore the recommended row: a test that widens it must not leak into the
+      // next one, where "the row shows Claude and Codex" is the premise.
+      mockRecommendedAdapterTypes.clear();
+      useRecommendedAdapterTypes(["claude_local", "codex_local"]);
       mockEnvironmentsApi.list.mockReset();
       mockEnvironmentsApi.list.mockResolvedValue([SANDBOX_ENVIRONMENT]);
       mockEnvironmentsApi.capabilities.mockReset();
@@ -2152,6 +2168,77 @@ describe("OnboardingWizard restore-gate (stale localStorage across accounts)", (
       expect(
         cta!.hasAttribute("disabled"),
         "Connect must not hire an adapter the row never offered",
+      ).toBe(true);
+
+      await act(async () => root.unmount());
+    });
+
+    it("lets OpenCode connect on a discovered model without an API key", async () => {
+      // The step does not ask OpenCode for a key — it authenticates from the
+      // instance's own `PAPERCLIP_OPENCODE_PROVIDERS` configuration, and
+      // `apiKeyEnvKeyFor` has no OpenCode entry, so there is no field to fill.
+      //
+      // The gate then has to agree: a credential requirement written only onto
+      // the button disabled it permanently, because the value it inspected could
+      // never be set. Discovery is what stands in for the key — it ran against
+      // the real gateway — so a non-empty discovered list is what excuses it.
+      mockAdapterRegistry.list = [{ type: "opencode_local" }];
+      useRecommendedAdapterTypes(["opencode_local"]);
+      mockAgentsApi.adapterModels.mockResolvedValue([
+        { id: "opencode-go/deepseek-v4-flash", label: "DeepSeek V4 Flash" },
+        { id: "opencode-go/mimo-v2.5", label: "MiMo V2.5" },
+      ]);
+
+      const { root } = await openStep4({ adapterType: "opencode_local" });
+
+      const tile = [...document.body.querySelectorAll("button[aria-checked]")].find((b) =>
+        (b.textContent ?? "").includes("OpenCode"),
+      );
+      expect(tile, "the row must offer OpenCode for this test to mean anything").toBeTruthy();
+      await act(async () => {
+        tile!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      });
+      await flushReact();
+
+      // The picker is offered, and one of the gateway's own models is preselected
+      // rather than a default this gateway does not serve.
+      expect(document.body.textContent).toContain("opencode-go/deepseek-v4-flash");
+
+      const cta = [...document.body.querySelectorAll("button")].find(
+        (b) => isArcPrimary(b.textContent?.trim() ?? ""),
+      );
+      expect(
+        cta!.hasAttribute("disabled"),
+        "a discovered OpenCode gateway needs no typed key, so Connect must be live",
+      ).toBe(false);
+
+      await act(async () => root.unmount());
+    });
+
+    it("still asks for a key when OpenCode discovered nothing", async () => {
+      // The other side of the same coin: with discovery empty the gateway is not
+      // reachable, so something is genuinely missing and the requirement stands.
+      mockAdapterRegistry.list = [{ type: "opencode_local" }];
+      useRecommendedAdapterTypes(["opencode_local"]);
+      mockAgentsApi.adapterModels.mockResolvedValue([]);
+
+      const { root } = await openStep4({ adapterType: "opencode_local" });
+
+      const tile = [...document.body.querySelectorAll("button[aria-checked]")].find((b) =>
+        (b.textContent ?? "").includes("OpenCode"),
+      );
+      expect(tile).toBeTruthy();
+      await act(async () => {
+        tile!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      });
+      await flushReact();
+
+      const cta = [...document.body.querySelectorAll("button")].find(
+        (b) => isArcPrimary(b.textContent?.trim() ?? ""),
+      );
+      expect(
+        cta!.hasAttribute("disabled"),
+        "with no gateway reachable, Connect must wait for a credential",
       ).toBe(true);
 
       await act(async () => root.unmount());

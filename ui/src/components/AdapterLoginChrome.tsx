@@ -3,7 +3,9 @@ import { AnimatePresence, motion } from "motion/react";
 import { Copy, Check, Loader2 } from "lucide-react";
 
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 import { copyTextToClipboard } from "../lib/clipboard";
+import { cn } from "../lib/utils";
 import {
   CARD_REVEAL_FIELD,
   CARD_REVEAL_INSTRUCTION,
@@ -50,6 +52,9 @@ export const CONNECT_SOURCE_NAMES: Record<string, string> = {
   claude_local: "Claude",
   codex_local: "OpenAI",
   grok_local: "Grok",
+  // OpenCode is its own provider here, so it names itself. Listed because the
+  // fallback is the raw adapter type, which would render as "opencode_local".
+  opencode_local: "OpenCode",
 };
 
 /** The provider name for a source, falling back to the type when unlisted. */
@@ -334,6 +339,118 @@ export const onboardingCardInputClass =
   "h-(--sz-44px) w-full rounded-lg bg-muted px-5 font-mono text-xs text-foreground " +
   "placeholder:font-sans placeholder:text-sm placeholder:text-muted-foreground " +
   "outline-none focus-visible:ring-ring/50 focus-visible:ring-(length:--rad-3)";
+
+/**
+ * Lets the customer choose which discovered model the agent runs on.
+ *
+ * This exists because the connect step hardcoded `DEFAULT_OPENCODE_LOCAL_MODEL`
+ * and offered no way to change it, while the hire it performs validates that
+ * model against the gateway's discovered list. On any instance whose gateway
+ * does not publish that exact default the step was un-completable: the only
+ * reachable value was the one the validation rejected. A default should be a
+ * starting point, not the only option.
+ *
+ * Grouped by provider because an OpenCode gateway aggregates several providers,
+ * and flat `provider/model` ids read as noise without it.
+ */
+export function OnboardingModelPicker({
+  groups,
+  value,
+  onChange,
+  search,
+  onSearchChange,
+  loading,
+  error,
+  emptyHint,
+  disabled,
+}: {
+  groups: readonly { provider: string; entries: readonly { id: string; label: string }[] }[];
+  value: string;
+  onChange: (modelId: string) => void;
+  search: string;
+  onSearchChange: (search: string) => void;
+  loading?: boolean;
+  error?: string;
+  /** Shown instead of the list when discovery returned nothing at all. */
+  emptyHint?: string;
+  disabled?: boolean;
+}) {
+  const total = groups.reduce((count, group) => count + group.entries.length, 0);
+
+  return (
+    <div className="rounded-xl border border-border bg-card p-4">
+      <div className="flex flex-col gap-3">
+        <div className="flex items-baseline justify-between gap-3">
+          <span className="text-sm font-medium text-foreground">Model</span>
+          {loading ? (
+            <span role="status" className="text-xs text-muted-foreground">
+              Loading models…
+            </span>
+          ) : !error && total > 0 ? (
+            <span className="text-xs text-muted-foreground">{total} available</span>
+          ) : null}
+        </div>
+
+        {error ? (
+          <p className="text-sm text-destructive">{error}</p>
+        ) : total > 0 ? (
+          <>
+            <Input
+              value={search}
+              onChange={(event) => onSearchChange(event.target.value)}
+              placeholder="Search models"
+              aria-label="Search models"
+              disabled={disabled}
+            />
+            <div
+              role="radiogroup"
+              aria-label="Model"
+              className="flex max-h-72 flex-col gap-3 overflow-y-auto"
+            >
+              {groups.map((group) =>
+                group.entries.length === 0 ? null : (
+                  <div key={group.provider} className="flex flex-col gap-1.5">
+                    <span className="text-(length:--text-micro) uppercase tracking-wide text-muted-foreground">
+                      {group.provider}
+                    </span>
+                    <div className="flex flex-col gap-1">
+                      {group.entries.map((entry) => (
+                        <button
+                          key={entry.id}
+                          type="button"
+                          role="radio"
+                          aria-checked={value === entry.id}
+                          disabled={disabled}
+                          onClick={() => onChange(entry.id)}
+                          className={cn(
+                            "flex w-full items-center justify-between gap-3 rounded-lg border px-3 py-2 text-left text-(length:--text-compact) transition-colors",
+                            value === entry.id
+                              ? "border-foreground/40 bg-accent text-foreground"
+                              : "border-border bg-card text-muted-foreground hover:bg-accent/40",
+                            disabled && "cursor-not-allowed opacity-60",
+                          )}
+                        >
+                          <span className="min-w-0 flex-1 truncate">{entry.label}</span>
+                          <span className="shrink-0 font-mono text-(length:--text-micro) text-muted-foreground">
+                            {entry.id}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ),
+              )}
+            </div>
+          </>
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            {loading ? "Looking for models…" : emptyHint ?? "No models discovered."}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
 
 /**
  * The card's single-line field, whatever the card is asking for.
