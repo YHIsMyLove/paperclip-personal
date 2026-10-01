@@ -106,11 +106,27 @@ function isProse(s) {
   return true;
 }
 
+/**
+ * True when a captured prop value is a plain display literal.
+ *
+ * The prop regex opens on a quote *or* a brace, so it also captures whatever
+ * follows `label={` — either the `t(` of an already-translated call, or the
+ * condition of a ternary. Both are expressions, not copy.
+ */
+function isLiteralValue(v) {
+  const s = v.trim();
+  if (!s) return false;
+  if (/^t\(/.test(s)) return false;
+  if (/^[A-Za-z_$][\w$]*\s*(===|==|!==|!=|&&|\|\||\?\?|\?)/.test(s)) return false;
+  if (/^[A-Za-z_$][\w$.]*$/.test(s)) return false;
+  return true;
+}
+
 function countHits(src) {
   let n = 0;
   for (const m of src.matchAll(/>\s*([A-Za-z][^<>{}]*?)\s*</g)) if (isProse(m[1])) n++;
   const propRe = new RegExp(`\\b(${UI_PROPS.join("|")})=["'{]([^"'{}]+)["'}]`, "g");
-  for (const m of src.matchAll(propRe)) if (isProse(m[2])) n++;
+  for (const m of src.matchAll(propRe)) if (isLiteralValue(m[2]) && isProse(m[2])) n++;
   for (const m of src.matchAll(/\b(?:window\.)?(confirm|alert)\(\s*["'`]([^"'`]{3,300})["'`]/g))
     if (isProse(m[2])) n++;
   return n;

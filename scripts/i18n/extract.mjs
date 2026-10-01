@@ -34,6 +34,22 @@ function isProse(s) {
   return true;
 }
 
+/**
+ * True when a captured prop value is a plain display literal.
+ *
+ * The prop regex opens on a quote *or* a brace, so it also captures whatever
+ * follows `label={` — either the `t(` of an already-translated call, or the
+ * condition of a ternary. Both are expressions, not copy.
+ */
+function isLiteralValue(v) {
+  const s = v.trim();
+  if (!s) return false;
+  if (/^t\(/.test(s)) return false;
+  if (/^[A-Za-z_$][\w$]*\s*(===|==|!==|!=|&&|\|\||\?\?|\?)/.test(s)) return false;
+  if (/^[A-Za-z_$][\w$.]*$/.test(s)) return false;
+  return true;
+}
+
 const src = readFileSync(process.argv[2], "utf8");
 const lines = src.split("\n");
 const lineAt = (i) => src.slice(0, i).split("\n").length;
@@ -46,6 +62,10 @@ for (const m of src.matchAll(/>\s*([A-Za-z][^<>{}]*?)\s*</g)) {
 
 const propRe = new RegExp(`\\b(${UI_PROPS.join("|")})=["'{]([^"'{}]+)["'}]`, "g");
 for (const m of src.matchAll(propRe)) {
+  // The opening class also accepts `{`, so a prop that is already wrapped —
+  // label={t("k", ...)} — yields "t(" here. Expression values (cond ? "a" :
+  // "b") yield the condition instead. Neither is display copy.
+  if (!isLiteralValue(m[2])) continue;
   if (isProse(m[2])) hits.push({ line: lineAt(m.index), kind: m[1], text: m[2].trim() });
 }
 
