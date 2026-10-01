@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { t } from "@/i18n";
 import { useQuery } from "@tanstack/react-query";
 import type { Project } from "@paperclipai/shared";
 import { projectsApi } from "../api/projects";
@@ -119,7 +120,7 @@ export function Projects() {
   const sortLabel = PROJECT_SORT_OPTIONS.find((option) => option.field === sortField)?.label ?? "Name";
 
   if (!selectedCompanyId) {
-    return <EmptyState icon={Hexagon} message="Select an organization to view projects." />;
+    return <EmptyState icon={Hexagon} message={t("projects.selectAnOrganizationToViewProjects", { defaultValue: "Select an organization to view projects." })} />;
   }
 
   if (isLoading) {
@@ -131,7 +132,7 @@ export function Projects() {
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="ghost" size="sm" className="w-fit text-xs" title="Sort">
+            <Button variant="ghost" size="sm" className="w-fit text-xs" title={t("projects.sort", { defaultValue: "Sort" })}>
               <ArrowUpDown className="h-3.5 w-3.5 sm:h-3 sm:w-3 sm:mr-1" />
               <span>Sort: {sortLabel}</span>
             </Button>
@@ -169,9 +170,7 @@ export function Projects() {
           </PopoverContent>
         </Popover>
         <Button size="sm" variant="outline" onClick={openNewProject}>
-          <Plus className="h-4 w-4 mr-1" />
-          Add Project
-        </Button>
+          <Plus className="h-4 w-4 mr-1" />{t("projects.addProject", { defaultValue: "Add Project" })}</Button>
       </div>
 
       {error && <p className="text-sm text-destructive">{error.message}</p>}
@@ -179,8 +178,8 @@ export function Projects() {
       {!isLoading && projects.length === 0 && (
         <EmptyState
           icon={Hexagon}
-          message="No projects yet."
-          action="Add Project"
+          message={t("projects.noProjectsYet", { defaultValue: "No projects yet." })}
+          action={t("projects.addProject", { defaultValue: "Add Project" })}
           onAction={openNewProject}
         />
       )}

@@ -1,5 +1,6 @@
 import { AgentIdentity } from "@/components/AgentIdentity";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   AlertTriangle,
@@ -330,7 +331,7 @@ export function SkillStudio() {
   }, [skill?.id]);
 
   if (!companyId) {
-    return <StudioMessage message="Select an organization to open Skill Studio." />;
+    return <StudioMessage message={t("skillStudio.selectAnOrganizationToOpenSkillStudio", { defaultValue: "Select an organization to open Skill Studio." })} />;
   }
   if (isCreateMode) {
     return (
@@ -359,10 +360,10 @@ export function SkillStudio() {
     );
   }
   if (detailQuery.isLoading) {
-    return <StudioMessage message="Loading skill…" />;
+    return <StudioMessage message={t("skillStudio.loadingSkill", { defaultValue: "Loading skill…" })} />;
   }
   if (detailQuery.isError || !detailQuery.data) {
-    return <StudioMessage message="Skill not found." />;
+    return <StudioMessage message={t("skillStudio.skillNotFound", { defaultValue: "Skill not found." })} />;
   }
 
   return (
@@ -488,7 +489,7 @@ function StudioNewSkillPanel({
   });
 
   if (forkFromSkillId && forkLoading) {
-    return <StudioMessage message="Loading fork source..." />;
+    return <StudioMessage message={t("skillStudio.loadingForkSource", { defaultValue: "Loading fork source..." })} />;
   }
 
   const previewCard: DiscoveryCard = {
@@ -519,9 +520,7 @@ function StudioNewSkillPanel({
         <h1 className="text-lg font-semibold text-foreground">
           {draft.forkedFromSkillId ? "Fork skill" : "Create a new skill"}
         </h1>
-        <p className="text-sm text-muted-foreground">
-          Create an editable organization skill and open it directly in Studio.
-        </p>
+        <p className="text-sm text-muted-foreground">{t("skillStudio.createAnEditableOrganizationSkillAndOpenItDirect", { defaultValue: "Create an editable organization skill and open it directly in Studio." })}</p>
       </div>
 
       {draft.forkedFromName ? (
@@ -531,19 +530,17 @@ function StudioNewSkillPanel({
         </div>
       ) : forkError ? (
         <div className="flex items-center gap-2 rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">
-          <AlertTriangle className="h-4 w-4" />
-          Fork source not found. You can still create a blank skill.
-        </div>
+          <AlertTriangle className="h-4 w-4" />{t("skillStudio.forkSourceNotFoundYouCanStillCreateABlankSkill", { defaultValue: "Fork source not found. You can still create a blank skill." })}</div>
       ) : null}
 
       <section className="space-y-3">
         <div>
-          <h2 className="text-sm font-medium text-foreground">Basics</h2>
-          <p className="text-xs text-muted-foreground">Name the skill and set the route-safe slug.</p>
+          <h2 className="text-sm font-medium text-foreground">{t("skillStudio.basics", { defaultValue: "Basics" })}</h2>
+          <p className="text-xs text-muted-foreground">{t("skillStudio.nameTheSkillAndSetTheRouteSafeSlug", { defaultValue: "Name the skill and set the route-safe slug." })}</p>
         </div>
         <div className="grid gap-3 md:grid-cols-2">
           <div className="space-y-1.5">
-            <Label htmlFor="skill-name">Name</Label>
+            <Label htmlFor="skill-name">{t("skillStudio.name", { defaultValue: "Name" })}</Label>
             <Input
               id="skill-name"
               value={draft.name}
@@ -557,11 +554,11 @@ function StudioNewSkillPanel({
                     : draft.markdown,
                 });
               }}
-              placeholder="Code review"
+              placeholder={t("skillStudio.codeReview", { defaultValue: "Code review" })}
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="skill-slug">Slug</Label>
+            <Label htmlFor="skill-slug">{t("skillStudio.slug", { defaultValue: "Slug" })}</Label>
             <Input
               id="skill-slug"
               value={draft.slug}
@@ -576,7 +573,7 @@ function StudioNewSkillPanel({
           </div>
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="skill-tagline">Tagline</Label>
+          <Label htmlFor="skill-tagline">{t("skillStudio.tagline", { defaultValue: "Tagline" })}</Label>
           <Textarea
             id="skill-tagline"
             value={draft.tagline}
@@ -590,7 +587,7 @@ function StudioNewSkillPanel({
                   : draft.markdown,
               });
             }}
-            placeholder="Review repository changes for correctness, tests, and maintainability."
+            placeholder={t("skillStudio.reviewRepositoryChangesForCorrectnessTestsAndMai", { defaultValue: "Review repository changes for correctness, tests, and maintainability." })}
             className="min-h-20"
           />
         </div>
@@ -598,8 +595,8 @@ function StudioNewSkillPanel({
 
       <section className="space-y-3">
         <div>
-          <h2 className="text-sm font-medium text-foreground">Appearance</h2>
-          <p className="text-xs text-muted-foreground">Tune how the skill appears in the store and Studio switcher.</p>
+          <h2 className="text-sm font-medium text-foreground">{t("skillStudio.appearance", { defaultValue: "Appearance" })}</h2>
+          <p className="text-xs text-muted-foreground">{t("skillStudio.tuneHowTheSkillAppearsInTheStoreAndStudioSwitche", { defaultValue: "Tune how the skill appears in the store and Studio switcher." })}</p>
         </div>
         <div className="flex items-center gap-3">
           <SkillCardIcon card={previewCard} size={48} />
@@ -609,7 +606,7 @@ function StudioNewSkillPanel({
           </div>
         </div>
         <div className="space-y-2">
-          <Label>Color</Label>
+          <Label>{t("skillStudio.color", { defaultValue: "Color" })}</Label>
           <div className="flex flex-wrap items-center gap-2">
             {SKILL_CREATE_ACCENTS.map((color) => (
               <button
@@ -625,7 +622,7 @@ function StudioNewSkillPanel({
               />
             ))}
             <Input
-              aria-label="Hex color"
+              aria-label={t("skillStudio.hexColor", { defaultValue: "Hex color" })}
               value={draft.color}
               onChange={(event) => patchDraft({ color: event.target.value })}
               className="h-7 w-28 font-mono text-xs"
@@ -633,20 +630,20 @@ function StudioNewSkillPanel({
           </div>
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="skill-categories">Categories</Label>
+          <Label htmlFor="skill-categories">{t("skillStudio.categories", { defaultValue: "Categories" })}</Label>
           <Input
             id="skill-categories"
             value={categoryDraft}
             onChange={(event) => setCategoryDraft(event.target.value)}
-            placeholder="engineering, review, memory"
+            placeholder={t("skillStudio.engineeringReviewMemory", { defaultValue: "engineering, review, memory" })}
           />
         </div>
       </section>
 
       <section className="space-y-3">
         <div>
-          <h2 className="text-sm font-medium text-foreground">Sharing</h2>
-          <p className="text-xs text-muted-foreground">Choose who can discover this skill inside Paperclip.</p>
+          <h2 className="text-sm font-medium text-foreground">{t("skillStudio.sharing", { defaultValue: "Sharing" })}</h2>
+          <p className="text-xs text-muted-foreground">{t("skillStudio.chooseWhoCanDiscoverThisSkillInsidePaperclip", { defaultValue: "Choose who can discover this skill inside Paperclip." })}</p>
         </div>
         <div className="grid gap-2 sm:grid-cols-3">
           {(["company", "private"] as const).map((scope) => (
@@ -670,14 +667,14 @@ function StudioNewSkillPanel({
             disabled
             className="rounded-md border border-dashed border-border px-3 py-2 text-left text-sm text-muted-foreground"
           >
-            <span className="block font-medium">Public</span>
-            <span className="mt-1 block text-xs">Coming later.</span>
+            <span className="block font-medium">{t("skillStudio.public", { defaultValue: "Public" })}</span>
+            <span className="mt-1 block text-xs">{t("skillStudio.comingLater", { defaultValue: "Coming later." })}</span>
           </button>
         </div>
       </section>
 
       <details className="rounded-md border border-border px-3 py-2">
-        <summary className="cursor-pointer text-sm font-medium text-foreground">Starter content</summary>
+        <summary className="cursor-pointer text-sm font-medium text-foreground">{t("skillStudio.starterContent", { defaultValue: "Starter content" })}</summary>
         <Textarea
           value={draft.markdown}
           onChange={(event) => patchDraft({ markdown: event.target.value })}
@@ -686,9 +683,7 @@ function StudioNewSkillPanel({
       </details>
 
       <div className="flex items-center justify-end gap-2 border-t border-border pt-4">
-        <Button variant="ghost" onClick={() => navigate("/skills/studio")} disabled={createSkill.isPending}>
-          Cancel
-        </Button>
+        <Button variant="ghost" onClick={() => navigate("/skills/studio")} disabled={createSkill.isPending}>{t("skillStudio.cancel", { defaultValue: "Cancel" })}</Button>
         <Button onClick={() => createSkill.mutate()} disabled={createSkill.isPending || !nameValid}>
           <FilePlus className="h-4 w-4" />
           {createSkill.isPending ? "Creating..." : draft.forkedFromSkillId ? "Create fork" : "Create skill"}
@@ -733,7 +728,7 @@ function StudioEmptyState({
           <EmptyState
             icon={FileCode}
             message={skillsLoading ? "Loading skills..." : "Select a skill to open Studio."}
-            action="Create a new skill"
+            action={t("skillStudio.createANewSkill", { defaultValue: "Create a new skill" })}
             onAction={onCreateNew}
           />
         </div>
@@ -802,21 +797,19 @@ function StudioLanding({
             emptyLabel="Select skill"
           />
           <Button variant="ghost" size="sm" className="ml-auto" onClick={onCreateNew}>
-            <Plus className="mr-1.5 h-3.5 w-3.5" />
-            New skill
-          </Button>
+            <Plus className="mr-1.5 h-3.5 w-3.5" />{t("skillStudio.newSkill", { defaultValue: "New skill" })}</Button>
         </header>
         <div className="min-h-0 flex-1 overflow-auto">
           <div className="mx-auto w-full max-w-3xl space-y-8 px-4 py-8">
             {visited.length > 0 ? (
               <StudioLandingSection
-                title="Recently visited"
+                title={t("skillStudio.recentlyVisited", { defaultValue: "Recently visited" })}
                 skills={visited}
                 onSelectSkill={onSelectSkill}
               />
             ) : null}
             <StudioLandingSection
-              title="Recently updated"
+              title={t("skillStudio.recentlyUpdated", { defaultValue: "Recently updated" })}
               skills={updated}
               onSelectSkill={onSelectSkill}
             />
@@ -1156,10 +1149,10 @@ function StudioHeader({
         <span className="font-mono text-xs text-muted-foreground">v{version}</span>
       )}
       {skillDirty ? (
-        <Badge variant="secondary">Unsaved edits</Badge>
+        <Badge variant="secondary">{t("skillStudio.unsavedEdits", { defaultValue: "Unsaved edits" })}</Badge>
       ) : null}
       {!skill.editable ? (
-        <Badge variant="secondary">Read-only</Badge>
+        <Badge variant="secondary">{t("skillStudio.readOnly", { defaultValue: "Read-only" })}</Badge>
       ) : null}
       {skill.forkedFromSkillId ? (
         <SkillLineageChip
@@ -1170,19 +1163,16 @@ function StudioHeader({
       <AgentsUsingSkillBadge companyId={companyId} skill={skill} />
       <div className="ml-auto flex items-center gap-1">
         <Button variant="ghost" size="sm" onClick={onOpenVersions}>
-          <History className="mr-1.5 h-3.5 w-3.5" />
-          Version history
-        </Button>
+          <History className="mr-1.5 h-3.5 w-3.5" />{t("skillStudio.versionHistory", { defaultValue: "Version history" })}</Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon-sm" aria-label="Studio menu">
+            <Button variant="ghost" size="icon-sm" aria-label={t("skillStudio.studioMenu", { defaultValue: "Studio menu" })}>
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-52">
             <DropdownMenuItem onClick={copyShareLink}>
-              <Share2 className="mr-2 h-4 w-4" /> Share link
-            </DropdownMenuItem>
+              <Share2 className="mr-2 h-4 w-4" />{t("skillStudio.shareLink", { defaultValue: "Share link" })}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -1226,8 +1216,8 @@ function SkillSwitcher({
       loading={loading}
       loadingMessage="Loading skills..."
       placeholder={emptyLabel}
-      searchPlaceholder="Search skills..."
-      emptyMessage="No matching skills."
+      searchPlaceholder={t("skillStudio.searchSkills", { defaultValue: "Search skills..." })}
+      emptyMessage={t("skillStudio.noMatchingSkills", { defaultValue: "No matching skills." })}
       onValueChange={(value) => {
         if (value !== skill?.id) onSelectSkill(value);
       }}
@@ -1414,7 +1404,7 @@ function SkillPane({
           />
         }
       >
-        <EmptyState icon={FileCode} message="This skill has no files yet." />
+        <EmptyState icon={FileCode} message={t("skillStudio.thisSkillHasNoFilesYet", { defaultValue: "This skill has no files yet." })} />
         <SkillPathDialog
           mode={createDialog}
           open={createDialog !== null}
@@ -1454,7 +1444,7 @@ function SkillPane({
         {dirty && !readOnly ? (
           <div className="flex items-start gap-2 border-b border-border bg-muted/40 px-3 py-2 text-xs text-muted-foreground">
             <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-500" />
-            <span>Unsaved edits live only in this Studio session. Save to create the next version before running tests or switching files.</span>
+            <span>{t("skillStudio.unsavedEditsLiveOnlyInThisStudioSessionSaveToCre", { defaultValue: "Unsaved edits live only in this Studio session. Save to create the next version before running tests or switching files." })}</span>
           </div>
         ) : null}
         <div className="max-h-(--sz-11_75rem) overflow-auto border-b border-border p-1">
@@ -1472,7 +1462,7 @@ function SkillPane({
             }
             onSelectFile={selectFile}
             showCheckboxes={false}
-            ariaLabel="Skill files"
+            ariaLabel={t("skillStudio.skillFiles", { defaultValue: "Skill files" })}
           />
         </div>
         {readOnly && (
@@ -1489,9 +1479,7 @@ function SkillPane({
                 className="mt-2"
                 onClick={onEditACopy}
               >
-                <GitFork className="mr-1.5 h-3.5 w-3.5" />
-                Edit a copy
-              </Button>
+                <GitFork className="mr-1.5 h-3.5 w-3.5" />{t("skillStudio.editACopy", { defaultValue: "Edit a copy" })}</Button>
             </div>
           </div>
         )}
@@ -1502,10 +1490,10 @@ function SkillPane({
           </span>
           <div className="flex items-center gap-2">
             {readOnly ? (
-              <Badge variant="secondary">Read-only</Badge>
+              <Badge variant="secondary">{t("skillStudio.readOnly", { defaultValue: "Read-only" })}</Badge>
             ) : (
               <>
-                {dirty && <Badge variant="secondary">Unsaved</Badge>}
+                {dirty && <Badge variant="secondary">{t("skillStudio.unsaved", { defaultValue: "Unsaved" })}</Badge>}
                 <Button
                   size="sm"
                   disabled={!dirty || saveMutation.isPending}
@@ -1657,22 +1645,22 @@ function SkillFileActions({
       <Tooltip>
         <TooltipTrigger asChild>
           <span>
-            <Button variant="ghost" size="icon-sm" disabled={disabled} onClick={onAddFile} aria-label="Add file">
+            <Button variant="ghost" size="icon-sm" disabled={disabled} onClick={onAddFile} aria-label={t("skillStudio.addFile", { defaultValue: "Add file" })}>
               <FilePlus className="h-4 w-4" />
             </Button>
           </span>
         </TooltipTrigger>
-        <TooltipContent>Add file</TooltipContent>
+        <TooltipContent>{t("skillStudio.addFile", { defaultValue: "Add file" })}</TooltipContent>
       </Tooltip>
       <Tooltip>
         <TooltipTrigger asChild>
           <span>
-            <Button variant="ghost" size="icon-sm" disabled={disabled} onClick={onAddFolder} aria-label="Add folder">
+            <Button variant="ghost" size="icon-sm" disabled={disabled} onClick={onAddFolder} aria-label={t("skillStudio.addFolder", { defaultValue: "Add folder" })}>
               <FolderPlus className="h-4 w-4" />
             </Button>
           </span>
         </TooltipTrigger>
-        <TooltipContent>Add folder</TooltipContent>
+        <TooltipContent>{t("skillStudio.addFolder", { defaultValue: "Add folder" })}</TooltipContent>
       </Tooltip>
       <Tooltip>
         <TooltipTrigger asChild>
@@ -1686,7 +1674,7 @@ function SkillFileActions({
                   onDeleteFile();
                 }
               }}
-              aria-label="Delete file"
+              aria-label={t("skillStudio.deleteFile", { defaultValue: "Delete file" })}
             >
               <Trash2 className="h-4 w-4" />
             </Button>
@@ -1697,12 +1685,12 @@ function SkillFileActions({
       <Tooltip>
         <TooltipTrigger asChild>
           <span>
-            <Button variant="ghost" size="icon-sm" disabled={disabled} onClick={onDeleteFolder} aria-label="Delete folder">
+            <Button variant="ghost" size="icon-sm" disabled={disabled} onClick={onDeleteFolder} aria-label={t("skillStudio.deleteFolder", { defaultValue: "Delete folder" })}>
               <FolderMinus className="h-4 w-4" />
             </Button>
           </span>
         </TooltipTrigger>
-        <TooltipContent>Delete folder</TooltipContent>
+        <TooltipContent>{t("skillStudio.deleteFolder", { defaultValue: "Delete folder" })}</TooltipContent>
       </Tooltip>
     </div>
   );
@@ -1768,9 +1756,7 @@ function SkillPathDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>
-            Saved changes create a new version immediately. External sources are not updated until you publish or install an update.
-          </DialogDescription>
+          <DialogDescription>{t("skillStudio.savedChangesCreateANewVersionImmediatelyExternal", { defaultValue: "Saved changes create a new version immediately. External sources are not updated until you publish or install an update." })}</DialogDescription>
         </DialogHeader>
         <div className="space-y-2">
           <Label htmlFor="skill-path-input">{label}</Label>
@@ -1784,17 +1770,13 @@ function SkillPathDialog({
             placeholder={mode === "folder" ? "references/examples" : "references/examples.md"}
           />
           {mode === "folder" ? (
-            <p className="text-xs text-muted-foreground">A README.md seed file is created so the folder appears in the file tree.</p>
+            <p className="text-xs text-muted-foreground">{t("skillStudio.aReadmeMdSeedFileIsCreatedSoTheFolderAppearsInTh", { defaultValue: "A README.md seed file is created so the folder appears in the file tree." })}</p>
           ) : null}
           {error ? <p className="text-xs text-destructive">{error}</p> : null}
         </div>
         <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>
-            Cancel
-          </Button>
-          <Button disabled={pending} onClick={submit}>
-            Create
-          </Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>{t("skillStudio.cancel", { defaultValue: "Cancel" })}</Button>
+          <Button disabled={pending} onClick={submit}>{t("skillStudio.create", { defaultValue: "Create" })}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -1847,13 +1829,11 @@ function DeleteFolderDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete folder</DialogTitle>
-          <DialogDescription>
-            This removes every skill file under the folder and saves the result as the next version.
-          </DialogDescription>
+          <DialogTitle>{t("skillStudio.deleteFolder", { defaultValue: "Delete folder" })}</DialogTitle>
+          <DialogDescription>{t("skillStudio.thisRemovesEverySkillFileUnderTheFolderAndSavesT", { defaultValue: "This removes every skill file under the folder and saves the result as the next version." })}</DialogDescription>
         </DialogHeader>
         <div className="space-y-2">
-          <Label htmlFor="skill-folder-delete">Folder path</Label>
+          <Label htmlFor="skill-folder-delete">{t("skillStudio.folderPath", { defaultValue: "Folder path" })}</Label>
           <Input
             id="skill-folder-delete"
             value={pathValue}
@@ -1861,17 +1841,13 @@ function DeleteFolderDialog({
               setPathValue(event.target.value);
               setError(null);
             }}
-            placeholder="references/examples"
+            placeholder={t("skillStudio.referencesExamples", { defaultValue: "references/examples" })}
           />
           {error ? <p className="text-xs text-destructive">{error}</p> : null}
         </div>
         <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>
-            Cancel
-          </Button>
-          <Button variant="destructive" disabled={pending} onClick={submit}>
-            Delete
-          </Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>{t("skillStudio.cancel", { defaultValue: "Cancel" })}</Button>
+          <Button variant="destructive" disabled={pending} onClick={submit}>{t("skillStudio.delete", { defaultValue: "Delete" })}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -2028,18 +2004,18 @@ function InputPane({
             </TooltipTrigger>
             <TooltipContent>{collapsed ? "Expand input" : "Collapse input"}</TooltipContent>
           </Tooltip>
-          <span>Input</span>
+          <span>{t("skillStudio.input", { defaultValue: "Input" })}</span>
         </span>
       }
       action={
         <div className="flex items-center gap-1">
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon-sm" onClick={selectAdHocInput} aria-label="New input">
+              <Button variant="ghost" size="icon-sm" onClick={selectAdHocInput} aria-label={t("skillStudio.newInput", { defaultValue: "New input" })}>
                 <Plus className="h-4 w-4" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>New input</TooltipContent>
+            <TooltipContent>{t("skillStudio.newInput", { defaultValue: "New input" })}</TooltipContent>
           </Tooltip>
         </div>
       }
@@ -2051,14 +2027,14 @@ function InputPane({
           onClick={() => setCollapsed(false)}
         >
           <ChevronRight className="h-3.5 w-3.5" />
-          <span>Input folded</span>
+          <span>{t("skillStudio.inputFolded", { defaultValue: "Input folded" })}</span>
         </button>
       ) : (
         <div className="flex min-h-0 flex-1 flex-col">
           {loading || inputs.length > 0 ? (
             <div className="max-h-(--sz-11_75rem) overflow-auto border-b border-border p-1">
               {loading ? (
-                <div className="p-3 text-xs text-muted-foreground">Loading inputs…</div>
+                <div className="p-3 text-xs text-muted-foreground">{t("skillStudio.loadingInputs", { defaultValue: "Loading inputs…" })}</div>
               ) : (
                 <>
                   {adHocMode && (
@@ -2104,20 +2080,18 @@ function InputPane({
                                 if (input) void copyWithToast(input.content, "Input content copied");
                               }}
                             >
-                              <Copy className="mr-2 h-4 w-4" /> Copy content
-                            </DropdownMenuItem>
+                              <Copy className="mr-2 h-4 w-4" />{t("skillStudio.copyContent", { defaultValue: "Copy content" })}</DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                               variant="destructive"
                               onClick={() => deleteMutation.mutate(id)}
                             >
-                              <Trash2 className="mr-2 h-4 w-4" /> Delete
-                            </DropdownMenuItem>
+                              <Trash2 className="mr-2 h-4 w-4" />{t("skillStudio.delete", { defaultValue: "Delete" })}</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       );
                     }}
-                    ariaLabel="Test inputs"
+                    ariaLabel={t("skillStudio.testInputs", { defaultValue: "Test inputs" })}
                   />
                 </>
               )}
@@ -2127,8 +2101,8 @@ function InputPane({
             <textarea
               value={draft}
               onChange={(event) => setDraft(event.target.value)}
-              placeholder="Paste text - treated as a new issue description."
-              aria-label="Skill test input"
+              placeholder={t("skillStudio.pasteTextTreatedAsANewIssueDescription", { defaultValue: "Paste text - treated as a new issue description." })}
+              aria-label={t("skillStudio.skillTestInput", { defaultValue: "Skill test input" })}
               className="min-h-0 flex-1 resize-none border-0 bg-transparent px-3 py-3 text-sm leading-6 outline-none placeholder:text-muted-foreground focus-visible:ring-0"
             />
           </div>
@@ -2137,7 +2111,7 @@ function InputPane({
               <span className="truncate">
                 {selectedInput ? selectedInput.name : adHocMode ? "New input" : "No input selected"}
               </span>
-              {dirty ? <Badge variant="secondary">Unsaved</Badge> : null}
+              {dirty ? <Badge variant="secondary">{t("skillStudio.unsaved", { defaultValue: "Unsaved" })}</Badge> : null}
             </div>
             {selectedInput && dirty ? (
               <>
@@ -2150,9 +2124,7 @@ function InputPane({
                     draft: selectedInput.content,
                     baselineContent: selectedInput.content,
                   })}
-                >
-                  Revert
-                </Button>
+                >{t("skillStudio.revert", { defaultValue: "Revert" })}</Button>
                 <Button
                   variant="outline"
                   size="sm"
@@ -2167,9 +2139,7 @@ function InputPane({
               size="sm"
               disabled={!draft.trim()}
               onClick={() => setSaveDialogOpen(true)}
-            >
-              Save as input
-            </Button>
+            >{t("skillStudio.saveAsInput", { defaultValue: "Save as input" })}</Button>
           </div>
         </div>
       )}
@@ -2237,24 +2207,22 @@ function SaveInputDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Save test input</DialogTitle>
-          <DialogDescription>
-            Runs snapshot input at run time — editing later won't change past runs.
-          </DialogDescription>
+          <DialogTitle>{t("skillStudio.saveTestInput", { defaultValue: "Save test input" })}</DialogTitle>
+          <DialogDescription>{t("skillStudio.runsSnapshotInputAtRunTimeEditingLaterWontChange", { defaultValue: "Runs snapshot input at run time — editing later won't change past runs." })}</DialogDescription>
         </DialogHeader>
         <div className="space-y-3">
           <div className="space-y-1">
-            <Label htmlFor="input-name">Name</Label>
+            <Label htmlFor="input-name">{t("skillStudio.name", { defaultValue: "Name" })}</Label>
             <Input
               id="input-name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="onboarding/happy-path"
+              placeholder={t("skillStudio.onboardingHappyPath", { defaultValue: "onboarding/happy-path" })}
             />
-            <p className="text-xs text-muted-foreground">Use “/” for folders, e.g. onboarding/happy-path</p>
+            <p className="text-xs text-muted-foreground">{t("skillStudio.useForFoldersEGOnboardingHappyPath", { defaultValue: "Use “/” for folders, e.g. onboarding/happy-path" })}</p>
           </div>
           <div className="space-y-1">
-            <Label htmlFor="input-content">Content</Label>
+            <Label htmlFor="input-content">{t("skillStudio.content", { defaultValue: "Content" })}</Label>
             <Textarea
               id="input-content"
               value={content}
@@ -2264,15 +2232,11 @@ function SaveInputDialog({
           </div>
         </div>
         <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>
-            Cancel
-          </Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>{t("skillStudio.cancel", { defaultValue: "Cancel" })}</Button>
           <Button
             disabled={!name.trim() || !content.trim() || createMutation.isPending}
             onClick={() => createMutation.mutate()}
-          >
-            Save
-          </Button>
+          >{t("skillStudio.save", { defaultValue: "Save" })}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -2503,7 +2467,7 @@ function RunsPane({
 
   return (
     <PaneScaffold
-      title="Test runs"
+      title={t("skillStudio.testRuns", { defaultValue: "Test runs" })}
       action={
         <div className="flex items-center gap-2">
           <AgentPicker
@@ -2520,8 +2484,7 @@ function RunsPane({
                   disabled={gate.disabled || Boolean(templateGateReason) || createRunMutation.isPending}
                   onClick={() => createRunMutation.mutate()}
                 >
-                  <Play className="mr-1.5 h-3.5 w-3.5" /> Run
-                </Button>
+                  <Play className="mr-1.5 h-3.5 w-3.5" />{t("skillStudio.run", { defaultValue: "Run" })}</Button>
               </span>
             </TooltipTrigger>
             {runDisabledReason && <TooltipContent side="bottom">{runDisabledReason}</TooltipContent>}
@@ -2570,9 +2533,9 @@ function RunsPane({
         )}
         <div className="min-h-0 flex-1 overflow-auto p-3">
           {runsQuery.isLoading ? (
-            <div className="text-xs text-muted-foreground">Loading runs…</div>
+            <div className="text-xs text-muted-foreground">{t("skillStudio.loadingRuns", { defaultValue: "Loading runs…" })}</div>
           ) : runs.length === 0 ? (
-            <EmptyState icon={FlaskConical} message="No test runs yet. Pick an agent and Run." />
+            <EmptyState icon={FlaskConical} message={t("skillStudio.noTestRunsYetPickAnAgentAndRun", { defaultValue: "No test runs yet. Pick an agent and Run." })} />
           ) : (
             <div className="space-y-1 rounded-md border border-border p-1">
               {runs.map((run) => (
@@ -2696,23 +2659,23 @@ function RunTemplateAdvancedPanel({
         ) : (
           <ChevronRight className="h-3.5 w-3.5" />
         )}
-        <span className="font-semibold uppercase tracking-wide">Advanced</span>
+        <span className="font-semibold uppercase tracking-wide">{t("skillStudio.advanced", { defaultValue: "Advanced" })}</span>
         <span className="ml-auto truncate">{selectedTemplateName}</span>
       </button>
       {open ? (
         <div className="space-y-3 px-3 pb-3 pt-1">
           <div className="flex items-end gap-2">
             <div className="min-w-0 flex-1 space-y-1">
-              <Label>Run template</Label>
+              <Label>{t("skillStudio.runTemplate", { defaultValue: "Run template" })}</Label>
               <SearchableSelect<string, RunTemplateOption>
                 value={selectedValue}
                 groups={templateGroups}
                 loading={templatesLoading}
                 disabled={templatesLoading || templatesError}
                 loadingMessage="Loading templates..."
-                placeholder="Select template"
-                searchPlaceholder="Search templates..."
-                emptyMessage="No templates."
+                placeholder={t("skillStudio.selectTemplate", { defaultValue: "Select template" })}
+                searchPlaceholder={t("skillStudio.searchTemplates", { defaultValue: "Search templates..." })}
+                emptyMessage={t("skillStudio.noTemplates", { defaultValue: "No templates." })}
                 contentClassName="w-(--sz-320px)"
                 onValueChange={(value) => onSelectTemplate(runTemplateSelectionFromOption(value))}
                 renderValue={(option) => option?.label ?? selectedTemplateName}
@@ -2732,14 +2695,14 @@ function RunTemplateAdvancedPanel({
                   type="button"
                   variant="outline"
                   size="icon-sm"
-                  aria-label="Create run template"
+                  aria-label={t("skillStudio.createRunTemplate", { defaultValue: "Create run template" })}
                   disabled={actionPending}
                   onClick={onCreateTemplate}
                 >
                   <Plus />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>Create run template</TooltipContent>
+              <TooltipContent>{t("skillStudio.createRunTemplate", { defaultValue: "Create run template" })}</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -2748,7 +2711,7 @@ function RunTemplateAdvancedPanel({
                     type="button"
                     variant="ghost"
                     size="icon-sm"
-                    aria-label="Edit run template"
+                    aria-label={t("skillStudio.editRunTemplate", { defaultValue: "Edit run template" })}
                     disabled={!canEdit || actionPending}
                     onClick={() => selectedTemplate && onEditTemplate(selectedTemplate)}
                   >
@@ -2756,7 +2719,7 @@ function RunTemplateAdvancedPanel({
                   </Button>
                 </span>
               </TooltipTrigger>
-              <TooltipContent>Edit custom template</TooltipContent>
+              <TooltipContent>{t("skillStudio.editCustomTemplate", { defaultValue: "Edit custom template" })}</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -2765,7 +2728,7 @@ function RunTemplateAdvancedPanel({
                     type="button"
                     variant="ghost"
                     size="icon-sm"
-                    aria-label="Duplicate run template"
+                    aria-label={t("skillStudio.duplicateRunTemplate", { defaultValue: "Duplicate run template" })}
                     disabled={!canDuplicate || actionPending}
                     onClick={() => selectedTemplate && onDuplicateTemplate(selectedTemplate)}
                   >
@@ -2784,7 +2747,7 @@ function RunTemplateAdvancedPanel({
                     type="button"
                     variant="ghost"
                     size="icon-sm"
-                    aria-label="Delete run template"
+                    aria-label={t("skillStudio.deleteRunTemplate", { defaultValue: "Delete run template" })}
                     className="text-destructive hover:text-destructive"
                     disabled={!canDelete || actionPending || deletingTemplateId === selectedTemplate?.id}
                     onClick={() => selectedTemplate && onDeleteTemplate(selectedTemplate)}
@@ -2793,16 +2756,16 @@ function RunTemplateAdvancedPanel({
                   </Button>
                 </span>
               </TooltipTrigger>
-              <TooltipContent>Delete custom template</TooltipContent>
+              <TooltipContent>{t("skillStudio.deleteCustomTemplate", { defaultValue: "Delete custom template" })}</TooltipContent>
             </Tooltip>
           </div>
 
           {templatesError ? (
-            <p className="text-xs text-destructive">Run templates could not load.</p>
+            <p className="text-xs text-destructive">{t("skillStudio.runTemplatesCouldNotLoad", { defaultValue: "Run templates could not load." })}</p>
           ) : selectedTemplateId === null ? (
-            <p className="text-xs text-muted-foreground">Runs will use only the input text.</p>
+            <p className="text-xs text-muted-foreground">{t("skillStudio.runsWillUseOnlyTheInputText", { defaultValue: "Runs will use only the input text." })}</p>
           ) : selectedMissing ? (
-            <p className="text-xs text-destructive">Selected template is no longer available.</p>
+            <p className="text-xs text-destructive">{t("skillStudio.selectedTemplateIsNoLongerAvailable", { defaultValue: "Selected template is no longer available." })}</p>
           ) : selectedTemplate ? (
             <div className="space-y-2">
               {selectedTemplate.description ? (
@@ -2813,7 +2776,7 @@ function RunTemplateAdvancedPanel({
               </pre>
             </div>
           ) : (
-            <p className="text-xs text-muted-foreground">Loading template...</p>
+            <p className="text-xs text-muted-foreground">{t("skillStudio.loadingTemplate", { defaultValue: "Loading template..." })}</p>
           )}
         </div>
       ) : null}
@@ -2862,25 +2825,25 @@ function RunTemplateDialog({
         </DialogHeader>
         <div className="space-y-3">
           <div className="space-y-1">
-            <Label htmlFor="run-template-name">Name</Label>
+            <Label htmlFor="run-template-name">{t("skillStudio.name", { defaultValue: "Name" })}</Label>
             <Input
               id="run-template-name"
               value={name}
               onChange={(event) => setName(event.target.value)}
-              placeholder="Focused smoke"
+              placeholder={t("skillStudio.focusedSmoke", { defaultValue: "Focused smoke" })}
             />
           </div>
           <div className="space-y-1">
-            <Label htmlFor="run-template-description">Description</Label>
+            <Label htmlFor="run-template-description">{t("skillStudio.description", { defaultValue: "Description" })}</Label>
             <Input
               id="run-template-description"
               value={description}
               onChange={(event) => setDescription(event.target.value)}
-              placeholder="Short instructions for common skill checks"
+              placeholder={t("skillStudio.shortInstructionsForCommonSkillChecks", { defaultValue: "Short instructions for common skill checks" })}
             />
           </div>
           <div className="space-y-1">
-            <Label htmlFor="run-template-body">Body</Label>
+            <Label htmlFor="run-template-body">{t("skillStudio.body", { defaultValue: "Body" })}</Label>
             <Textarea
               id="run-template-body"
               value={body}
@@ -2893,9 +2856,7 @@ function RunTemplateDialog({
           </div>
         </div>
         <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>
-            Cancel
-          </Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>{t("skillStudio.cancel", { defaultValue: "Cancel" })}</Button>
           <Button
             disabled={!name.trim() || !body.trim() || pending}
             onClick={() =>
@@ -2961,15 +2922,15 @@ function AgentPicker({
           {selectedAgent ? (
             <AgentIdentity agent={selectedAgent} size="xs" />
           ) : (
-            <span className="text-muted-foreground">Pick an agent</span>
+            <span className="text-muted-foreground">{t("skillStudio.pickAnAgent", { defaultValue: "Pick an agent" })}</span>
           )}
         </Button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-64 p-0">
         <Command>
-          <CommandInput placeholder="Search agents…" />
+          <CommandInput placeholder={t("skillStudio.searchAgents", { defaultValue: "Search agents…" })} />
           <CommandList>
-            <CommandEmpty>No agents.</CommandEmpty>
+            <CommandEmpty>{t("skillStudio.noAgents", { defaultValue: "No agents." })}</CommandEmpty>
             <CommandGroup>
               {agents.map((agent) => {
                 const selectable = isAgentSelectable(agent);
@@ -2994,9 +2955,7 @@ function AgentPicker({
                     />
                     <AgentIdentity agent={agent} size="xs" />
                     {!selectable && (
-                      <Badge variant="secondary" className="ml-auto">
-                        Paused
-                      </Badge>
+                      <Badge variant="secondary" className="ml-auto">{t("skillStudio.paused", { defaultValue: "Paused" })}</Badge>
                     )}
                   </CommandItem>
                 );
@@ -3093,15 +3052,15 @@ function RunDetailView({
 
   if (detailQuery.isLoading) {
     return (
-      <PaneScaffold title="Run" action={<BackButton onBack={onBack} />}>
-        <div className="p-3 text-xs text-muted-foreground">Loading run…</div>
+      <PaneScaffold title={t("skillStudio.run", { defaultValue: "Run" })} action={<BackButton onBack={onBack} />}>
+        <div className="p-3 text-xs text-muted-foreground">{t("skillStudio.loadingRun", { defaultValue: "Loading run…" })}</div>
       </PaneScaffold>
     );
   }
   if (!detail) {
     return (
-      <PaneScaffold title="Run" action={<BackButton onBack={onBack} />}>
-        <div className="p-3 text-xs text-muted-foreground">Run not found.</div>
+      <PaneScaffold title={t("skillStudio.run", { defaultValue: "Run" })} action={<BackButton onBack={onBack} />}>
+        <div className="p-3 text-xs text-muted-foreground">{t("skillStudio.runNotFound", { defaultValue: "Run not found." })}</div>
       </PaneScaffold>
     );
   }
@@ -3115,7 +3074,7 @@ function RunDetailView({
   const taskLink = testTaskLinkState(detail);
 
   return (
-    <PaneScaffold title="Run" action={<BackButton onBack={onBack} />}>
+    <PaneScaffold title={t("skillStudio.run", { defaultValue: "Run" })} action={<BackButton onBack={onBack} />}>
       <div className="min-h-0 flex-1 space-y-3 overflow-auto p-3">
         <div className="flex flex-wrap items-center gap-2">
           <StatusBadge status={runBadgeStatus(detail.status)} />
@@ -3131,17 +3090,17 @@ function RunDetailView({
 
         {/* snapshot property block */}
         <div className="rounded-md border border-border text-xs">
-          <PropRow label="Input" value={detail.inputId ? "saved input" : "ad-hoc paste"} />
-          <PropRow label="Template" value={detail.templateName ?? "No template"} />
-          <PropRow label="Skill version" value={`v${detail.skillVersion.revisionNumber}`} />
-          <PropRow label="Created" value={relativeTime(detail.createdAt)} />
+          <PropRow label={t("skillStudio.input", { defaultValue: "Input" })} value={detail.inputId ? "saved input" : "ad-hoc paste"} />
+          <PropRow label={t("skillStudio.template", { defaultValue: "Template" })} value={detail.templateName ?? "No template"} />
+          <PropRow label={t("skillStudio.skillVersion", { defaultValue: "Skill version" })} value={`v${detail.skillVersion.revisionNumber}`} />
+          <PropRow label={t("skillStudio.created", { defaultValue: "Created" })} value={relativeTime(detail.createdAt)} />
         </div>
 
         {showRunErrorCard(detail.status) && (
           <Card className="border-destructive/50">
             <CardHeader className="flex-row items-center gap-2 space-y-0 pb-2">
               <AlertTriangle className="h-3.5 w-3.5 text-destructive" />
-              <span className="text-sm font-medium">Run failed</span>
+              <span className="text-sm font-medium">{t("skillStudio.runFailed", { defaultValue: "Run failed" })}</span>
             </CardHeader>
             <CardContent className="text-sm text-muted-foreground">
               {detail.error ?? "The test task ended with an error."}
@@ -3161,8 +3120,7 @@ function RunDetailView({
           </section>
         ) : outputMode === "pending" ? (
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Clock className="h-3.5 w-3.5" /> Working… output will appear here.
-          </div>
+            <Clock className="h-3.5 w-3.5" />{t("skillStudio.workingOutputWillAppearHere", { defaultValue: "Working… output will appear here." })}</div>
         ) : null}
 
         {unavailableCopy ? (
@@ -3221,17 +3179,14 @@ function RunDetailView({
             disabled={reRunMutation.isPending}
             onClick={() => reRunMutation.mutate()}
           >
-            <RotateCcw className="mr-1.5 h-3.5 w-3.5" /> Re-run
-          </Button>
+            <RotateCcw className="mr-1.5 h-3.5 w-3.5" />{t("skillStudio.reRun", { defaultValue: "Re-run" })}</Button>
           {nonTerminal ? (
             <Button
               variant="ghost"
               size="sm"
               disabled={cancelMutation.isPending}
               onClick={() => cancelMutation.mutate()}
-            >
-              Cancel
-            </Button>
+            >{t("skillStudio.cancel", { defaultValue: "Cancel" })}</Button>
           ) : (
             <Button
               variant="ghost"
@@ -3240,19 +3195,16 @@ function RunDetailView({
               disabled={deleteMutation.isPending}
               onClick={() => deleteMutation.mutate()}
             >
-              <Trash2 className="mr-1.5 h-3.5 w-3.5" /> Delete
-            </Button>
+              <Trash2 className="mr-1.5 h-3.5 w-3.5" />{t("skillStudio.delete", { defaultValue: "Delete" })}</Button>
           )}
           {taskLink.enabled && detail.harnessIssue ? (
             <Button variant="link" size="sm" asChild>
-              <Link to={`/issues/${detail.harnessIssue.id}`}>Open test task ↗</Link>
+              <Link to={`/issues/${detail.harnessIssue.id}`}>{t("skillStudio.openTestTask", { defaultValue: "Open test task ↗" })}</Link>
             </Button>
           ) : (
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className="cursor-not-allowed text-xs text-muted-foreground">
-                  Open test task ↗
-                </span>
+                <span className="cursor-not-allowed text-xs text-muted-foreground">{t("skillStudio.openTestTask", { defaultValue: "Open test task ↗" })}</span>
               </TooltipTrigger>
               <TooltipContent>{taskLink.reason}</TooltipContent>
             </Tooltip>
@@ -3291,7 +3243,7 @@ function RunDocumentsSection({ documents }: { documents: IssueDocument[] }) {
     <section className="space-y-2">
       <div className="flex items-center gap-2">
         <FileText className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
-        <h3 className="text-sm font-medium text-muted-foreground">Documents</h3>
+        <h3 className="text-sm font-medium text-muted-foreground">{t("skillStudio.documents", { defaultValue: "Documents" })}</h3>
         <span className="text-xs text-muted-foreground">{documents.length}</span>
       </div>
       <div className="space-y-2">
@@ -3363,9 +3315,7 @@ function InteractionSection({
 
   return (
     <section>
-      <h3 className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-        Interactions
-      </h3>
+      <h3 className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t("skillStudio.interactions", { defaultValue: "Interactions" })}</h3>
       <div className="space-y-2">
         {detail.interactions.map((summary) => {
           const inline = routeInteraction(summary.kind) === "inline";
@@ -3397,7 +3347,7 @@ function InteractionSection({
               trailing={
                 harnessIssueId ? (
                   <Button variant="link" size="xs" asChild>
-                    <Link to={`/issues/${harnessIssueId}`}>Open test task ↗</Link>
+                    <Link to={`/issues/${harnessIssueId}`}>{t("skillStudio.openTestTask", { defaultValue: "Open test task ↗" })}</Link>
                   </Button>
                 ) : null
               }
@@ -3467,13 +3417,13 @@ function VersionHistorySheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="left" className="w-full sm:max-w-(--sz-560px)">
         <SheetHeader>
-          <SheetTitle>Version history</SheetTitle>
+          <SheetTitle>{t("skillStudio.versionHistory", { defaultValue: "Version history" })}</SheetTitle>
         </SheetHeader>
         <div className="mt-3 space-y-2 overflow-auto">
           {versionsQuery.isLoading ? (
-            <div className="text-xs text-muted-foreground">Loading versions…</div>
+            <div className="text-xs text-muted-foreground">{t("skillStudio.loadingVersions", { defaultValue: "Loading versions…" })}</div>
           ) : versions.length === 0 ? (
-            <EmptyState icon={History} message="No versions yet. Save changes to create the first." />
+            <EmptyState icon={History} message={t("skillStudio.noVersionsYetSaveChangesToCreateTheFirst", { defaultValue: "No versions yet. Save changes to create the first." })} />
           ) : (
             <div className="space-y-1 rounded-md border border-border p-1">
               {versions.map((v) => (
@@ -3575,8 +3525,7 @@ function PropRow({ label, value }: { label: string; value: string }) {
 function BackButton({ onBack }: { onBack: () => void }) {
   return (
     <Button variant="ghost" size="sm" onClick={onBack}>
-      <ArrowLeft className="mr-1.5 h-3.5 w-3.5" /> Back
-    </Button>
+      <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />{t("skillStudio.back", { defaultValue: "Back" })}</Button>
   );
 }
 
@@ -3592,9 +3541,9 @@ function MobileTabs({
   return (
     <Tabs defaultValue="skill" className="flex flex-1 flex-col">
       <TabsList variant="line" className="px-3">
-        <TabsTrigger value="skill">Skill</TabsTrigger>
-        <TabsTrigger value="input">Input</TabsTrigger>
-        <TabsTrigger value="runs">Runs</TabsTrigger>
+        <TabsTrigger value="skill">{t("skillStudio.skill", { defaultValue: "Skill" })}</TabsTrigger>
+        <TabsTrigger value="input">{t("skillStudio.input", { defaultValue: "Input" })}</TabsTrigger>
+        <TabsTrigger value="runs">{t("skillStudio.runs", { defaultValue: "Runs" })}</TabsTrigger>
       </TabsList>
       <TabsContent value="skill" className="min-h-0 flex-1">
         {skill}
