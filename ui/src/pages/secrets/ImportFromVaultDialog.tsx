@@ -1131,7 +1131,7 @@ function PreviewErrorBanner({ error, onRetry }: { error: unknown; onRetry: () =>
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-1 text-xs font-medium underline"
-            >{t("secrets.importVault.iamReference", { defaultValue: "IAM reference" })}<ExternalLink className="h-3 w-3" />
+            >{t("secrets.importVault.iamReference", { defaultValue: "IAM reference" })} <ExternalLink className="h-3 w-3" />
             </a>
           )}
         </div>

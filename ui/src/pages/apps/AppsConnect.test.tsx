@@ -11,6 +11,17 @@ import { queryKeys } from "@/lib/queryKeys";
 import { ConnectionSetupFlow } from "@/features/connections/ConnectionSetupFlow";
 import { AppsConnect } from "./AppsConnect";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { i18n } from "@/i18n";
+
+/**
+ * The connect flow renders its copy from the message catalog. These assertions
+ * are about which step appears and which access grant is offered, not about the
+ * wording, so pin English file-wide rather than let it follow whatever locale
+ * the machine running the tests reports.
+ */
+beforeEach(async () => {
+  await i18n.changeLanguage("en");
+});
 
 const listGalleryMock = vi.hoisted(() => vi.fn());
 const experimentalMock = vi.hoisted(() => vi.fn());

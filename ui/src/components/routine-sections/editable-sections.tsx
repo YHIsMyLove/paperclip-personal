@@ -1,5 +1,6 @@
 import { AgentAvatar } from "@/components/AgentAvatar";
 import { useMemo, useState } from "react";
+import { t } from "@/i18n";
 import {
   ArrowRight,
   Braces,
@@ -138,16 +139,16 @@ export function OverviewSection({
       {/* Assignment row */}
       <div className="overflow-x-auto overscroll-x-contain">
         <div className="inline-flex min-w-full flex-wrap items-center gap-2 text-sm text-muted-foreground sm:min-w-max sm:flex-nowrap">
-          <span>For</span>
+          <span>{t("routines.sections.for", { defaultValue: "For" })}</span>
           <InlineEntitySelector
             ref={assigneeSelectorRef}
             value={editDraft.assigneeAgentId}
             options={assigneeOptions}
             recentOptionIds={recentAssigneeIds}
-            placeholder="Responsible"
-            noneLabel="No responsible"
-            searchPlaceholder="Search responsible..."
-            emptyMessage="No responsible found."
+            placeholder={t("routines.sections.responsible", { defaultValue: "Responsible" })}
+            noneLabel={t("routines.sections.noResponsible", { defaultValue: "No responsible" })}
+            searchPlaceholder={t("routines.sections.searchResponsible", { defaultValue: "Search responsible..." })}
+            emptyMessage={t("routines.sections.noResponsibleFound", { defaultValue: "No responsible found." })}
             onChange={(assigneeAgentId) =>
               setEditDraft((current) => ({ ...current, assigneeAgentId }))
             }
@@ -169,7 +170,7 @@ export function OverviewSection({
                   <span className="truncate">{option.label}</span>
                 )
               ) : (
-                <span className="text-muted-foreground">Responsible</span>
+                <span className="text-muted-foreground">{t("routines.sections.responsible", { defaultValue: "Responsible" })}</span>
               )
             }
             renderOption={(option) => {
@@ -191,10 +192,10 @@ export function OverviewSection({
             value={editDraft.projectId}
             options={projectOptions}
             recentOptionIds={recentProjectIds}
-            placeholder="Project"
-            noneLabel="No project"
-            searchPlaceholder="Search projects..."
-            emptyMessage="No projects found."
+            placeholder={t("routines.sections.project", { defaultValue: "Project" })}
+            noneLabel={t("routines.sections.noProject", { defaultValue: "No project" })}
+            searchPlaceholder={t("routines.sections.searchProjects", { defaultValue: "Search projects..." })}
+            emptyMessage={t("routines.sections.noProjectsFound", { defaultValue: "No projects found." })}
             onChange={(projectId) => setEditDraft((current) => ({ ...current, projectId }))}
             onConfirm={() => descriptionEditorRef.current?.focus()}
             renderTriggerValue={(option) =>
@@ -207,7 +208,7 @@ export function OverviewSection({
                   <span className="truncate">{option.label}</span>
                 </>
               ) : (
-                <span className="text-muted-foreground">Project</span>
+                <span className="text-muted-foreground">{t("routines.sections.project", { defaultValue: "Project" })}</span>
               )
             }
             renderOption={(option) => {
@@ -228,10 +229,7 @@ export function OverviewSection({
       </div>
 
       {!routine.assigneeAgentId ? (
-        <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-amber-900 dark:text-amber-200">
-          Default agent required. This routine can stay as a draft and still run manually, but
-          automation stays paused until you assign a default agent.
-        </div>
+        <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-amber-900 dark:text-amber-200">{t("routines.sections.defaultAgentRequiredThisRoutineCanStayAsADraftAn", { defaultValue: "Default agent required. This routine can stay as a draft and still run manually, but automation stays paused until you assign a default agent." })}</div>
       ) : null}
 
       {/* Instructions */}
@@ -264,7 +262,7 @@ export function OverviewSection({
               ref={descriptionEditorRef}
               value={editDraft.description}
               onChange={(description) => setEditDraft((current) => ({ ...current, description }))}
-              placeholder="Add instructions..."
+              placeholder={t("routines.sections.addInstructions", { defaultValue: "Add instructions..." })}
               bordered={false}
               contentClassName="min-h-(--sz-120px) text-sm leading-7"
               mentions={mentionOptions}
@@ -280,7 +278,7 @@ export function OverviewSection({
             ref={descriptionEditorRef}
             value={editDraft.description}
             onChange={(description) => setEditDraft((current) => ({ ...current, description }))}
-            placeholder="Add instructions..."
+            placeholder={t("routines.sections.addInstructions", { defaultValue: "Add instructions..." })}
             bordered={false}
             contentClassName="min-h-(--sz-120px) text-sm leading-7"
             mentions={mentionOptions}
@@ -308,7 +306,7 @@ export function OverviewSection({
       <div className="grid gap-3 sm:grid-cols-2">
         <SummaryCard
           icon={Clock3}
-          label="Triggers"
+          label={t("routines.sections.triggers", { defaultValue: "Triggers" })}
           value={activeTriggers === 0 ? "None" : `${activeTriggers} active`}
           hint={nextFire ? `Next fire ${nextFire}` : "No schedule"}
           to={() => navigateToSection("triggers")}
@@ -316,7 +314,7 @@ export function OverviewSection({
         />
         <SummaryCard
           icon={Play}
-          label="Last run"
+          label={t("routines.sections.lastRun", { defaultValue: "Last run" })}
           value={lastRun ? lastRun.status.replaceAll("_", " ") : "No runs"}
           hint={lastRun ? timeAgo(lastRun.triggeredAt) : "Trigger a run"}
           to={() => navigateToSection("runs")}
@@ -326,11 +324,9 @@ export function OverviewSection({
 
       {/* Recent activity */}
       <div className="space-y-2">
-        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-          Recent activity
-        </p>
+        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{t("routines.sections.recentActivity", { defaultValue: "Recent activity" })}</p>
         {recentActivity.length === 0 ? (
-          <p className="text-xs text-muted-foreground">No activity yet.</p>
+          <p className="text-xs text-muted-foreground">{t("routines.sections.noActivityYet", { defaultValue: "No activity yet." })}</p>
         ) : (
           <div className="divide-y divide-border/60">
             {recentActivity.map((event) => (
@@ -350,8 +346,7 @@ export function OverviewSection({
               type="button"
               onClick={() => navigateToSection("activity")}
               className="flex items-center gap-1 pt-2 text-xs text-muted-foreground hover:text-foreground"
-            >
-              View all activity <ArrowRight className="h-3 w-3" />
+            >{t("routines.sections.viewAllActivity", { defaultValue: "View all activity" })} <ArrowRight className="h-3 w-3" />
             </button>
           </div>
         )}
@@ -402,15 +397,12 @@ export function VariablesSection() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3 rounded-md border border-border bg-muted/20 px-4 py-3 text-xs">
-        <span className="flex-1 text-muted-foreground">
-          Variables are auto-detected from <code className="font-mono">{"{{placeholders}}"}</code> in
+        <span className="flex-1 text-muted-foreground">{t("routines.sections.variablesAreAutoDetectedFrom", { defaultValue: "Variables are auto-detected from" })} <code className="font-mono">{"{{placeholders}}"}</code> in
           the title &amp; instructions. The variable name is read-only — rename by editing the
           placeholder.
         </span>
         <Button variant="secondary" size="sm" onClick={() => navigateToSection("overview")}>
-          <Edit3 className="mr-1.5 h-3.5 w-3.5" />
-          Edit instructions
-        </Button>
+          <Edit3 className="mr-1.5 h-3.5 w-3.5" />{t("routines.sections.editInstructions", { defaultValue: "Edit instructions" })}</Button>
       </div>
 
       {hasVariables ? (
@@ -424,7 +416,7 @@ export function VariablesSection() {
         <EmptyState
           icon={Braces}
           message="No variables yet. Add a {{placeholder}} in the title or instructions to create one."
-          action="Edit instructions"
+          action={t("routines.sections.editInstructions", { defaultValue: "Edit instructions" })}
           onAction={() => navigateToSection("overview")}
         />
       )}
@@ -453,9 +445,7 @@ export function SecretsSection() {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-md border border-border bg-muted/20 px-4 py-3 text-xs text-muted-foreground">
-        Routine secrets apply to every task this routine creates. They override matching keys in
-        project and agent env. <span className="font-mono">PAPERCLIP_*</span> names are reserved.
+      <div className="rounded-md border border-border bg-muted/20 px-4 py-3 text-xs text-muted-foreground">{t("routines.sections.routineSecretsApplyToEveryTaskThisRoutineCreates", { defaultValue: "Routine secrets apply to every task this routine creates. They override matching keys in project and agent env." })}<span className="font-mono">{t("routines.sections.paperclip", { defaultValue: "PAPERCLIP_*" })}</span> names are reserved.
       </div>
 
 
@@ -484,11 +474,9 @@ export function DeliverySection() {
   return (
     <div className="space-y-6">
       <div className="space-y-3">
-        <p className="text-xs font-medium uppercase tracking-(--tracking-caps) text-muted-foreground">
-          Concurrency
-        </p>
+        <p className="text-xs font-medium uppercase tracking-(--tracking-caps) text-muted-foreground">{t("routines.sections.concurrency", { defaultValue: "Concurrency" })}</p>
         <RadioCardGroup
-          ariaLabel="Concurrency policy"
+          ariaLabel={t("routines.sections.concurrencyPolicy", { defaultValue: "Concurrency policy" })}
           value={editDraft.concurrencyPolicy}
           onValueChange={(concurrencyPolicy) =>
             setEditDraft((current) => ({ ...current, concurrencyPolicy }))
@@ -497,11 +485,9 @@ export function DeliverySection() {
         />
       </div>
       <div className="space-y-3">
-        <p className="text-xs font-medium uppercase tracking-(--tracking-caps) text-muted-foreground">
-          Catch-up
-        </p>
+        <p className="text-xs font-medium uppercase tracking-(--tracking-caps) text-muted-foreground">{t("routines.sections.catchUp", { defaultValue: "Catch-up" })}</p>
         <RadioCardGroup
-          ariaLabel="Catch-up policy"
+          ariaLabel={t("routines.sections.catchUpPolicy", { defaultValue: "Catch-up policy" })}
           value={editDraft.catchUpPolicy}
           onValueChange={(catchUpPolicy) =>
             setEditDraft((current) => ({ ...current, catchUpPolicy }))
@@ -510,11 +496,9 @@ export function DeliverySection() {
         />
       </div>
       <div className="space-y-3">
-        <p className="text-xs font-medium uppercase tracking-(--tracking-caps) text-muted-foreground">
-          Advanced run policy
-        </p>
+        <p className="text-xs font-medium uppercase tracking-(--tracking-caps) text-muted-foreground">{t("routines.sections.advancedRunPolicy", { defaultValue: "Advanced run policy" })}</p>
         <RadioCardGroup
-          ariaLabel="Advanced run policy"
+          ariaLabel={t("routines.sections.advancedRunPolicy", { defaultValue: "Advanced run policy" })}
           value={editDraft.activityGatePolicy}
           onValueChange={(activityGatePolicy) =>
             setEditDraft((current) => ({ ...current, activityGatePolicy }))
@@ -523,15 +507,12 @@ export function DeliverySection() {
           disabled={!hasScheduleTrigger}
         />
         {!hasScheduleTrigger ? (
-          <p className="text-xs text-muted-foreground">
-            Add a schedule trigger to gate runs on activity. Webhook, manual, and API fires always
-            run.
-          </p>
+          <p className="text-xs text-muted-foreground">{t("routines.sections.addAScheduleTriggerToGateRunsOnActivityWebhookMa", { defaultValue: "Add a schedule trigger to gate runs on activity. Webhook, manual, and API fires always run." })}</p>
         ) : gateEnabled ? (
           <div className="space-y-2 rounded-lg border border-border p-3">
-            <Label className="text-xs font-medium">Activity scope</Label>
+            <Label className="text-xs font-medium">{t("routines.sections.activityScope", { defaultValue: "Activity scope" })}</Label>
             <RadioCardGroup
-              ariaLabel="Activity gate scope"
+              ariaLabel={t("routines.sections.activityGateScope", { defaultValue: "Activity gate scope" })}
               value={editDraft.activityGateScope}
               onValueChange={(activityGateScope) =>
                 setEditDraft((current) => ({ ...current, activityGateScope }))
@@ -588,9 +569,7 @@ function NextFiresPreview({
 
   return (
     <div className="space-y-3">
-      <p className="text-xs font-medium uppercase tracking-(--tracking-caps) text-muted-foreground">
-        Next 5 fires
-      </p>
+      <p className="text-xs font-medium uppercase tracking-(--tracking-caps) text-muted-foreground">{t("routines.sections.next5Fires", { defaultValue: "Next 5 fires" })}</p>
       {preview ? (
         <>
           <div className="space-y-1.5 rounded-lg border border-border p-3 font-mono text-xs">
@@ -614,10 +593,7 @@ function NextFiresPreview({
           </p>
         </>
       ) : (
-        <p className="rounded-lg border border-dashed border-border p-3 text-xs text-muted-foreground">
-          No enabled schedule trigger to preview. Add a schedule in Triggers to see how this policy
-          treats upcoming fires.
-        </p>
+        <p className="rounded-lg border border-dashed border-border p-3 text-xs text-muted-foreground">{t("routines.sections.noEnabledScheduleTriggerToPreviewAddAScheduleInT", { defaultValue: "No enabled schedule trigger to preview. Add a schedule in Triggers to see how this policy treats upcoming fires." })}</p>
       )}
     </div>
   );

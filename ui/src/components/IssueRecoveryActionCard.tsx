@@ -589,7 +589,7 @@ function BreakGlassOverride({
           </div>
         </dl>
         <div className="space-y-1">
-          <Label htmlFor="recovery-breakglass-reason" className="text-(length:--text-micro) text-muted-foreground">{t("issueChat.recovery.reason", { defaultValue: "Reason" })}<span className="text-red-600 dark:text-red-400">(required — recorded in the audit log)</span>
+          <Label htmlFor="recovery-breakglass-reason" className="text-(length:--text-micro) text-muted-foreground">{t("issueChat.recovery.reason", { defaultValue: "Reason" })} <span className="text-red-600 dark:text-red-400">(required — recorded in the audit log)</span>
           </Label>
           <Textarea
             id="recovery-breakglass-reason"

@@ -1200,7 +1200,7 @@ export function IssueProperties({
         />
       </div>
       <div className="space-y-1.5">
-        <div className="text-xs font-medium text-foreground">{t("issueProps.instructions", { defaultValue: "Instructions" })}<span className="font-normal text-muted-foreground">(optional)</span>
+        <div className="text-xs font-medium text-foreground">{t("issueProps.instructions", { defaultValue: "Instructions" })} <span className="font-normal text-muted-foreground">(optional)</span>
         </div>
         <Textarea
           value={watchdogInstructionsInput}

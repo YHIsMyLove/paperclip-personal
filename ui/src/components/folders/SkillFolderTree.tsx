@@ -982,7 +982,7 @@ export function MoveToFolderDialog({
 
         <div className="min-h-5 text-xs text-muted-foreground">
           {previewPath ? (
-            <span>{t("skills.folders.movingTo", { defaultValue: "Moving to" })}<span className="font-mono text-foreground">{previewPath}</span>
+            <span>{t("skills.folders.movingTo", { defaultValue: "Moving to" })} <span className="font-mono text-foreground">{previewPath}</span>
             </span>
           ) : (
             <span>{t("skills.folders.pickADestinationFolder", { defaultValue: "Pick a destination folder." })}</span>

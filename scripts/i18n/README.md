@@ -75,6 +75,23 @@ Two things the rewriter will not do, both deliberate:
 - It requires JSX text to start with an uppercase letter. Without that,
   `new Set<RequestItemVerdictValue>` matches as copy.
 
+### JSX padding
+
+The rewriter captures the whitespace on both sides of a text run and re-emits
+it. That is load-bearing, not tidiness: JSX renders the space between a text
+run and an inline element, so wrapping `>grants access only to <span>Ada<`
+has to produce `{t(...)} <span>Ada</span>`. An earlier version used
+`>\s*(text)\s*<`, which silently dropped that space and rendered "only toAda"
+in every non-CJK locale.
+
+`repair-i18n-spacing.mjs` puts those spaces back for call sites already
+written. It reads the pre-rewrite revision out of git per file, so it needs the
+commit that preceded the first rewrite:
+
+```sh
+node scripts/i18n/repair-i18n-spacing.mjs . <commit-before-first-rewrite> --write
+```
+
 ### 4. Translate and sync
 
 Author Chinese in a flat dotted map, then merge:

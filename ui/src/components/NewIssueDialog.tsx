@@ -1824,7 +1824,7 @@ export function NewIssueDialog() {
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <div className="text-xs font-medium text-foreground">{t("issues.newTask.instructions", { defaultValue: "Instructions" })}<span className="font-normal text-muted-foreground">(optional)</span></div>
+                      <div className="text-xs font-medium text-foreground">{t("issues.newTask.instructions", { defaultValue: "Instructions" })} <span className="font-normal text-muted-foreground">(optional)</span></div>
                       <Textarea
                         value={watchdogInstructions}
                         onChange={(event) => setWatchdogInstructions(event.target.value)}
@@ -2292,7 +2292,7 @@ export function NewIssueDialog() {
             className="mx-4 mb-2 flex items-start gap-2 rounded-md border border-amber-300/70 bg-amber-50/90 px-3 py-2 text-xs text-amber-900 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-100"
           >
             <Flag className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-600 dark:text-amber-300" />
-            <span className="leading-snug">{t("issues.newTask.assigningImpliesExecutableIntentLeaveStatusAs", { defaultValue: "Assigning implies executable intent - leave status as" })}<span className="font-medium">{t("issues.newTask.backlog", { defaultValue: "Backlog" })}</span> only to deliberately park this. The assignee will not be woken until status moves to <span className="font-medium">{t("issues.newTask.todo", { defaultValue: "Todo" })}</span> or <span className="font-medium">{t("issues.newTask.inProgress", { defaultValue: "In Progress" })}</span>.
+            <span className="leading-snug">{t("issues.newTask.assigningImpliesExecutableIntentLeaveStatusAs", { defaultValue: "Assigning implies executable intent - leave status as" })} <span className="font-medium">{t("issues.newTask.backlog", { defaultValue: "Backlog" })}</span> only to deliberately park this. The assignee will not be woken until status moves to <span className="font-medium">{t("issues.newTask.todo", { defaultValue: "Todo" })}</span> or <span className="font-medium">{t("issues.newTask.inProgress", { defaultValue: "In Progress" })}</span>.
             </span>
           </div>
         ) : null}

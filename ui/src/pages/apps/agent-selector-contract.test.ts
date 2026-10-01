@@ -17,7 +17,9 @@ describe("Apps agent selector contract", () => {
     expect(appConnect).toContain("<ConnectionSetupFlow");
     expect(connectionSetupFlow).toContain("<AgentMultiSelect");
     expect(permissions).toContain("<AgentMultiSelect");
-    expect(tester).toContain('placeholder="Search agents…"');
+    // The chooser still needs a search placeholder, but the copy comes from the
+    // catalog now, so match the key rather than the English string.
+    expect(tester).toMatch(/placeholder=\{t\("[^"]*searchAgents[^"]*"/);
 
     expect(profiles.match(/<AgentSelect/g)).toHaveLength(2);
     expect(profiles).not.toContain("<Select value={agentId}");

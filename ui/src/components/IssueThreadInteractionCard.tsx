@@ -1498,7 +1498,7 @@ function RequestConfirmationResolution({
                 : "Paperclip needs attention before the agent can resume this approved work."}
             </p>
             {resumeFailure.errorCode ? (
-              <p className="mt-1 leading-6">{t("issueChat.card.latestCause", { defaultValue: "Latest cause:" })}<code className="font-mono text-(length:--text-micro)">{resumeFailure.errorCode}</code>
+              <p className="mt-1 leading-6">{t("issueChat.card.latestCause", { defaultValue: "Latest cause:" })} <code className="font-mono text-(length:--text-micro)">{resumeFailure.errorCode}</code>
               </p>
             ) : null}
           </div>
@@ -3826,7 +3826,7 @@ export function IssueThreadInteractionCard({
           <div
             className="mt-4 flex flex-wrap items-center gap-x-1 gap-y-0.5 border-t border-border/60 pt-3 text-xs text-muted-foreground"
             data-testid="interaction-resolved-footer"
-          >{t("issueChat.card.resolvedBy", { defaultValue: "Resolved by" })}<span className="font-medium text-foreground">{resolvedByLabel}</span>
+          >{t("issueChat.card.resolvedBy", { defaultValue: "Resolved by" })} <span className="font-medium text-foreground">{resolvedByLabel}</span>
             {resolvedByAgent ? <ResolvedByAgentChip /> : null}
             {interaction.resolvedAt ? ` on ${formatShortDate(interaction.resolvedAt)}` : ""}
           </div>

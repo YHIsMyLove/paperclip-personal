@@ -408,7 +408,7 @@ export function AdapterManager() {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>{t("adapters.installExternalAdapter", { defaultValue: "Install External Adapter" })}</DialogTitle>
-              <DialogDescription>{t("adapters.addAnAdapterFromNpmOrALocalPathTheAdapterPackage", { defaultValue: "Add an adapter from npm or a local path. The adapter package must export" })}<code className="text-xs bg-muted px-1 py-0.5 rounded">createServerAdapter()</code>.
+              <DialogDescription>{t("adapters.addAnAdapterFromNpmOrALocalPathTheAdapterPackage", { defaultValue: "Add an adapter from npm or a local path. The adapter package must export" })} <code className="text-xs bg-muted px-1 py-0.5 rounded">createServerAdapter()</code>.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
@@ -625,7 +625,7 @@ export function AdapterManager() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t("adapters.removeAdapter2", { defaultValue: "Remove Adapter" })}</DialogTitle>
-            <DialogDescription>{t("adapters.areYouSureYouWantToRemoveThe", { defaultValue: "Are you sure you want to remove the" })}<strong>{removeType}</strong> adapter?
+            <DialogDescription>{t("adapters.areYouSureYouWantToRemoveThe", { defaultValue: "Are you sure you want to remove the" })} <strong>{removeType}</strong> adapter?
               It will be unregistered and removed from the adapter store.
               {removeType && adapters?.find((a) => a.type === removeType)?.packageName && (
                 <> npm packages will be cleaned up from disk.</>

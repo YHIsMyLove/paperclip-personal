@@ -2698,7 +2698,7 @@ export function Secrets() {
                   user&apos;s value at runtime.
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-medium text-foreground" htmlFor="new-secret-usage-guidance">{t("secrets.usageGuidance", { defaultValue: "Usage guidance" })}<span className="text-muted-foreground/70">(optional)</span>
+                  <label className="text-xs font-medium text-foreground" htmlFor="new-secret-usage-guidance">{t("secrets.usageGuidance", { defaultValue: "Usage guidance" })} <span className="text-muted-foreground/70">(optional)</span>
                   </label>
                   <Textarea
                     id="new-secret-usage-guidance"
@@ -2756,7 +2756,7 @@ export function Secrets() {
             </div>
 
             <div>
-              <label className="text-xs font-medium" htmlFor="new-secret-description">{t("secrets.description", { defaultValue: "Description" })}<span className="text-muted-foreground/70">(optional)</span>
+              <label className="text-xs font-medium" htmlFor="new-secret-description">{t("secrets.description", { defaultValue: "Description" })} <span className="text-muted-foreground/70">(optional)</span>
               </label>
               <Input
                 id="new-secret-description"
@@ -3092,7 +3092,7 @@ export function Secrets() {
                 placeholder={t("secrets.pasteTheNewValue", { defaultValue: "Paste the new value" })}
               />
               {selectedSecret?.managedMode === "external_reference" ? (
-                <p className="mt-1 text-(length:--text-micro) text-muted-foreground">{t("secrets.writtenTo", { defaultValue: "Written to" })}<code className="font-mono">{selectedSecret.externalRef}</code> in the provider.
+                <p className="mt-1 text-(length:--text-micro) text-muted-foreground">{t("secrets.writtenTo", { defaultValue: "Written to" })} <code className="font-mono">{selectedSecret.externalRef}</code> in the provider.
                 </p>
               ) : null}
             </div>
@@ -3126,7 +3126,7 @@ export function Secrets() {
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>{t("secrets.deleteSecret", { defaultValue: "Delete secret" })}</DialogTitle>
-            <DialogDescription>{t("secrets.permanentlyRemoves", { defaultValue: "Permanently removes" })}<strong>{deleteConfirm?.name}</strong>. Active bindings will fail until you remap them.
+            <DialogDescription>{t("secrets.permanentlyRemoves", { defaultValue: "Permanently removes" })} <strong>{deleteConfirm?.name}</strong>. Active bindings will fail until you remap them.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -3150,7 +3150,7 @@ export function Secrets() {
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>{t("secrets.deleteUserProvidedSecret", { defaultValue: "Delete user-provided secret" })}</DialogTitle>
-            <DialogDescription>{t("secrets.permanentlyRemoves", { defaultValue: "Permanently removes" })}<strong>{definitionDeleteConfirm?.name}</strong> for the whole organization.
+            <DialogDescription>{t("secrets.permanentlyRemoves", { defaultValue: "Permanently removes" })} <strong>{definitionDeleteConfirm?.name}</strong> for the whole organization.
               Existing member values become unreferenced and active bindings must be remapped.
             </DialogDescription>
           </DialogHeader>
@@ -3184,7 +3184,7 @@ export function Secrets() {
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>{t("secrets.removeProviderVault", { defaultValue: "Remove provider vault" })}</DialogTitle>
-            <DialogDescription>{t("secrets.removes", { defaultValue: "Removes" })}<strong>{removeVaultConfirm?.displayName}</strong> from Paperclip only.{" "}
+            <DialogDescription>{t("secrets.removes", { defaultValue: "Removes" })} <strong>{removeVaultConfirm?.displayName}</strong> from Paperclip only.{" "}
               {removeVaultConfirm?.provider === "aws_secrets_manager"
                 ? "This does not delete the remote AWS Secrets Manager vault, secrets, or any AWS data."
                 : "This does not delete any remote provider data."}{" "}
@@ -4652,7 +4652,7 @@ export function SecretUsageTab({ loading, bindings }: { loading: boolean; bindin
             </div>
             <div className="text-(length:--text-micro) text-muted-foreground">
               {deliveryMode === "api" ? (
-                <>{t("secrets.apiAlias", { defaultValue: "API alias" })}<span className="font-mono">{aliasFromConfigPath(binding.configPath)}</span></>
+                <>{t("secrets.apiAlias", { defaultValue: "API alias" })} <span className="font-mono">{aliasFromConfigPath(binding.configPath)}</span></>
               ) : (
                 <span className="font-mono">{binding.configPath}</span>
               )}{" "}
@@ -4722,12 +4722,12 @@ export function SecretEventsTab({
             {event.consumerId}
           </div>
           {event.responsibleUserId ? (
-            <div className="text-(length:--text-micro) text-muted-foreground">{t("secrets.responsibleUser", { defaultValue: "Responsible user:" })}<span className="text-foreground">{userLabel(event.responsibleUserId)}</span>
+            <div className="text-(length:--text-micro) text-muted-foreground">{t("secrets.responsibleUser", { defaultValue: "Responsible user:" })} <span className="text-foreground">{userLabel(event.responsibleUserId)}</span>
             </div>
           ) : null}
           {event.credentialOwnerUserId &&
           event.credentialOwnerUserId !== event.responsibleUserId ? (
-            <div className="text-(length:--text-micro) text-muted-foreground">{t("secrets.credentialOwner", { defaultValue: "Credential owner:" })}<span className="text-foreground">{userLabel(event.credentialOwnerUserId)}</span>
+            <div className="text-(length:--text-micro) text-muted-foreground">{t("secrets.credentialOwner", { defaultValue: "Credential owner:" })} <span className="text-foreground">{userLabel(event.credentialOwnerUserId)}</span>
             </div>
           ) : null}
           {event.errorCode ? (

@@ -122,21 +122,22 @@ for (const pair of pairs) {
   });
 
   // 2. JSX text runs: >Foo<  ->  >{t("ns.k", { defaultValue: "Foo" })}<
-  // The leading/trailing \s* live outside the capture group, so there is no
-  // padding to preserve here.
-  src = src.replace(/>\s*([A-Za-z][^<>{}]*?)\s*</g, (match, text, offset) => {
+// The padding around the text is captured and re-emitted. JSX keeps a space
+// that separates a text run from an inline element — dropping it turns
+// "grants access only to <span>Ada" into "only toAda".
+src = src.replace(/>(\s*)([A-Za-z][^<>{}]*?)(\s*)</g, (match, lead, text, trail) => {
     if (!isJsxCopy(text)) return match;
     if (match.includes("{t(")) return match;
     // A `>` preceded by `=` closes an arrow function, not a JSX tag — that is
     // how `=> new Set<X>(...)` gets mistaken for copy.
-    if (src[offset - 1] === "=") return match;
+    if (src[match.index - 1] === "=") return match;
     // JSX text can wrap across lines. Collapse it: the rendered output does the
     // same, and leaving the newline in would produce an unterminated literal.
     const trimmed = text.trim().replace(/\s*\n\s*/g, " ").replace(/\s{2,}/g, " ");
     const esc = trimmed.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
     const key = keyFor(trimmed);
     edits++;
-    return `>{t("${key}", { defaultValue: "${esc}" })}<`;
+    return `>${lead}{t("${key}", { defaultValue: "${esc}" })}${trail}<`;
   });
 
   if (edits === 0) {

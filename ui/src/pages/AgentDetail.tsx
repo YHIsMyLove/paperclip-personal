@@ -461,10 +461,10 @@ export function RunInvocationCard({
     <div className="rounded-lg border border-border bg-background/60 p-3 space-y-2">
       <div className="text-xs font-medium text-muted-foreground">{t("agentDetail.invocation", { defaultValue: "Invocation" })}</div>
       {typeof payload.adapterType === "string" && (
-        <div className="text-xs"><span className="text-muted-foreground">{t("agentDetail.adapter2", { defaultValue: "Adapter:" })}</span>{payload.adapterType}</div>
+        <div className="text-xs"><span className="text-muted-foreground">{t("agentDetail.adapter2", { defaultValue: "Adapter:" })} </span>{payload.adapterType}</div>
       )}
       {typeof payload.cwd === "string" && (
-        <div className="text-xs break-all"><span className="text-muted-foreground">{t("agentDetail.workingDir", { defaultValue: "Working dir:" })}</span><span className="font-mono">{payload.cwd}</span></div>
+        <div className="text-xs break-all"><span className="text-muted-foreground">{t("agentDetail.workingDir", { defaultValue: "Working dir:" })} </span><span className="font-mono">{payload.cwd}</span></div>
       )}
       {hasAdvancedDetails && (
         <Collapsible>
@@ -473,7 +473,7 @@ export function RunInvocationCard({
           <CollapsibleContent className="pt-2 space-y-2">
             {commandLine && (
               <div className="text-xs break-all">
-                <span className="text-muted-foreground">{t("agentDetail.command", { defaultValue: "Command:" })}</span>
+                <span className="text-muted-foreground">{t("agentDetail.command", { defaultValue: "Command:" })} </span>
                 <span className="font-mono">{commandLine}</span>
               </div>
             )}
@@ -688,13 +688,13 @@ function WorkspaceOperationsSection({
               </div>
               {operation.command && (
                 <div className="text-xs break-all">
-                  <span className="text-muted-foreground">{t("agentDetail.command", { defaultValue: "Command:" })}</span>
+                  <span className="text-muted-foreground">{t("agentDetail.command", { defaultValue: "Command:" })} </span>
                   <span className="font-mono">{operation.command}</span>
                 </div>
               )}
               {operation.cwd && (
                 <div className="text-xs break-all">
-                  <span className="text-muted-foreground">{t("agentDetail.workingDir", { defaultValue: "Working dir:" })}</span>
+                  <span className="text-muted-foreground">{t("agentDetail.workingDir", { defaultValue: "Working dir:" })} </span>
                   <span className="font-mono">{operation.cwd}</span>
                 </div>
               )}
@@ -705,19 +705,19 @@ function WorkspaceOperationsSection({
                 || asNonEmptyString(metadata?.cleanupAction)) && (
                 <div className="grid gap-1 text-xs sm:grid-cols-2">
                   {asNonEmptyString(metadata?.branchName) && (
-                    <div><span className="text-muted-foreground">{t("agentDetail.branch", { defaultValue: "Branch:" })}</span><span className="font-mono">{metadata?.branchName as string}</span></div>
+                    <div><span className="text-muted-foreground">{t("agentDetail.branch", { defaultValue: "Branch:" })} </span><span className="font-mono">{metadata?.branchName as string}</span></div>
                   )}
                   {asNonEmptyString(metadata?.baseRef) && (
-                    <div><span className="text-muted-foreground">{t("agentDetail.baseRef", { defaultValue: "Base ref:" })}</span><span className="font-mono">{metadata?.baseRef as string}</span></div>
+                    <div><span className="text-muted-foreground">{t("agentDetail.baseRef", { defaultValue: "Base ref:" })} </span><span className="font-mono">{metadata?.baseRef as string}</span></div>
                   )}
                   {asNonEmptyString(metadata?.worktreePath) && (
-                    <div className="break-all"><span className="text-muted-foreground">{t("agentDetail.worktree", { defaultValue: "Worktree:" })}</span><span className="font-mono">{metadata?.worktreePath as string}</span></div>
+                    <div className="break-all"><span className="text-muted-foreground">{t("agentDetail.worktree", { defaultValue: "Worktree:" })} </span><span className="font-mono">{metadata?.worktreePath as string}</span></div>
                   )}
                   {asNonEmptyString(metadata?.repoRoot) && (
-                    <div className="break-all"><span className="text-muted-foreground">{t("agentDetail.repoRoot", { defaultValue: "Repo root:" })}</span><span className="font-mono">{metadata?.repoRoot as string}</span></div>
+                    <div className="break-all"><span className="text-muted-foreground">{t("agentDetail.repoRoot", { defaultValue: "Repo root:" })} </span><span className="font-mono">{metadata?.repoRoot as string}</span></div>
                   )}
                   {asNonEmptyString(metadata?.cleanupAction) && (
-                    <div><span className="text-muted-foreground">{t("agentDetail.cleanup", { defaultValue: "Cleanup:" })}</span><span className="font-mono">{metadata?.cleanupAction as string}</span></div>
+                    <div><span className="text-muted-foreground">{t("agentDetail.cleanup", { defaultValue: "Cleanup:" })} </span><span className="font-mono">{metadata?.cleanupAction as string}</span></div>
                   )}
                 </div>
               )}
@@ -1331,7 +1331,7 @@ export function AgentDetail() {
               {resetBuiltIn.isPending ? "Resetting…" : "Reset to defaults"}
             </Button>
           }
-        >{t("agentDetail.shipsWithPaperclipAndPowers", { defaultValue: "Ships with Paperclip and powers" })}<strong>{builtInFeatureLabel}</strong>. Configure it like
+        >{t("agentDetail.shipsWithPaperclipAndPowers", { defaultValue: "Ships with Paperclip and powers" })} <strong>{builtInFeatureLabel}</strong>. Configure it like
           any agent — model, instructions, budget. It can be paused but not deleted; pausing it
           pauses {builtInFeatureLabel}.
         </InlineBanner>
@@ -4514,7 +4514,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
           <div className="text-xs font-medium text-red-700 dark:text-red-300">{t("agentDetail.failureDetails", { defaultValue: "Failure details" })}</div>
           {run.error && (
             <div className="text-xs text-red-600 dark:text-red-200">
-              <span className="text-red-700 dark:text-red-300">{t("agentDetail.error", { defaultValue: "Error:" })}</span>
+              <span className="text-red-700 dark:text-red-300">{t("agentDetail.error", { defaultValue: "Error:" })} </span>
               {redactPathText(run.error, censorUsernameInLogs)}
             </div>
           )}

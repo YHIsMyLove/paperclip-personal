@@ -1667,7 +1667,7 @@ export function CompanyImport() {
           <h2 className="text-base font-semibold">{t("settings.import.importCompleted", { defaultValue: "Import completed" })}</h2>
           <p className="text-xs text-muted-foreground mt-1">
             {importOutcome.companyName
-              ? <>{t("settings.import.theImportFinishedAnd", { defaultValue: "The import finished and" })}<span className="font-medium text-foreground">{importOutcome.companyName}</span> is ready. Its detailed summary is no longer available.</>
+              ? <>{t("settings.import.theImportFinishedAnd", { defaultValue: "The import finished and" })} <span className="font-medium text-foreground">{importOutcome.companyName}</span> is ready. Its detailed summary is no longer available.</>
               : "The import finished and your organization is ready. Its detailed summary is no longer available, but the organization has been added — select it from the organization switcher to view it."}
           </p>
           {importOutcome.pausedAutomations ? (

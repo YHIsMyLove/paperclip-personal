@@ -989,7 +989,7 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
 
                     {executionWorkspaceAdvancedOpen ? (
                       <div className="space-y-3">
-                        <div className="text-xs text-muted-foreground">{t("projectProps.hostManagedImplementation", { defaultValue: "Host-managed implementation:" })}<span className="text-foreground">{t("projectProps.gitWorktree", { defaultValue: "Git worktree" })}</span>
+                        <div className="text-xs text-muted-foreground">{t("projectProps.hostManagedImplementation", { defaultValue: "Host-managed implementation:" })} <span className="text-foreground">{t("projectProps.gitWorktree", { defaultValue: "Git worktree" })}</span>
                         </div>
                         {showExecutionWorkspaceEnvironmentControl ? (
                           <div>

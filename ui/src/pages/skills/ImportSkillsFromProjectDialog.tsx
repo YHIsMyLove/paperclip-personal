@@ -1179,7 +1179,7 @@ function ResultStep({ result }: ResultStepProps) {
                   <Link
                     to={skillStudioRoute(skill.id)}
                     className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-foreground no-underline hover:underline"
-                  >{t("skills.import.open", { defaultValue: "Open" })}<ExternalLink className="h-3 w-3" />
+                  >{t("skills.import.open", { defaultValue: "Open" })} <ExternalLink className="h-3 w-3" />
                   </Link>
                 </li>
               ))}

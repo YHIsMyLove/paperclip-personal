@@ -2135,7 +2135,7 @@ export function InstallPreviewDialog({
           </div>
 
           {conflict ? (
-            <div className="rounded-md border border-amber-500/40 bg-amber-500/10 p-3 text-xs text-amber-800 dark:text-amber-200">{t("skills.anExistingSkillWithKey", { defaultValue: "An existing skill with key" })}<span className="font-mono">{conflict.key}</span> is installed (
+            <div className="rounded-md border border-amber-500/40 bg-amber-500/10 p-3 text-xs text-amber-800 dark:text-amber-200">{t("skills.anExistingSkillWithKey", { defaultValue: "An existing skill with key" })} <span className="font-mono">{conflict.key}</span> is installed (
               {conflict.sourceLabel ?? conflict.sourceType}). Installing will {defaultAction === "update" ? "overwrite the catalog content" : "replace the existing skill"}.
             </div>
           ) : null}

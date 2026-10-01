@@ -485,7 +485,7 @@ export function PluginManager() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t("settings.pluginManager.uninstallPlugin", { defaultValue: "Uninstall Plugin" })}</DialogTitle>
-            <DialogDescription>{t("settings.pluginManager.areYouSureYouWantToUninstall", { defaultValue: "Are you sure you want to uninstall" })}<strong>{uninstallPluginName}</strong>? This action cannot be undone.
+            <DialogDescription>{t("settings.pluginManager.areYouSureYouWantToUninstall", { defaultValue: "Are you sure you want to uninstall" })} <strong>{uninstallPluginName}</strong>? This action cannot be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
