@@ -7,7 +7,11 @@
 import { readdirSync, readFileSync, existsSync, writeFileSync } from "node:fs";
 import { join, dirname, resolve, relative, sep } from "node:path";
 
-const ROOT = process.argv[2];
+// path.resolve() always absolutises its result, so a relative ROOT here would
+// make every relative import resolve to an absolute path that byLower — built
+// from walk(SRC) — never contains. The walk then dies after the entry file's
+// own imports.
+const ROOT = resolve(process.argv[2]);
 const OUT = process.argv[3];
 const SRC = join(ROOT, "src");
 
