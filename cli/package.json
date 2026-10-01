@@ -61,7 +61,7 @@
     "embedded-postgres": "^18.1.0-beta.16",
     "picocolors": "^1.1.1",
     "postgres": "^3.4.9",
-    "ws": "^8.21.3",
+    "ws": "^8.22.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
