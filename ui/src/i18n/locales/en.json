@@ -5,5 +5,86 @@
       "description": "Get started by creating an organization.",
       "newCompany": "New Organization"
     }
+  },
+  "nav": {
+    "newTask": "New Task",
+    "search": "Search",
+    "dashboard": "Dashboard",
+    "inbox": "Inbox",
+    "chat": "Chat",
+    "decisions": "Decisions",
+    "status": "Status",
+    "conferenceRoom": "Conference Room",
+    "work": "Work",
+    "tasks": "Tasks",
+    "projects": "Projects",
+    "routines": "Routines",
+    "artifacts": "Artifacts",
+    "cases": "Cases",
+    "pipelines": "Pipelines",
+    "goals": "Goals",
+    "workspaces": "Workspaces",
+    "org": "Org",
+    "agents": "Agents",
+    "skills": "Skills",
+    "connectors": "Connectors",
+    "audit": "Audit",
+    "organization": "Organization",
+    "timeline": "Timeline",
+    "costs": "Costs",
+    "activity": "Activity",
+    "settings": "Settings",
+    "badges": {
+      "unread": "unread",
+      "decisions": "decisions",
+      "beta": "beta"
+    }
+  },
+  "account": {
+    "settings": "Settings",
+    "viewProfile": "View profile",
+    "editProfile": "Edit profile",
+    "documentation": "Documentation",
+    "signOut": "Sign out",
+    "signingOut": "Signing out...",
+    "shareFeedback": "Share feedback",
+    "viewCommitOnGithub": "View commit {{sha}} on GitHub"
+  },
+  "theme": {
+    "toLight": "Switch to light mode",
+    "toDark": "Switch to dark mode",
+    "description": "Toggle the app appearance."
+  },
+  "language": {
+    "label": "Language",
+    "description": "Choose the language used across the app."
+  },
+  "status": {
+    "backlog": "Backlog",
+    "todo": "Todo",
+    "in_progress": "In Progress",
+    "in_review": "In Review",
+    "idle": "Idle",
+    "blocked": "Blocked",
+    "in_queue": "Waiting on active work",
+    "done": "Done",
+    "cancelled": "Cancelled",
+    "blockedWaitingSubTask": "Blocked · waiting on active sub-task {{id}}",
+    "blockedWaitingSubTasks_one": "Blocked · waiting on {{count}} active sub-task",
+    "blockedWaitingSubTasks_other": "Blocked · waiting on {{count}} active sub-tasks",
+    "blockedCoveredByDependency": "Blocked · covered by active dependency {{id}}",
+    "blockedCoveredByDependencies_one": "Blocked · covered by {{count}} active dependency",
+    "blockedCoveredByDependencies_other": "Blocked · covered by {{count}} active dependencies",
+    "blockedReviewStalledOn": "Blocked · review stalled on {{id}}",
+    "blockedReviewsStalled_one": "Blocked · {{count}} review stalled with no clear next step",
+    "blockedReviewsStalled_other": "Blocked · {{count}} reviews stalled with no clear next step",
+    "blockedNeedsAttention_one": "Blocked · {{count}} blocker needs attention",
+    "blockedNeedsAttention_other": "Blocked · {{count}} blockers need attention",
+    "blockedNeedsAttentionCovered_one": "Blocked · {{count}} blocker needs attention; {{covered}} covered by active work",
+    "blockedNeedsAttentionCovered_other": "Blocked · {{count}} blockers need attention; {{covered}} covered by active work"
+  },
+  "issues": {
+    "selectOrganization": "Select an organization to view tasks.",
+    "selectCompany": "Select a company to view tasks."
   }
 }

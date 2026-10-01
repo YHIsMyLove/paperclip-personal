@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { IssueBlockerAttention } from "@paperclipai/shared";
+import { t } from "@/i18n";
 import { cn } from "../lib/utils";
 import { StatusGlyph, type StatusGlyphSize } from "./StatusGlyph";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -7,8 +8,37 @@ import { Button } from "@/components/ui/button";
 
 const allStatuses = ["backlog", "todo", "in_progress", "in_review", "done", "cancelled", "blocked"];
 
-function statusLabel(status: string): string {
+/**
+ * Status names come from the catalog rather than from title-casing the raw
+ * status id.
+ *
+ * `in_review` title-cased reads "In Review" in English but "In Review" in every
+ * language — the derived form cannot be translated at all. Every status surface
+ * routes through this function (see the component doc below), so the whole app's
+ * status vocabulary localizes from one map.
+ *
+ * The id itself is kept as the `defaultValue`, so an unknown or newly added
+ * status still renders something readable instead of a bare key.
+ */
+const STATUS_KEYS: Record<string, string> = {
+  backlog: "status.backlog",
+  todo: "status.todo",
+  in_progress: "status.in_progress",
+  in_review: "status.in_review",
+  idle: "status.idle",
+  blocked: "status.blocked",
+  in_queue: "status.in_queue",
+  done: "status.done",
+  cancelled: "status.cancelled",
+};
+
+function deriveStatusLabel(status: string): string {
   return status.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function statusLabel(status: string): string {
+  const key = STATUS_KEYS[status];
+  return key ? t(key, { defaultValue: deriveStatusLabel(status) }) : deriveStatusLabel(status);
 }
 
 interface StatusIconProps {
@@ -24,46 +54,82 @@ interface StatusIconProps {
   size?: StatusGlyphSize;
 }
 
+/**
+ * Blocked reasons are whole sentences with counts and identifiers in them, so
+ * they get catalog keys with interpolation rather than string surgery. The
+ * English text stays as the `defaultValue`, which is what keeps this file safe
+ * across an upgrade: if a future version drops a key, the sentence degrades to
+ * English instead of rendering a raw key to the user.
+ */
 function blockedAttentionLabel(blockerAttention: IssueBlockerAttention | null | undefined) {
-  if (!blockerAttention || blockerAttention.state === "none") return "Blocked";
+  if (!blockerAttention || blockerAttention.state === "none") {
+    return t("status.blocked", { defaultValue: "Blocked" });
+  }
 
   if (blockerAttention.reason === "active_child") {
     const count = blockerAttention.coveredBlockerCount;
     if (count === 1 && blockerAttention.sampleBlockerIdentifier) {
-      return `Blocked · waiting on active sub-task ${blockerAttention.sampleBlockerIdentifier}`;
+      return t("status.blockedWaitingSubTask", {
+        defaultValue: `Blocked · waiting on active sub-task ${blockerAttention.sampleBlockerIdentifier}`,
+        id: blockerAttention.sampleBlockerIdentifier,
+      });
     }
-    if (count === 1) return "Blocked · waiting on 1 active sub-task";
-    return `Blocked · waiting on ${count} active sub-tasks`;
+    return t("status.blockedWaitingSubTasks", {
+      defaultValue: `Blocked · waiting on ${count} active sub-task${count === 1 ? "" : "s"}`,
+      count,
+    });
   }
 
   if (blockerAttention.reason === "active_dependency") {
     const count = blockerAttention.coveredBlockerCount;
     if (count === 1 && blockerAttention.sampleBlockerIdentifier) {
-      return `Blocked · covered by active dependency ${blockerAttention.sampleBlockerIdentifier}`;
+      return t("status.blockedCoveredByDependency", {
+        defaultValue: `Blocked · covered by active dependency ${blockerAttention.sampleBlockerIdentifier}`,
+        id: blockerAttention.sampleBlockerIdentifier,
+      });
     }
-    if (count === 1) return "Blocked · covered by 1 active dependency";
-    return `Blocked · covered by ${count} active dependencies`;
+    return t("status.blockedCoveredByDependencies", {
+      defaultValue: `Blocked · covered by ${count} active dependency${count === 1 ? "" : "ies"}`,
+      count,
+    });
   }
 
   if (blockerAttention.reason === "stalled_review") {
     const count = blockerAttention.stalledBlockerCount;
     const leaf = blockerAttention.sampleStalledBlockerIdentifier ?? blockerAttention.sampleBlockerIdentifier;
-    if (count === 1 && leaf) return `Blocked · review stalled on ${leaf}`;
-    if (count === 1) return "Blocked · review stalled with no clear next step";
-    return `Blocked · ${count} reviews stalled with no clear next step`;
+    if (count === 1 && leaf) {
+      return t("status.blockedReviewStalledOn", {
+        defaultValue: `Blocked · review stalled on ${leaf}`,
+        id: leaf,
+      });
+    }
+    return t("status.blockedReviewsStalled", {
+      defaultValue: `Blocked · ${count} review${count === 1 ? "" : "s"} stalled with no clear next step`,
+      count,
+    });
   }
 
   if (blockerAttention.reason === "attention_required") {
     const count = blockerAttention.attentionBlockerCount || blockerAttention.unresolvedBlockerCount;
-    const attentionCopy = `${count} ${count === 1 ? "blocker needs" : "blockers need"} attention`;
     const coveredCount = blockerAttention.coveredBlockerCount;
+    // `_one`/`_other` rather than one key with the noun baked in: English needs
+    // "1 blocker needs" against "3 blockers need", and the catalog is where a
+    // language decides which form it has — Chinese has neither distinction, so
+    // its two entries are identical.
     if (coveredCount > 0) {
-      return `Blocked · ${attentionCopy}; ${coveredCount} covered by active work`;
+      return t("status.blockedNeedsAttentionCovered", {
+        defaultValue: `Blocked · ${count} blocker${count === 1 ? " needs" : "s need"} attention; ${coveredCount} covered by active work`,
+        count,
+        covered: coveredCount,
+      });
     }
-    return `Blocked · ${attentionCopy}`;
+    return t("status.blockedNeedsAttention", {
+      defaultValue: `Blocked · ${count} blocker${count === 1 ? " needs" : "s need"} attention`,
+      count,
+    });
   }
 
-  return "Blocked";
+  return t("status.blocked", { defaultValue: "Blocked" });
 }
 
 /**

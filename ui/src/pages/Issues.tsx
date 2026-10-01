@@ -13,6 +13,7 @@ import { queryKeys } from "../lib/queryKeys";
 import { createIssueDetailLocationState } from "../lib/issueDetailBreadcrumb";
 import { EmptyState } from "../components/EmptyState";
 import { IssuesList } from "../components/IssuesList";
+import { t } from "@/i18n";
 import { CircleDot } from "lucide-react";
 import type { Issue } from "@paperclipai/shared";
 import { useStreamlinedUiEnabled } from "../hooks/useStreamlinedUiEnabled";
@@ -129,7 +130,7 @@ export function Issues() {
   const issueLinkState = useMemo(
     () =>
       createIssueDetailLocationState(
-        "Tasks",
+        t("nav.tasks", { defaultValue: "Tasks" }),
         `${location.pathname}${location.search}${location.hash}`,
         "issues",
       ),
@@ -137,7 +138,7 @@ export function Issues() {
   );
 
   useEffect(() => {
-    setBreadcrumbs([{ label: "Tasks" }]);
+    setBreadcrumbs([{ label: t("nav.tasks", { defaultValue: "Tasks" }) }]);
   }, [setBreadcrumbs]);
 
   const issuePageSize = workspaceIdFilter ? WORKSPACE_FILTER_ISSUE_LIMIT : ISSUES_PAGE_SIZE;
@@ -202,8 +203,8 @@ export function Issues() {
       <EmptyState
         icon={CircleDot}
         message={streamlinedUiEnabled
-          ? "Select an organization to view tasks."
-          : "Select a company to view tasks."}
+          ? t("issues.selectOrganization", { defaultValue: "Select an organization to view tasks." })
+          : t("issues.selectCompany", { defaultValue: "Select a company to view tasks." })}
       />
     );
   }

@@ -1,9 +1,20 @@
 // @vitest-environment node
 
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
+import { i18n } from "@/i18n";
 import { StatusIcon } from "./StatusIcon";
 import { IssueStatusBadge } from "./StatusBadge";
+
+/**
+ * Status labels come from the message catalog, so these assertions are about
+ * label *logic* — which reason, how many, which identifier — rather than about
+ * a language. Pin English file-wide so the expected copy does not follow
+ * whatever locale the machine running the tests reports.
+ */
+beforeEach(async () => {
+  await i18n.changeLanguage("en");
+});
 
 /**
  * StatusIcon renders the unified {@link StatusGlyph} (one shape per status) at

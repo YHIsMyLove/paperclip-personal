@@ -2,6 +2,22 @@ import en from "./locales/en.json";
 
 const MAX_STRING_LENGTH = 2_000;
 
+/**
+ * How much of the English catalog a translation must cover.
+ *
+ * `complete` — the catalog must define every English key. Used for `en.json`,
+ * which is the reference itself.
+ *
+ * `partial` — a catalog may omit keys and let i18next's `fallbackLng` serve the
+ * English string for those leaves. Anything the catalog *does* define is still
+ * held to the same placeholder, length, and payload rules.
+ *
+ * A partially translated locale is a normal state while a language is being
+ * filled in, so `partial` must not crash module load: the 40 shipped catalogs
+ * would otherwise all have to land in one atomic commit before the UI boots.
+ */
+export type LocaleCoverage = "complete" | "partial";
+
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
@@ -68,7 +84,13 @@ function validateString(path: string[], candidateValue: string, englishValue: st
   }
 }
 
-function validateNode(path: string[], candidate: unknown, englishReference: unknown, errors: string[]) {
+function validateNode(
+  path: string[],
+  candidate: unknown,
+  englishReference: unknown,
+  errors: string[],
+  missing: string[],
+) {
   if (typeof englishReference === "string") {
     if (typeof candidate !== "string") {
       errors.push(`${formatPath(path)} must be a string`);
@@ -90,31 +112,69 @@ function validateNode(path: string[], candidate: unknown, englishReference: unkn
 
   const englishKeys = Object.keys(englishReference).sort();
   const candidateKeys = Object.keys(candidate).sort();
-  const missingKeys = englishKeys.filter((key) => !candidateKeys.includes(key));
-  const extraKeys = candidateKeys.filter((key) => !englishKeys.includes(key));
 
-  for (const key of missingKeys) {
-    errors.push(`${formatPath([...path, key])} is missing`);
+  for (const key of englishKeys) {
+    if (!candidateKeys.includes(key)) missing.push(formatPath([...path, key]));
   }
-  for (const key of extraKeys) {
-    errors.push(`${formatPath([...path, key])} is not defined in English`);
+  for (const key of candidateKeys) {
+    if (!englishKeys.includes(key)) errors.push(`${formatPath([...path, key])} is not defined in English`);
   }
 
   for (const key of englishKeys) {
     if (key in candidate) {
-      validateNode([...path, key], candidate[key], englishReference[key], errors);
+      validateNode([...path, key], candidate[key], englishReference[key], errors, missing);
     }
   }
 }
 
-export function validateLocaleMessages(candidate: unknown, englishReference: unknown = en) {
+export function validateLocaleMessages(
+  candidate: unknown,
+  englishReference: unknown = en,
+  coverage: LocaleCoverage = "complete",
+) {
   const errors: string[] = [];
-  validateNode([], candidate, englishReference, errors);
+  const missing: string[] = [];
+  validateNode([], candidate, englishReference, errors, missing);
+  if (coverage === "complete") {
+    for (const keyPath of missing) errors.push(`${keyPath} is missing`);
+  }
   return errors;
 }
 
-export function assertValidLocaleMessages(candidate: unknown, englishReference: unknown = en) {
-  const errors = validateLocaleMessages(candidate, englishReference);
+/**
+ * English keys a catalog leaves untranslated. Reported rather than thrown so a
+ * translation in progress stays bootable and its gaps stay visible.
+ */
+export function collectUntranslatedKeys(
+  candidate: unknown,
+  englishReference: unknown = en,
+): string[] {
+  const errors: string[] = [];
+  const missing: string[] = [];
+  validateNode([], candidate, englishReference, errors, missing);
+  return missing;
+}
+
+/** Every leaf path in a catalog, e.g. `["app.noCompanies.title", …]`. */
+export function collectLeafPaths(messages: unknown): string[] {
+  const paths: string[] = [];
+  const walk = (node: unknown, path: string[]) => {
+    if (isPlainObject(node)) {
+      for (const [key, value] of Object.entries(node)) walk(value, [...path, key]);
+      return;
+    }
+    paths.push(formatPath(path));
+  };
+  walk(messages, []);
+  return paths;
+}
+
+export function assertValidLocaleMessages(
+  candidate: unknown,
+  englishReference: unknown = en,
+  coverage: LocaleCoverage = "complete",
+) {
+  const errors = validateLocaleMessages(candidate, englishReference, coverage);
   if (errors.length > 0) {
     throw new Error(`Invalid locale messages:\n${errors.join("\n")}`);
   }

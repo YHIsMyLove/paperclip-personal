@@ -12,6 +12,7 @@ import {
 import type { DeploymentMode } from "@paperclipai/shared";
 import { Link } from "@/lib/router";
 import { authApi } from "@/api/auth";
+import { useTranslation } from "@/i18n";
 import { queryKeys } from "@/lib/queryKeys";
 import { useCloudInstance } from "@/hooks/useCloudInstance";
 import { useSignOut } from "@/hooks/useSignOut";
@@ -21,6 +22,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn, SIDEBAR_RAIL_HIDDEN_LABEL } from "../lib/utils";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { ThemeToggle } from "./ThemeToggle";
 import { SidebarServerInfo } from "./SidebarServerInfo";
 
@@ -116,6 +118,7 @@ export function SidebarAccountMenu({
 }: SidebarAccountMenuProps) {
   const isCloud = Boolean(useCloudInstance());
   const [internalOpen, setInternalOpen] = useState(false);
+  const { t } = useTranslation();
   const { isMobile, setSidebarOpen, collapsed, peeking } = useSidebar();
   const rail = collapsed && !peeking && !forceExpanded;
   const open = controlledOpen ?? internalOpen;
@@ -188,7 +191,7 @@ export function SidebarAccountMenu({
                     href={`https://github.com/paperclipai/paperclip/commit/${stagingCommit}`}
                     target="_blank"
                     rel="noreferrer"
-                    aria-label={`View commit ${stagingCommit} on GitHub`}
+                    aria-label={t("account.viewCommitOnGithub", { sha: stagingCommit })}
                     title={stagingCommit}
                   >
                     SHA {stagingCommit.slice(0, 7)}
@@ -199,31 +202,32 @@ export function SidebarAccountMenu({
 
             <div className="flex flex-1 flex-col gap-0.5 border-t border-border px-2.5 pb-2.5 pt-2">
               <MenuAction
-                label="Settings"
+                label={t("account.settings")}
                 icon={Settings}
                 href="/company/settings"
                 onClick={closeNavigationChrome}
               />
               <MenuAction
-                label="View profile"
+                label={t("account.viewProfile")}
                 icon={UserRound}
                 href={profileHref}
                 onClick={closeNavigationChrome}
               />
               <MenuAction
-                label="Edit profile"
+                label={t("account.editProfile")}
                 icon={UserRoundPen}
                 href={PROFILE_SETTINGS_PATH}
                 onClick={closeNavigationChrome}
               />
               <MenuAction
-                label="Documentation"
+                label={t("account.documentation")}
                 icon={BookOpen}
                 href={DOCS_URL}
                 external
                 onClick={() => setOpen(false)}
               />
               <ThemeToggle variant="compact-menu-action" onAfterToggle={() => setOpen(false)} />
+              <LanguageSwitcher variant="compact-menu-action" />
               {deploymentMode === "authenticated" ? (
                 <button
                   type="button"
@@ -238,7 +242,7 @@ export function SidebarAccountMenu({
                     <LogOut className="size-4" />
                   </span>
                   <span className="min-w-0 flex-1 truncate">
-                    {signOutMutation.isPending ? "Signing out..." : "Sign out"}
+                    {signOutMutation.isPending ? t("account.signingOut") : t("account.signOut")}
                   </span>
                 </button>
               ) : null}
@@ -253,7 +257,7 @@ export function SidebarAccountMenu({
                 href={FEEDBACK_URL}
                 target="_blank"
                 rel="noreferrer"
-                aria-label="Share feedback"
+                aria-label={t("account.shareFeedback")}
                 className="flex size-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground/50 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <Flag className="h-4 w-4" aria-hidden="true" />

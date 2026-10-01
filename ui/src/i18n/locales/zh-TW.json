@@ -1,9 +1,90 @@
 {
   "app": {
     "noCompanies": {
-      "title": "建立您的第一家公司",
-      "description": "從建立公司開始。",
-      "newCompany": "新公司"
+      "title": "建立您的第一個組織",
+      "description": "從建立組織開始使用。",
+      "newCompany": "新增組織"
     }
+  },
+  "nav": {
+    "newTask": "新增任務",
+    "search": "搜尋",
+    "dashboard": "儀表板",
+    "inbox": "收件匣",
+    "chat": "聊天",
+    "decisions": "決策",
+    "status": "狀態",
+    "conferenceRoom": "會議室",
+    "work": "工作",
+    "tasks": "任務",
+    "projects": "專案",
+    "routines": "例程",
+    "artifacts": "產物",
+    "cases": "用例",
+    "pipelines": "管線",
+    "goals": "目標",
+    "workspaces": "工作區",
+    "org": "組織",
+    "agents": "智慧代理",
+    "skills": "技能",
+    "connectors": "連接器",
+    "audit": "稽核",
+    "organization": "組織",
+    "timeline": "時間軸",
+    "costs": "成本",
+    "activity": "活動",
+    "settings": "設定",
+    "badges": {
+      "unread": "未讀",
+      "decisions": "決策",
+      "beta": "測試版"
+    }
+  },
+  "account": {
+    "settings": "設定",
+    "viewProfile": "查看資料",
+    "editProfile": "編輯資料",
+    "documentation": "文件",
+    "signOut": "登出",
+    "signingOut": "正在登出…",
+    "shareFeedback": "分享意見",
+    "viewCommitOnGithub": "在 GitHub 上查看提交 {{sha}}"
+  },
+  "theme": {
+    "toLight": "切換至淺色模式",
+    "toDark": "切換至深色模式",
+    "description": "切換應用程式外觀。"
+  },
+  "language": {
+    "label": "語言",
+    "description": "選擇應用程式介面使用的語言。"
+  },
+  "status": {
+    "backlog": "待規劃",
+    "todo": "待辦",
+    "in_progress": "進行中",
+    "in_review": "待審閱",
+    "idle": "等待中",
+    "blocked": "已封鎖",
+    "in_queue": "等待進行中的工作",
+    "done": "已完成",
+    "cancelled": "已取消",
+    "blockedWaitingSubTask": "已封鎖 · 等待進行中的子任務 {{id}}",
+    "blockedWaitingSubTasks_one": "已封鎖 · 等待 {{count}} 個進行中的子任務",
+    "blockedWaitingSubTasks_other": "已封鎖 · 等待 {{count}} 個進行中的子任務",
+    "blockedCoveredByDependency": "已封鎖 · 被進行中的相依關係 {{id}} 覆蓋",
+    "blockedCoveredByDependencies_one": "已封鎖 · 被 {{count}} 個進行中的相依關係覆蓋",
+    "blockedCoveredByDependencies_other": "已封鎖 · 被 {{count}} 個進行中的相依關係覆蓋",
+    "blockedReviewStalledOn": "已封鎖 · 審閱在 {{id}} 上停滯",
+    "blockedReviewsStalled_one": "已封鎖 · {{count}} 個審閱停滯且無明確下一步",
+    "blockedReviewsStalled_other": "已封鎖 · {{count}} 個審閱停滯且無明確下一步",
+    "blockedNeedsAttention_one": "已封鎖 · {{count}} 個封鎖項需要處理",
+    "blockedNeedsAttention_other": "已封鎖 · {{count}} 個封鎖項需要處理",
+    "blockedNeedsAttentionCovered_one": "已封鎖 · {{count}} 個封鎖項需要處理；{{covered}} 個被進行中的工作覆蓋",
+    "blockedNeedsAttentionCovered_other": "已封鎖 · {{count}} 個封鎖項需要處理；{{covered}} 個被進行中的工作覆蓋"
+  },
+  "issues": {
+    "selectOrganization": "請選擇一個組織以檢視任務。",
+    "selectCompany": "請選擇一家公司以檢視任務。"
   }
 }
