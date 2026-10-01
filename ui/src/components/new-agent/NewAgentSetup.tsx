@@ -13,6 +13,7 @@ import { testAgentSetup } from "@/lib/test-agent-setup";
 import { useCloudInstance } from "@/hooks/useCloudInstance";
 import { isNewAgentAdapterAllowed } from "@/lib/new-agent-adapters";
 import { useEffect, useRef, useState } from "react";
+import { t } from "@/i18n";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { ArrowLeft, ArrowRight, Check, Settings2 } from "lucide-react";
@@ -76,9 +77,7 @@ export function NewAgentSetup() {
   const [params] = useSearchParams();
   if (!selectedCompanyId)
     return (
-      <p className="text-sm text-muted-foreground">
-        Select an organization to create an agent.
-      </p>
+      <p className="text-sm text-muted-foreground">{t("agentNew.selectAnOrganizationToCreateAnAgent", { defaultValue: "Select an organization to create an agent." })}</p>
     );
   return (
     <Setup
@@ -660,20 +659,15 @@ function Setup({
           </p>
         )}
         {adapters.data && !available && (
-          <p role="alert" className="text-sm text-destructive">
-            This adapter is unavailable. Choose an enabled adapter.
-          </p>
+          <p role="alert" className="text-sm text-destructive">{t("agentNew.thisAdapterIsUnavailableChooseAnEnabledAdapter", { defaultValue: "This adapter is unavailable. Choose an enabled adapter." })}</p>
         )}
         {(managedOnly || forced.forced) &&
           !envs.isPending &&
           !environmentId && (
-            <p role="alert" className="text-sm text-destructive">
-              No managed environment is available. Configure an environment
-              before continuing.
-            </p>
+            <p role="alert" className="text-sm text-destructive">{t("agentNew.noManagedEnvironmentIsAvailableConfigureAnEnviro", { defaultValue: "No managed environment is available. Configure an environment before continuing." })}</p>
           )}
         <div className="flex flex-col gap-8 md:flex-row">
-          <nav aria-label="Agent setup steps" className="shrink-0 md:w-44">
+          <nav aria-label={t("agentNew.agentSetupSteps", { defaultValue: "Agent setup steps" })} className="shrink-0 md:w-44">
             <ol className="flex flex-wrap gap-2 md:flex-col">
               {steps.map((step, index) => (
                 <li key={step}>
@@ -714,15 +708,15 @@ function Setup({
                   <OnboardingCard className="mx-auto">
                     <div className="mb-8">
                       <OnboardingHeading
-                        title="Connect a model"
+                        title={t("agentNew.connectAModel", { defaultValue: "Connect a model" })}
                         lede={`Connect ${name} to ${connectionAdapter === "claude_local" ? "Claude" : connectionAdapter === "grok_local" ? "Grok" : "OpenAI"}.`}
                         center
                       />
                     </div>
                     <div className="mb-5">
-                      <Field label="Environment">
+                      <Field label={t("agentNew.environment", { defaultValue: "Environment" })}>
                         <select
-                          aria-label="Environment"
+                          aria-label={t("agentNew.environment", { defaultValue: "Environment" })}
                           className={controlClass}
                           value={environmentOverride}
                           disabled={busy || forced.forced}
@@ -778,17 +772,17 @@ function Setup({
                           : "Your agent is ready"}
                       </h2>
                       <dl className="grid grid-cols-2 gap-4 text-sm">
-                        <dt className="text-muted-foreground">Adapter</dt>
+                        <dt className="text-muted-foreground">{t("agentNew.adapter", { defaultValue: "Adapter" })}</dt>
                         <dd>{getAdapterDisplay(adapterType).label}</dd>
                         {showModel && (
                           <>
-                            <dt className="text-muted-foreground">Model</dt>
+                            <dt className="text-muted-foreground">{t("agentNew.model", { defaultValue: "Model" })}</dt>
                             <dd className="break-all">
                               {String(confirmationModel)}
                             </dd>
                           </>
                         )}
-                        <dt className="text-muted-foreground">Environment</dt>
+                        <dt className="text-muted-foreground">{t("agentNew.environment", { defaultValue: "Environment" })}</dt>
                         <dd>{environmentLabel}</dd>
                       </dl>
                       <p className="text-sm text-muted-foreground">
@@ -802,9 +796,7 @@ function Setup({
                         variant="outline"
                         onClick={() => navigate(`${agentUrl(created)}/runtime`)}
                       >
-                        <Settings2 className="size-4" />
-                        Edit configuration
-                      </Button>
+                        <Settings2 className="size-4" />{t("agentNew.editConfiguration", { defaultValue: "Edit configuration" })}</Button>
                       <Button
                         disabled={created.status === "pending_approval"}
                         onClick={() =>
@@ -827,28 +819,22 @@ function Setup({
                       void finish();
                     }}
                   >
-                    <h2 className="text-xl font-semibold">
-                      Configure your agent
-                    </h2>
+                    <h2 className="text-xl font-semibold">{t("agentNew.configureYourAgent", { defaultValue: "Configure your agent" })}</h2>
                     <fieldset disabled={busy} className="space-y-8">
                       <section className="space-y-5">
-                        <h3 className="text-sm font-semibold">Runtime</h3>
+                        <h3 className="text-sm font-semibold">{t("agentNew.runtime", { defaultValue: "Runtime" })}</h3>
                         {aiProviderForAdapter(brandType) && (
                           connection && !aiBinding ? (
                             <div className="space-y-3">
-                              <p className="text-sm text-muted-foreground">
-                                Using the connection selected in the Connect step.
-                              </p>
-                              <Button type="button" variant="outline" onClick={() => setScreen("connect")}>
-                                Change connection
-                              </Button>
+                              <p className="text-sm text-muted-foreground">{t("agentNew.usingTheConnectionSelectedInTheConnectStep", { defaultValue: "Using the connection selected in the Connect step." })}</p>
+                              <Button type="button" variant="outline" onClick={() => setScreen("connect")}>{t("agentNew.changeConnection", { defaultValue: "Change connection" })}</Button>
                             </div>
                           ) : (
                             <AiConnectionField companyId={companyId} agentName={name} adapterType={brandType} model={model} environmentId={environmentId ?? undefined} value={aiBinding}
                               onChange={binding => { setRuntimeAiBinding(binding); resetTest(); }} />
                           )
                         )}
-                        {models.error && <p role="alert" className="text-sm text-destructive">Could not load models. Retry or enter a model ID manually.</p>}
+                        {models.error && <p role="alert" className="text-sm text-destructive">{t("agentNew.couldNotLoadModelsRetryOrEnterAModelIdManually", { defaultValue: "Could not load models. Retry or enter a model ID manually." })}</p>}
                         {((showModel && !usingKimiApi) ||
                           efforts.length > 0) && (
                           <div className="grid items-start gap-5 sm:grid-cols-2">
@@ -886,9 +872,9 @@ function Setup({
                               />
                             )}
                             {efforts.length > 0 && (
-                              <Field label="Thinking effort">
+                              <Field label={t("agentNew.thinkingEffort", { defaultValue: "Thinking effort" })}>
                                 <select
-                                  aria-label="Thinking effort"
+                                  aria-label={t("agentNew.thinkingEffort", { defaultValue: "Thinking effort" })}
                                   className={controlClass}
                                   value={effort}
                                   onChange={(event) => {
@@ -896,7 +882,7 @@ function Setup({
                                     resetTest();
                                   }}
                                 >
-                                  <option value="">Auto</option>
+                                  <option value="">{t("agentNew.auto", { defaultValue: "Auto" })}</option>
                                   {efforts.map((value) => (
                                     <option key={value} value={value}>
                                       {value}
@@ -913,17 +899,14 @@ function Setup({
                           </p>
                         )}
                         {showModel && models.error && (
-                          <p className="text-xs text-muted-foreground">
-                            Couldn’t load models. You can enter a model ID
-                            manually.
-                          </p>
+                          <p className="text-xs text-muted-foreground">{t("agentNew.couldntLoadModelsYouCanEnterAModelIdManually", { defaultValue: "Couldn’t load models. You can enter a model ID manually." })}</p>
                         )}
                         {hasCredentialField && !aiBinding && (
                           <div className="grid gap-5 sm:grid-cols-2">
                             {chooseProvider && (
-                              <Field label="API key provider">
+                              <Field label={t("agentNew.apiKeyProvider", { defaultValue: "API key provider" })}>
                                 <select
-                                  aria-label="API key provider"
+                                  aria-label={t("agentNew.apiKeyProvider", { defaultValue: "API key provider" })}
                                   className={controlClass}
                                   value={provider}
                                   onChange={(event) => {
@@ -1002,7 +985,7 @@ function Setup({
                                   chooseProvider ? "sm:col-span-2" : undefined
                                 }
                               >
-                                <Field label="Or use an organization secret">
+                                <Field label={t("agentNew.orUseAnOrganizationSecret", { defaultValue: "Or use an organization secret" })}>
                                   <SecretPicker
                                     secretId={
                                       selectedBinding &&
@@ -1034,23 +1017,23 @@ function Setup({
                           </div>
                         )}
                         {adapterType === "hermes_gateway" && (
-                          <Field label="Hermes API base URL">
+                          <Field label={t("agentNew.hermesApiBaseUrl", { defaultValue: "Hermes API base URL" })}>
                             <Input
-                              aria-label="Hermes API base URL"
+                              aria-label={t("agentNew.hermesApiBaseUrl", { defaultValue: "Hermes API base URL" })}
                               value={gatewayUrl}
                               onChange={(event) => {
                                 setGatewayUrl(event.target.value);
                                 resetTest();
                               }}
-                              placeholder="https://hermes.example.com"
+                              placeholder={t("agentNew.httpsHermesExampleCom", { defaultValue: "https://hermes.example.com" })}
                             />
                           </Field>
                         )}
                         {usingKimiApi && (
                           <div className="grid gap-5 sm:grid-cols-2">
-                            <Field label="Kimi API model name">
+                            <Field label={t("agentNew.kimiApiModelName", { defaultValue: "Kimi API model name" })}>
                               <Input
-                                aria-label="Kimi API model name"
+                                aria-label={t("agentNew.kimiApiModelName", { defaultValue: "Kimi API model name" })}
                                 value={kimiModel}
                                 onChange={(event) => {
                                   setKimiModel(event.target.value);
@@ -1059,9 +1042,9 @@ function Setup({
                                 placeholder="kimi-for-coding"
                               />
                             </Field>
-                            <Field label="Kimi API protocol">
+                            <Field label={t("agentNew.kimiApiProtocol", { defaultValue: "Kimi API protocol" })}>
                               <select
-                                aria-label="Kimi API protocol"
+                                aria-label={t("agentNew.kimiApiProtocol", { defaultValue: "Kimi API protocol" })}
                                 className={controlClass}
                                 value={kimiProtocol}
                                 onChange={(event) => {
@@ -1077,38 +1060,38 @@ function Setup({
                               </select>
                             </Field>
                             <Field
-                              label="Kimi API base URL"
-                              hint="Optional override for your provider endpoint."
+                              label={t("agentNew.kimiApiBaseUrl", { defaultValue: "Kimi API base URL" })}
+                              hint={t("agentNew.optionalOverrideForYourProviderEndpoint", { defaultValue: "Optional override for your provider endpoint." })}
                             >
                               <Input
-                                aria-label="Kimi API base URL"
+                                aria-label={t("agentNew.kimiApiBaseUrl", { defaultValue: "Kimi API base URL" })}
                                 value={kimiBaseUrl}
                                 onChange={(event) => {
                                   setKimiBaseUrl(event.target.value);
                                   resetTest();
                                 }}
-                                placeholder="Provider default"
+                                placeholder={t("agentNew.providerDefault", { defaultValue: "Provider default" })}
                               />
                             </Field>
                           </div>
                         )}
                         {adapterType === "cursor_cloud" && (
                           <div className="grid gap-5 sm:grid-cols-2">
-                            <Field label="GitHub repository">
+                            <Field label={t("agentNew.githubRepository", { defaultValue: "GitHub repository" })}>
                               <Input
-                                aria-label="GitHub repository"
+                                aria-label={t("agentNew.githubRepository", { defaultValue: "GitHub repository" })}
                                 value={repository}
                                 onChange={(event) => {
                                   setRepository(event.target.value);
                                   resetTest();
                                 }}
-                                placeholder="https://github.com/your-org/repo"
+                                placeholder={t("agentNew.httpsGithubComYourOrgRepo", { defaultValue: "https://github.com/your-org/repo" })}
                               />
                             </Field>
-                            <Field label="Branch">
+                            <Field label={t("agentNew.branch", { defaultValue: "Branch" })}>
                               <Input
-                                aria-label="Branch"
-                                placeholder="Repository default"
+                                aria-label={t("agentNew.branch", { defaultValue: "Branch" })}
+                                placeholder={t("agentNew.repositoryDefault", { defaultValue: "Repository default" })}
                                 value={branch}
                                 onChange={(event) => {
                                   setBranch(event.target.value);
@@ -1123,9 +1106,9 @@ function Setup({
                         adapterType,
                       ) && (
                         <section className="space-y-5">
-                          <h3 className="text-sm font-semibold">Environment</h3>
+                          <h3 className="text-sm font-semibold">{t("agentNew.environment", { defaultValue: "Environment" })}</h3>
                           <select
-                            aria-label="Environment"
+                            aria-label={t("agentNew.environment", { defaultValue: "Environment" })}
                             className={controlClass}
                             value={environmentOverride}
                             disabled={forced.forced}
@@ -1170,9 +1153,7 @@ function Setup({
                           disabled={busy}
                           onClick={() => setScreen("connect")}
                         >
-                          <ArrowLeft className="size-4" />
-                          Connection
-                        </Button>
+                          <ArrowLeft className="size-4" />{t("agentNew.connection", { defaultValue: "Connection" })}</Button>
                       ) : (
                         <span />
                       )}

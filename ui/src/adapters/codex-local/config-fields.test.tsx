@@ -1,9 +1,20 @@
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { i18n } from "@/i18n";
 
 import { CodexLocalConfigFields } from "./config-fields";
+
+/**
+ * Field labels come from the message catalog, so these assertions are about
+ * which fields render for which mode — not about a language. Pin English
+ * file-wide so the expected copy does not follow whatever locale the machine
+ * running the tests reports.
+ */
+beforeEach(async () => {
+  await i18n.changeLanguage("en");
+});
 
 function renderRunner(config: Record<string, unknown>): string {
   return renderToStaticMarkup(

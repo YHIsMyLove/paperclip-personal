@@ -1,7 +1,8 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import type { ComponentType } from "react";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { TooltipProvider } from "../components/ui/tooltip";
+import { i18n } from "@/i18n";
 import type { AdapterConfigFieldsProps, AdapterConfigSection } from "./types";
 import { CodexLocalConfigFields } from "./codex-local/config-fields";
 import { ClaudeLocalAdvancedFields } from "./claude-local/config-fields";
@@ -9,6 +10,15 @@ import { GeminiLocalConfigFields } from "./gemini-local/config-fields";
 import { ProcessConfigFields } from "./process/config-fields";
 import { OpenClawGatewayConfigFields } from "./openclaw-gateway/config-fields";
 import { HermesGatewayConfigFields } from "./hermes-gateway/config-fields";
+
+/**
+ * Section headings and field labels come from the message catalog. These
+ * assertions check which section a field belongs to, not its wording, so pin
+ * English file-wide rather than let it follow the machine's locale.
+ */
+beforeEach(async () => {
+  await i18n.changeLanguage("en");
+});
 
 function renderSection(
   Component: ComponentType<AdapterConfigFieldsProps>,

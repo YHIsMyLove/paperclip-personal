@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
 import { HelpCircle, PackageCheck } from "lucide-react";
 import type {
@@ -63,12 +64,12 @@ function GitHubIdentitySection({
             <GithubIcon className="h-4 w-4" />
           </div>
           <div className="min-w-0">
-            <h3 className="text-sm font-semibold text-foreground">GitHub identity</h3>
+            <h3 className="text-sm font-semibold text-foreground">{t("agentTools.githubIdentity", { defaultValue: "GitHub identity" })}</h3>
             {loading ? (
-              <p className="mt-0.5 text-xs text-muted-foreground">Checking GitHub identity…</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">{t("agentTools.checkingGithubIdentity", { defaultValue: "Checking GitHub identity…" })}</p>
             ) : loadError ? (
               <>
-                <p className="mt-0.5 text-sm font-medium text-foreground">Could not load GitHub identity</p>
+                <p className="mt-0.5 text-sm font-medium text-foreground">{t("agentTools.couldNotLoadGithubIdentity", { defaultValue: "Could not load GitHub identity" })}</p>
                 <p className="mt-0.5 text-xs text-muted-foreground">
                   Paperclip could not verify this agent&apos;s current connection. Your existing setup was not changed.
                 </p>
@@ -85,9 +86,7 @@ function GitHubIdentitySection({
             ) : (
               <>
                 <p className="mt-0.5 text-sm font-medium text-foreground">Use responsible person&apos;s GitHub</p>
-                <p className="mt-0.5 text-xs text-muted-foreground">
-                  At run start, Paperclip uses the personal GitHub connection of the person responsible for the task.
-                </p>
+                <p className="mt-0.5 text-xs text-muted-foreground">{t("agentTools.atRunStartPaperclipUsesThePersonalGithubConnecti", { defaultValue: "At run start, Paperclip uses the personal GitHub connection of the person responsible for the task." })}</p>
                 {personalIdentity ? (
                   <p className="mt-1 text-xs text-muted-foreground">
                     Your account is connected{personalLogin ? ` as @${personalLogin}` : ""}.
@@ -101,24 +100,24 @@ function GitHubIdentitySection({
         {!loading ? (
           <div className="flex flex-wrap items-center gap-2">
             {loadError ? (
-              <Button variant="outline" size="sm" onClick={onRetry}>Retry</Button>
+              <Button variant="outline" size="sm" onClick={onRetry}>{t("agentTools.retry", { defaultValue: "Retry" })}</Button>
             ) : dedicatedIdentity ? (
               <Button variant="outline" size="sm" asChild>
-                <Link to={`/apps/${dedicatedIdentity.connection.id}/permissions`}>Manage GitHub identity</Link>
+                <Link to={`/apps/${dedicatedIdentity.connection.id}/permissions`}>{t("agentTools.manageGithubIdentity", { defaultValue: "Manage GitHub identity" })}</Link>
               </Button>
             ) : (
               <>
                 {personalIdentity ? (
                   <Button variant="outline" size="sm" asChild>
-                    <Link to={`/apps/${personalIdentity.connection.id}/permissions`}>Manage my GitHub</Link>
+                    <Link to={`/apps/${personalIdentity.connection.id}/permissions`}>{t("agentTools.manageMyGithub", { defaultValue: "Manage my GitHub" })}</Link>
                   </Button>
                 ) : (
                   <Button size="sm" asChild>
-                    <Link to="/apps/connect?source=github">Connect my GitHub</Link>
+                    <Link to="/apps/connect?source=github">{t("agentTools.connectMyGithub", { defaultValue: "Connect my GitHub" })}</Link>
                   </Button>
                 )}
                 <Button variant="outline" size="sm" asChild>
-                  <Link to="/apps/connect?source=github">Use a dedicated account</Link>
+                  <Link to="/apps/connect?source=github">{t("agentTools.useADedicatedAccount", { defaultValue: "Use a dedicated account" })}</Link>
                 </Button>
               </>
             )}
@@ -200,7 +199,7 @@ function InstalledAppsSection({
     <section className="rounded-lg border border-border bg-card">
       <div className="flex flex-wrap items-start justify-between gap-3 border-b border-border px-3 py-2.5">
         <div>
-          <h3 className="text-sm font-semibold text-foreground">Installed apps</h3>
+          <h3 className="text-sm font-semibold text-foreground">{t("agentTools.installedApps", { defaultValue: "Installed apps" })}</h3>
           <p className="mt-0.5 text-xs text-muted-foreground">
             Installed apps load tools into {agentName}'s context on every run. Permitted-only apps do not add context cost.
           </p>
@@ -209,14 +208,10 @@ function InstalledAppsSection({
       </div>
 
       <div className="space-y-3 p-3">
-        <InlineBanner tone="info" compact>
-          Has access means the app is permitted. Installed means its tools are added to this agent's runtime context.
-        </InlineBanner>
+        <InlineBanner tone="info" compact>{t("agentTools.hasAccessMeansTheAppIsPermittedInstalledMeansIts", { defaultValue: "Has access means the app is permitted. Installed means its tools are added to this agent's runtime context." })}</InlineBanner>
 
         {connections.length === 0 ? (
-          <p className="rounded-md border border-border bg-muted/30 px-3 py-4 text-sm text-muted-foreground">
-            No permitted apps yet. Bind an access profile to make apps available here.
-          </p>
+          <p className="rounded-md border border-border bg-muted/30 px-3 py-4 text-sm text-muted-foreground">{t("agentTools.noPermittedAppsYetBindAnAccessProfileToMakeAppsA", { defaultValue: "No permitted apps yet. Bind an access profile to make apps available here." })}</p>
         ) : (
           <div className="divide-y divide-border rounded-md border border-border">
             {connections.map((connection) => {
@@ -238,7 +233,7 @@ function InstalledAppsSection({
                       <span className="flex flex-wrap items-center gap-2">
                         <span className="truncate text-sm font-medium text-foreground">{connection.name}</span>
                         <InstallBadge installed={checked} installedForAll={installedForAll} permitted={permitted} />
-                        {rowPending ? <span className="text-xs text-muted-foreground">Saving...</span> : null}
+                        {rowPending ? <span className="text-xs text-muted-foreground">{t("agentTools.saving", { defaultValue: "Saving..." })}</span> : null}
                       </span>
                       <span className="mt-0.5 block text-xs text-muted-foreground">
                         {installedForAll
@@ -258,13 +253,9 @@ function InstalledAppsSection({
                         <Link
                           to={`/apps/${connection.id}/permissions`}
                           className="text-xs font-medium text-primary hover:underline"
-                        >
-                          Open permissions
-                        </Link>
+                        >{t("agentTools.openPermissions", { defaultValue: "Open permissions" })}</Link>
                       )}
-                    >
-                      Permitted but not installed — tools will not appear in runs.
-                    </InlineBanner>
+                    >{t("agentTools.permittedButNotInstalledToolsWillNotAppearInRuns", { defaultValue: "Permitted but not installed — tools will not appear in runs." })}</InlineBanner>
                   ) : null}
                 </div>
               );
@@ -308,10 +299,10 @@ function InstallSaveStatusChip({
   unsaved: boolean;
   error: boolean;
 }) {
-  if (pending) return <span className="text-xs text-muted-foreground">Saving...</span>;
-  if (error) return <span className="text-xs text-destructive">Could not save</span>;
-  if (unsaved) return <span className="text-xs text-muted-foreground">Unsaved changes</span>;
-  return <span className="text-xs text-muted-foreground">Saved</span>;
+  if (pending) return <span className="text-xs text-muted-foreground">{t("agentTools.saving", { defaultValue: "Saving..." })}</span>;
+  if (error) return <span className="text-xs text-destructive">{t("agentTools.couldNotSave", { defaultValue: "Could not save" })}</span>;
+  if (unsaved) return <span className="text-xs text-muted-foreground">{t("agentTools.unsavedChanges", { defaultValue: "Unsaved changes" })}</span>;
+  return <span className="text-xs text-muted-foreground">{t("agentTools.saved", { defaultValue: "Saved" })}</span>;
 }
 
 const POLICY_EFFECT_LABEL: Record<string, string> = {
@@ -552,7 +543,7 @@ export function AgentToolsTab({ agent, companyId }: { agent: AgentDetailRecord; 
   const profiles = effective.data?.profiles ?? [];
   const catalogLoading = catalogQueries.some((q) => q.isLoading);
 
-  if (effective.isLoading) return <ToolsLoadingState label="Resolving effective access…" />;
+  if (effective.isLoading) return <ToolsLoadingState label={t("agentTools.resolvingEffectiveAccess", { defaultValue: "Resolving effective access…" })} />;
   if (effective.error) {
     return <ToolsErrorState error={effective.error} onRetry={() => effective.refetch()} />;
   }
@@ -563,7 +554,7 @@ export function AgentToolsTab({ agent, companyId }: { agent: AgentDetailRecord; 
     <div className="space-y-4">
       <EnforcementBanner
         tone="info"
-        title="Effective access"
+        title={t("agentTools.effectiveAccess", { defaultValue: "Effective access" })}
         body={
           <>
             This is exactly the tool set Paperclip will accept for{" "}
@@ -610,23 +601,21 @@ export function AgentToolsTab({ agent, companyId }: { agent: AgentDetailRecord; 
         <div className="lg:col-span-2">
           <div className="rounded-lg border border-border">
             <div className="flex items-center justify-between gap-2 border-b border-border px-3 py-2.5">
-              <h3 className="text-sm font-semibold text-foreground">Allowed tools</h3>
+              <h3 className="text-sm font-semibold text-foreground">{t("agentTools.allowedTools", { defaultValue: "Allowed tools" })}</h3>
               <span className="text-xs text-muted-foreground tabular-nums">
                 {allowedTools.length} {allowedTools.length === 1 ? "tool" : "tools"}
               </span>
             </div>
             {allowedTools.length === 0 ? (
-              <p className="px-3 py-6 text-sm text-muted-foreground">
-                No tools are allowed for this agent. Bind a tool profile to grant access.
-              </p>
+              <p className="px-3 py-6 text-sm text-muted-foreground">{t("agentTools.noToolsAreAllowedForThisAgentBindAToolProfileToG", { defaultValue: "No tools are allowed for this agent. Bind a tool profile to grant access." })}</p>
             ) : (
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border text-left text-xs text-muted-foreground">
-                    <th className="px-3 py-2 font-medium">Tool</th>
-                    <th className="px-3 py-2 font-medium">Capability</th>
-                    <th className="px-3 py-2 font-medium">Risk</th>
-                    <th className="px-3 py-2 font-medium">Source</th>
+                    <th className="px-3 py-2 font-medium">{t("agentTools.tool", { defaultValue: "Tool" })}</th>
+                    <th className="px-3 py-2 font-medium">{t("agentTools.capability", { defaultValue: "Capability" })}</th>
+                    <th className="px-3 py-2 font-medium">{t("agentTools.risk", { defaultValue: "Risk" })}</th>
+                    <th className="px-3 py-2 font-medium">{t("agentTools.source", { defaultValue: "Source" })}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
@@ -663,27 +652,19 @@ export function AgentToolsTab({ agent, companyId }: { agent: AgentDetailRecord; 
         <aside className="space-y-4">
           <div className="rounded-lg border border-border bg-background/60 p-3">
             <h3 className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
-              <HelpCircle className="h-3.5 w-3.5 text-muted-foreground" />
-              Why these tools?
-            </h3>
+              <HelpCircle className="h-3.5 w-3.5 text-muted-foreground" />{t("agentTools.whyTheseTools", { defaultValue: "Why these tools?" })}</h3>
 
             {/* Access profiles */}
             <div className="mt-3 space-y-1.5">
               <div className="flex items-center justify-between gap-2">
-                <div className="text-(length:--text-micro) font-medium uppercase tracking-wide text-muted-foreground">
-                  Access profiles
-                </div>
+                <div className="text-(length:--text-micro) font-medium uppercase tracking-wide text-muted-foreground">{t("agentTools.accessProfiles", { defaultValue: "Access profiles" })}</div>
                 <Link
                   to={`${profilesHref}?check=1`}
                   className="text-(length:--text-micro) font-medium text-primary hover:underline"
-                >
-                  Check access
-                </Link>
+                >{t("agentTools.checkAccess", { defaultValue: "Check access" })}</Link>
               </div>
               {profiles.length === 0 ? (
-                <p className="text-xs text-muted-foreground">
-                  No active profile applies to this agent, so it has no allowed tools.
-                </p>
+                <p className="text-xs text-muted-foreground">{t("agentTools.noActiveProfileAppliesToThisAgentSoItHasNoAllowe", { defaultValue: "No active profile applies to this agent, so it has no allowed tools." })}</p>
               ) : (
                 profiles.map((profile) => {
                   return (
@@ -696,9 +677,7 @@ export function AgentToolsTab({ agent, companyId }: { agent: AgentDetailRecord; 
                       </Link>
                       {profile.summary.isCompanyDefault ? (
                         <div className="mt-1">
-                          <span className="rounded border border-border px-1.5 py-0.5 text-(length:--text-nano) uppercase text-muted-foreground">
-                            Organization default
-                          </span>
+                          <span className="rounded border border-border px-1.5 py-0.5 text-(length:--text-nano) uppercase text-muted-foreground">{t("agentTools.organizationDefault", { defaultValue: "Organization default" })}</span>
                         </div>
                       ) : null}
                     </div>
@@ -709,15 +688,11 @@ export function AgentToolsTab({ agent, companyId }: { agent: AgentDetailRecord; 
 
             {/* Policies mutating the allow list */}
             <div className="mt-3 space-y-1.5">
-              <div className="text-(length:--text-micro) font-medium uppercase tracking-wide text-muted-foreground">
-                Active policies
-              </div>
+              <div className="text-(length:--text-micro) font-medium uppercase tracking-wide text-muted-foreground">{t("agentTools.activePolicies", { defaultValue: "Active policies" })}</div>
               {policiesQuery.isLoading ? (
-                <p className="text-xs text-muted-foreground">Loading policies…</p>
+                <p className="text-xs text-muted-foreground">{t("agentTools.loadingPolicies", { defaultValue: "Loading policies…" })}</p>
               ) : governingPolicies.length === 0 ? (
-                <p className="text-xs text-muted-foreground">
-                  No enabled policy currently mutates this agent's allow list.
-                </p>
+                <p className="text-xs text-muted-foreground">{t("agentTools.noEnabledPolicyCurrentlyMutatesThisAgentsAllowLi", { defaultValue: "No enabled policy currently mutates this agent's allow list." })}</p>
               ) : (
                 governingPolicies.map(({ policy, order }) => (
                   <div key={policy.id} className="rounded-md border border-border/70 px-2.5 py-2">
@@ -744,20 +719,14 @@ export function AgentToolsTab({ agent, companyId }: { agent: AgentDetailRecord; 
 
             {/* Unavailable tools */}
             <div className="mt-3 space-y-1.5">
-              <div className="text-(length:--text-micro) font-medium uppercase tracking-wide text-muted-foreground">
-                Unavailable tools
-              </div>
+              <div className="text-(length:--text-micro) font-medium uppercase tracking-wide text-muted-foreground">{t("agentTools.unavailableTools", { defaultValue: "Unavailable tools" })}</div>
               {catalogLoading ? (
-                <p className="text-xs text-muted-foreground">Checking tools…</p>
+                <p className="text-xs text-muted-foreground">{t("agentTools.checkingTools", { defaultValue: "Checking tools…" })}</p>
               ) : deniedTools.length === 0 ? (
-                <p className="text-xs text-muted-foreground">
-                  Every known tool this agent could name is allowed.
-                </p>
+                <p className="text-xs text-muted-foreground">{t("agentTools.everyKnownToolThisAgentCouldNameIsAllowed", { defaultValue: "Every known tool this agent could name is allowed." })}</p>
               ) : (
                 <>
-                  <p className="text-(length:--text-micro) text-muted-foreground">
-                    Tools the agent could name but Paperclip would block:
-                  </p>
+                  <p className="text-(length:--text-micro) text-muted-foreground">{t("agentTools.toolsTheAgentCouldNameButPaperclipWouldBlock", { defaultValue: "Tools the agent could name but Paperclip would block:" })}</p>
                   <div className="flex flex-wrap gap-1">
                     {deniedTools.slice(0, DENIED_TOOLS_DISPLAY_LIMIT).map((tool) => (
                       <span
