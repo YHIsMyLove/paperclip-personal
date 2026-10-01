@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { Compass, Library, PencilRuler } from "lucide-react";
 import { useLocation } from "@/lib/router";
 import {
@@ -23,28 +24,28 @@ export function SkillsContextualSidebar() {
   return (
     <ContextualSidebarFrame
       surface="skills"
-      title="Skills"
+      title={t("components.skillsContextualSidebar.skills", { defaultValue: "Skills" })}
       icon={Library}
       fallbackTo="/dashboard"
       showHeader={false}
       className="border-r border-border bg-background"
     >
       <nav
-        aria-label="Skills"
+        aria-label={t("components.skillsContextualSidebar.skills", { defaultValue: "Skills" })}
         data-slot="contextual-sidebar-nav"
         className={contextualSidebarStyles.nav}
       >
         <div data-slot="contextual-sidebar-group" className={contextualSidebarStyles.group}>
           <SidebarNavItem
             to={SKILLS_NAVIGATION_HREFS.installed}
-            label="Installed"
+            label={t("components.skillsContextualSidebar.installed", { defaultValue: "Installed" })}
             icon={Library}
             active={activeView === "installed"}
             end
           />
           <SidebarNavItem
             to={SKILLS_NAVIGATION_HREFS.discover}
-            label="Discover"
+            label={t("components.skillsContextualSidebar.discover", { defaultValue: "Discover" })}
             icon={Compass}
             active={activeView === "discover"}
             end
@@ -56,18 +57,18 @@ export function SkillsContextualSidebar() {
             data-slot="contextual-sidebar-section-label"
             className={contextualSidebarStyles.sectionLabel}
           >
-            Author
+            {t("components.skillsContextualSidebar.author", { defaultValue: "Author" })}
           </div>
           <p
             data-slot="contextual-sidebar-section-description"
             className={contextualSidebarStyles.sectionDescription}
           >
-            Skills you create, edit, and test.
+            {t("components.skillsContextualSidebar.skillsYouCreateEditAndTest", { defaultValue: "Skills you create, edit, and test." })}
           </p>
           <div data-slot="contextual-sidebar-group" className={contextualSidebarStyles.group}>
             <SidebarNavItem
               to={SKILLS_NAVIGATION_HREFS.authored}
-              label="My Skills"
+              label={t("components.skillsContextualSidebar.mySkills", { defaultValue: "My Skills" })}
               icon={PencilRuler}
               active={activeView === "authored"}
             />

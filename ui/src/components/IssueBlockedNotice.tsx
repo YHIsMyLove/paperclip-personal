@@ -6,6 +6,7 @@ import type {
   SuccessfulRunHandoffState,
 } from "@paperclipai/shared";
 import type { ReactNode } from "react";
+import { t } from "@/i18n";
 import { AlertTriangle, CheckCircle2, Circle, Flag, Loader2, RotateCcw } from "lucide-react";
 import { Link } from "@/lib/router";
 import { cn } from "../lib/utils";
@@ -108,7 +109,7 @@ function SuccessfulRunRetryNowControl({
           {retryNow.isPending ? (
             <span className="inline-flex items-center gap-1.5">
               <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
-              Retrying...
+              {t("components.issueBlockedNotice.retrying", { defaultValue: "Retrying..." })}
             </span>
           ) : success ? (
             <span className="inline-flex items-center gap-1.5">
@@ -118,7 +119,7 @@ function SuccessfulRunRetryNowControl({
           ) : (
             <span className="inline-flex items-center gap-1.5">
               <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
-              Retry now
+              {t("components.issueBlockedNotice.retryNow", { defaultValue: "Retry now" })}
             </span>
           )}
         </Button>
@@ -289,7 +290,7 @@ function WaitingOnLiveWorkNotice({
         </span>
         <div className="min-w-0 flex-1 space-y-2">
           <div className="space-y-1">
-            <p className="font-medium leading-5">Waiting on live work</p>
+            <p className="font-medium leading-5">{t("components.issueBlockedNotice.waitingOnLiveWork", { defaultValue: "Waiting on live work" })}</p>
             <p className="leading-5">
               Queued behind {total} {queuedNoun} being worked in order. This task
               resumes automatically when the chain is done. Comments still notify the
@@ -304,7 +305,7 @@ function WaitingOnLiveWorkNotice({
             </div>
             <div
               role="progressbar"
-              aria-label="Blocker chain progress"
+              aria-label={t("components.issueBlockedNotice.blockerChainProgress", { defaultValue: "Blocker chain progress" })}
               aria-valuemin={0}
               aria-valuenow={doneCount}
               aria-valuemax={total}
@@ -355,7 +356,7 @@ function WaitingOnLiveWorkNotice({
               </div>
               <div className="min-w-0 pb-0.5">
                 <span className="inline-block rounded-md border border-dashed border-blue-300/70 px-2 py-1 text-xs text-blue-800 dark:border-blue-500/40 dark:text-blue-200">
-                  This task — resumes automatically when the chain is done
+                  {t("components.issueBlockedNotice.thisTaskResumesAutomaticallyWhenTheChainIsDone", { defaultValue: "This task — resumes automatically when the chain is done" })}
                 </span>
               </div>
             </div>
@@ -367,7 +368,7 @@ function WaitingOnLiveWorkNotice({
               className="space-y-1 pt-0.5"
             >
               <div className="text-xs font-medium text-blue-800 dark:text-blue-200">
-                Now running
+                {t("components.issueBlockedNotice.nowRunning", { defaultValue: "Now running" })}
               </div>
               <div className="flex flex-wrap items-center gap-1.5">
                 {nowRunning.map((blocker) => (
@@ -384,7 +385,7 @@ function WaitingOnLiveWorkNotice({
             >
               <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-800 dark:text-amber-200">
                 <Flag className="h-3 w-3" aria-hidden />
-                Blocked by parked work
+                {t("components.issueBlockedNotice.blockedByParkedWork", { defaultValue: "Blocked by parked work" })}
               </span>
               {parkedBlockers.map((blocker) => renderParkedChip(blocker))}
             </div>
@@ -607,16 +608,15 @@ export function IssueBlockedNotice({
         <div className="min-w-0 space-y-1.5">
           {showSuccessfulRunHandoff ? (
             <>
-              <p className="font-medium leading-5">This task still needs a next step.</p>
+              <p className="font-medium leading-5">{t("components.issueBlockedNotice.thisTaskStillNeedsANextStep", { defaultValue: "This task still needs a next step." })}</p>
               <p className="leading-5">
-                A run finished successfully, but the task is still open. Paperclip needs someone to choose
-                what happens next.
+                {t("components.issueBlockedNotice.aRunFinishedSuccessfullyButTheTaskIsStillOpenPap", { defaultValue: "A run finished successfully, but the task is still open. Paperclip needs someone to choose what happens next." })}
               </p>
               <ul className="list-disc space-y-1 pl-5 text-xs leading-5 text-amber-900 dark:text-amber-100">
-                <li>Mark it done or cancelled.</li>
-                <li>Send it for review or ask for input.</li>
-                <li>Record what is blocking it and who owns that blocker.</li>
-                <li>Delegate follow-up work or queue a continuation.</li>
+                <li>{t("components.issueBlockedNotice.markItDoneOrCancelled", { defaultValue: "Mark it done or cancelled." })}</li>
+                <li>{t("components.issueBlockedNotice.sendItForReviewOrAskForInput", { defaultValue: "Send it for review or ask for input." })}</li>
+                <li>{t("components.issueBlockedNotice.recordWhatIsBlockingItAndWhoOwnsThatBlocker", { defaultValue: "Record what is blocking it and who owns that blocker." })}</li>
+                <li>{t("components.issueBlockedNotice.delegateFollowUpWorkOrQueueAContinuation", { defaultValue: "Delegate follow-up work or queue a continuation." })}</li>
               </ul>
               <div className="flex flex-wrap gap-1.5 text-xs">
                 {successfulRunHandoff.sourceRunId && successfulRunHandoff.assigneeAgentId ? (
@@ -662,7 +662,7 @@ export function IssueBlockedNotice({
                     : reopenSuppressed
                       ? <>A message won&rsquo;t restart this task yet — it stays blocked by {blockerLabel} until {blockers.length === 1 ? "it is" : "they are"} done, then it reopens automatically. Comments still notify {responsibleName} for questions or triage in the meantime.</>
                       : <>Work on this task is blocked by {blockerLabel} until {blockers.length === 1 ? "it is" : "they are"} complete. Comments still notify the assignee for questions or triage.</>
-                  : <>Work on this task is blocked until someone moves it back to To do. Comments still notify the assignee for questions or triage.</>}
+                  : <>{t("components.issueBlockedNotice.workOnThisTaskIsBlockedUntilSomeoneMovesItBackTo", { defaultValue: "Work on this task is blocked until someone moves it back to To do. Comments still notify the assignee for questions or triage." })}</>}
               </p>
               {reopenSuppressed && reopenSuppressedLeafId ? (
                 <p
@@ -688,14 +688,14 @@ export function IssueBlockedNotice({
               {showStalledRow ? (
                 <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
                   <span className="text-xs font-medium text-amber-800 dark:text-amber-200">
-                    Stalled in review
+                    {t("components.issueBlockedNotice.stalledInReview", { defaultValue: "Stalled in review" })}
                   </span>
                   {stalledLeafBlockers.map(renderBlockerChip)}
                 </div>
               ) : terminalBlockers.length > 0 ? (
                 <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
                   <span className="text-xs font-medium text-amber-800 dark:text-amber-200">
-                    Ultimately waiting on
+                    {t("components.issueBlockedNotice.ultimatelyWaitingOn", { defaultValue: "Ultimately waiting on" })}
                   </span>
                   {terminalBlockers.map(renderBlockerChip)}
                 </div>
@@ -707,7 +707,7 @@ export function IssueBlockedNotice({
                 >
                   <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-800 dark:text-amber-200">
                     <Flag className="h-3 w-3" aria-hidden />
-                    Blocked by parked work
+                    {t("components.issueBlockedNotice.blockedByParkedWork", { defaultValue: "Blocked by parked work" })}
                   </span>
                   {parkedBlockers.map(renderBlockerChip)}
                 </div>

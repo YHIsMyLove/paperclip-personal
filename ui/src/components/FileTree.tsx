@@ -1,4 +1,5 @@
 import type { KeyboardEvent, ReactNode } from "react";
+import { t } from "@/i18n";
 import { useMemo, useRef, useState } from "react";
 import { cn } from "../lib/utils";
 import {
@@ -370,7 +371,7 @@ export function FileTree({
           </div>
           {error.retry && (
             <Button type="button" size="xs" variant="outline" onClick={error.retry}>
-              Retry
+              {t("components.fileTree.retry", { defaultValue: "Retry" })}
             </Button>
           )}
         </div>

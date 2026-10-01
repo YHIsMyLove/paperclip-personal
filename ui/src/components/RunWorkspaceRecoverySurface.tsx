@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { HeartbeatRun } from "@paperclipai/shared";
 import { useNavigate } from "@/lib/router";
@@ -255,7 +256,7 @@ export function RunWorkspaceRecoverySurface({ run }: { run: HeartbeatRun }) {
   return (
     <div className="space-y-2" data-testid="run-workspace-recovery-surface">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-xs font-medium text-muted-foreground">Workspace recovery</span>
+        <span className="text-xs font-medium text-muted-foreground">{t("components.runWorkspaceRecoverySurface.workspaceRecovery", { defaultValue: "Workspace recovery" })}</span>
         {issue?.identifier ? (
           <a
             href={`/issues/${issue.identifier}`}

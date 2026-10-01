@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { t } from "@/i18n";
 import { AiConnectionPicker } from "./AiConnectionPicker";
 import { LocalProviderLoginInstructions, ProviderApiKeyCard } from "@/components/AdapterLoginChrome";
 import type {
@@ -39,7 +40,7 @@ export function AiConnectionDesignExamples() {
         Storybook under AI Connections / Review. Example controls below do not
         connect accounts.
       </p>
-      <p className="text-sm text-muted-foreground">Provider lists and account management use Browse and AppDetail from the Connectors interface. The picker below uses ConnectionChoiceList, also used by ConnectionSetupFlow.</p>
+      <p className="text-sm text-muted-foreground">{t("components.aiConnections.aiConnectionDesignExamples.providerListsAndAccountManagementUseBrowseAndApp", { defaultValue: "Provider lists and account management use Browse and AppDetail from the Connectors interface. The picker below uses ConnectionChoiceList, also used by ConnectionSetupFlow." })}</p>
       <AiConnectionPicker
         requirement={requirement}
         connections={[account]}
@@ -57,7 +58,7 @@ export function AiConnectionDesignExamples() {
         disabled
         onChange={() => {}}
         onSubmit={() => {}}
-        placeholder="Enter API key here"
+        placeholder={t("components.aiConnections.aiConnectionDesignExamples.enterApiKeyHere", { defaultValue: "Enter API key here" })}
       />
       <LocalProviderLoginInstructions
         adapterType="claude_local"

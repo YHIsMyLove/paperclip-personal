@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { t } from "@/i18n";
 
 import { Link } from "@/lib/router";
 import { Button } from "@/components/ui/button";
@@ -126,7 +127,7 @@ function ResourceActionButton({
           <AlertDialogDescription>{copy.body}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>{t("components.builtInBundlePanel.cancel", { defaultValue: "Cancel" })}</AlertDialogCancel>
           <AlertDialogAction onClick={onConfirm}>{copy.confirmLabel}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
@@ -162,7 +163,7 @@ function ConfirmActionButton({
           <AlertDialogDescription>{body}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>{t("components.builtInBundlePanel.cancel", { defaultValue: "Cancel" })}</AlertDialogCancel>
           <AlertDialogAction onClick={onConfirm}>{confirmLabel}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
@@ -302,7 +303,7 @@ export function BuiltInBundlePanel({
         actions={
           <>
             <Button asChild variant="link" size="sm">
-              <Link to={viewHref}>View</Link>
+              <Link to={viewHref}>{t("components.builtInBundlePanel.view", { defaultValue: "View" })}</Link>
             </Button>
             <ResourceActionButton
               resource={resource}
@@ -317,18 +318,18 @@ export function BuiltInBundlePanel({
   };
 
   return (
-    <section className={cn("space-y-2", className)} aria-label="Bundle status">
-      <h3 className="text-sm font-medium">Bundle status</h3>
+    <section className={cn("space-y-2", className)} aria-label={t("components.builtInBundlePanel.bundleStatus", { defaultValue: "Bundle status" })}>
+      <h3 className="text-sm font-medium">{t("components.builtInBundlePanel.bundleStatus", { defaultValue: "Bundle status" })}</h3>
 
       <div className="divide-y rounded-lg border px-4">
         {/* Adapter — no resource entry; readiness is the agent lifecycle. */}
         <BundleRow
-          label="Adapter"
+          label={t("components.builtInBundlePanel.adapter", { defaultValue: "Adapter" })}
           chips={<ResourceStatusChip variant={adapterChip} />}
           detail={adapterDetail}
           actions={
             <Button variant="outline" size="sm" onClick={onConfigure}>
-              Configure
+              {t("components.builtInBundlePanel.configure", { defaultValue: "Configure" })}
             </Button>
           }
         />
@@ -353,7 +354,7 @@ export function BuiltInBundlePanel({
 
         {/* Routine — zero-token-by-default; the weekly schedule ships off. */}
         <BundleRow
-          label="Routine"
+          label={t("components.builtInBundlePanel.routine", { defaultValue: "Routine" })}
           secondary={bundle.routine.title}
           chips={
             <>
@@ -376,10 +377,10 @@ export function BuiltInBundlePanel({
               <>
                 {onRunRoutine && (
                   <ConfirmActionButton
-                    title="Run Reflection Coach once?"
-                    body="Paperclip will create one routine task now. This does not enable the weekly schedule or turn on background work."
-                    triggerLabel="Run once"
-                    confirmLabel="Run once"
+                    title={t("components.builtInBundlePanel.runReflectionCoachOnce", { defaultValue: "Run Reflection Coach once?" })}
+                    body={t("components.builtInBundlePanel.paperclipWillCreateOneRoutineTaskNowThisDoesNotE", { defaultValue: "Paperclip will create one routine task now. This does not enable the weekly schedule or turn on background work." })}
+                    triggerLabel={t("components.builtInBundlePanel.runOnce", { defaultValue: "Run once" })}
+                    confirmLabel={t("components.builtInBundlePanel.runOnce", { defaultValue: "Run once" })}
                     pending={routineActionPending === "run"}
                     onConfirm={() => onRunRoutine(routineKey)}
                   />
@@ -387,20 +388,20 @@ export function BuiltInBundlePanel({
                 {scheduleEnabled
                   ? onDisableSchedule && (
                     <ConfirmActionButton
-                      title="Disable the weekly schedule?"
-                      body="Paperclip will stop future scheduled Reflection Coach runs. Manual Run once remains available."
-                      triggerLabel="Disable schedule"
-                      confirmLabel="Disable schedule"
+                      title={t("components.builtInBundlePanel.disableTheWeeklySchedule", { defaultValue: "Disable the weekly schedule?" })}
+                      body={t("components.builtInBundlePanel.paperclipWillStopFutureScheduledReflectionCoachR", { defaultValue: "Paperclip will stop future scheduled Reflection Coach runs. Manual Run once remains available." })}
+                      triggerLabel={t("components.builtInBundlePanel.disableSchedule", { defaultValue: "Disable schedule" })}
+                      confirmLabel={t("components.builtInBundlePanel.disableSchedule", { defaultValue: "Disable schedule" })}
                       pending={routineActionPending === "disable"}
                       onConfirm={() => onDisableSchedule(routineKey)}
                     />
                   )
                   : onEnableSchedule && (
                     <ConfirmActionButton
-                      title="Enable the weekly schedule?"
-                      body="Paperclip will allow Reflection Coach to create routine tasks on the weekly schedule. It can spend tokens when those tasks run."
-                      triggerLabel="Enable weekly"
-                      confirmLabel="Enable weekly"
+                      title={t("components.builtInBundlePanel.enableTheWeeklySchedule", { defaultValue: "Enable the weekly schedule?" })}
+                      body={t("components.builtInBundlePanel.paperclipWillAllowReflectionCoachToCreateRoutine", { defaultValue: "Paperclip will allow Reflection Coach to create routine tasks on the weekly schedule. It can spend tokens when those tasks run." })}
+                      triggerLabel={t("components.builtInBundlePanel.enableWeekly", { defaultValue: "Enable weekly" })}
+                      confirmLabel={t("components.builtInBundlePanel.enableWeekly", { defaultValue: "Enable weekly" })}
                       pending={routineActionPending === "enable"}
                       onConfirm={() => onEnableSchedule(routineKey)}
                     />
@@ -419,12 +420,12 @@ export function BuiltInBundlePanel({
         />
         {proposalHref && (
           <BundleRow
-            label="Proposal"
+            label={t("components.builtInBundlePanel.proposal", { defaultValue: "Proposal" })}
             chips={<ResourceStatusChip variant="proposal_pending" />}
-            detail="A proposed Reflection Coach update is waiting for review."
+            detail={t("components.builtInBundlePanel.aProposedReflectionCoachUpdateIsWaitingForReview", { defaultValue: "A proposed Reflection Coach update is waiting for review." })}
             actions={
               <Button asChild variant="link" size="sm">
-                <Link to={proposalHref}>Review proposal</Link>
+                <Link to={proposalHref}>{t("components.builtInBundlePanel.reviewProposal", { defaultValue: "Review proposal" })}</Link>
               </Button>
             }
           />

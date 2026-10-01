@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 interface ShortcutEntry {
@@ -105,7 +106,7 @@ export function KeyboardShortcutsCheatsheetContent() {
       </div>
       <div className="border-t border-border px-5 py-3">
         <p className="text-xs text-muted-foreground">
-          Press <KeyCap>Esc</KeyCap> to close &middot; Shortcuts are disabled in text fields
+          {t("components.keyboardShortcutsCheatsheet.press", { defaultValue: "Press" })} <KeyCap>{t("components.keyboardShortcutsCheatsheet.esc", { defaultValue: "Esc" })}</KeyCap> to close &middot; Shortcuts are disabled in text fields
         </p>
       </div>
     </>
@@ -123,7 +124,7 @@ export function KeyboardShortcutsCheatsheet({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md gap-0 p-0 overflow-hidden" showCloseButton={false}>
         <DialogHeader className="px-5 pt-5 pb-3">
-          <DialogTitle className="text-base">Keyboard shortcuts</DialogTitle>
+          <DialogTitle className="text-base">{t("components.keyboardShortcutsCheatsheet.keyboardShortcuts", { defaultValue: "Keyboard shortcuts" })}</DialogTitle>
         </DialogHeader>
         <KeyboardShortcutsCheatsheetContent />
       </DialogContent>

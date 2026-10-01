@@ -1,5 +1,6 @@
 import { EmailMessageCard } from "./EmailMessageCard";
 import { useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { emailApi } from "@/api/email";
 import { Button } from "@/components/ui/button";
@@ -81,7 +82,7 @@ function EmailDelivery({
     <div className="space-y-2 text-xs text-muted-foreground">
       {p.request && !p.providerMessageId && (
         <article
-          aria-label="Email send intent"
+          aria-label={t("components.emailTaskActivity.emailSendIntent", { defaultValue: "Email send intent" })}
           className="space-y-3 rounded-lg border border-border p-4"
         >
           <p className="font-semibold">{p.request.subject ?? "Email reply"}</p>
@@ -98,18 +99,17 @@ function EmailDelivery({
       {p.outcome === "uncertain" && (
         <details>
           <summary className="cursor-pointer">
-            Resolve delivery after checking AgentMail
+            {t("components.emailTaskActivity.resolveDeliveryAfterCheckingAgentmail", { defaultValue: "Resolve delivery after checking AgentMail" })}
           </summary>
           <div className="space-y-2 py-2">
             <p>
-              Confirm the outcome in AgentMail before resolving. This action
-              does not resend.
+              {t("components.emailTaskActivity.confirmTheOutcomeInAgentmailBeforeResolvingThisA", { defaultValue: "Confirm the outcome in AgentMail before resolving. This action does not resend." })}
             </p>
             <Input
-              aria-label="Provider message ID"
+              aria-label={t("components.emailTaskActivity.providerMessageId", { defaultValue: "Provider message ID" })}
               value={messageId}
               onChange={(e) => setMessageId(e.target.value)}
-              placeholder="Provider message ID"
+              placeholder={t("components.emailTaskActivity.providerMessageId", { defaultValue: "Provider message ID" })}
             />
             <div className="flex gap-2">
               <Button
@@ -118,7 +118,7 @@ function EmailDelivery({
                 disabled={!messageId || resolve.isPending}
                 onClick={() => resolve.mutate("sent")}
               >
-                Confirm sent
+                {t("components.emailTaskActivity.confirmSent", { defaultValue: "Confirm sent" })}
               </Button>
               <Button
                 size="sm"
@@ -126,7 +126,7 @@ function EmailDelivery({
                 disabled={resolve.isPending}
                 onClick={() => resolve.mutate("failed")}
               >
-                Confirm not sent
+                {t("components.emailTaskActivity.confirmNotSent", { defaultValue: "Confirm not sent" })}
               </Button>
             </div>
             {resolve.error && (

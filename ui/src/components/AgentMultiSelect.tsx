@@ -1,5 +1,6 @@
 import { AgentAvatar } from "@/components/AgentAvatar";
 import { useEffect, useMemo, useState, type ComponentProps, type ReactNode } from "react";
+import { t } from "@/i18n";
 import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -74,7 +75,7 @@ export function AgentSelect({
           <Input
             value={filter}
             onChange={(event) => setFilter(event.target.value)}
-            placeholder="Filter agents"
+            placeholder={t("components.agentMultiSelect.filterAgents", { defaultValue: "Filter agents" })}
             className="h-8"
             autoFocus
           />
@@ -102,7 +103,7 @@ export function AgentSelect({
               </button>
             ))}
             {filteredAgents.length === 0 ? (
-              <div className="px-3 py-4 text-sm text-muted-foreground">No matches.</div>
+              <div className="px-3 py-4 text-sm text-muted-foreground">{t("components.agentMultiSelect.noMatches", { defaultValue: "No matches." })}</div>
             ) : null}
           </div>
         )}
@@ -224,7 +225,7 @@ export function AgentMultiSelect({
           <Input
             value={filter}
             onChange={(event) => setFilter(event.target.value)}
-            placeholder="Filter agents"
+            placeholder={t("components.agentMultiSelect.filterAgents", { defaultValue: "Filter agents" })}
             className="h-8"
             autoFocus
           />
@@ -273,7 +274,7 @@ export function AgentMultiSelect({
               );
             })}
             {filteredAgents.length === 0 ? (
-              <div className="px-3 py-4 text-sm text-muted-foreground">No matches.</div>
+              <div className="px-3 py-4 text-sm text-muted-foreground">{t("components.agentMultiSelect.noMatches", { defaultValue: "No matches." })}</div>
             ) : null}
           </div>
         )}
@@ -284,7 +285,7 @@ export function AgentMultiSelect({
             <div className="flex items-center gap-2">
               {staged ? (
                 <Button type="button" variant="ghost" size="sm" onClick={() => setOpen(false)} disabled={pending}>
-                  Cancel
+                  {t("components.agentMultiSelect.cancel", { defaultValue: "Cancel" })}
                 </Button>
               ) : null}
               <Button

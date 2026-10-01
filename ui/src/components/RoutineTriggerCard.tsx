@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { t } from "@/i18n";
 import { Clock3, RefreshCw, Save, Trash2, Webhook, Zap } from "lucide-react";
 import type { RoutineTrigger } from "@paperclipai/shared";
 import { Button } from "@/components/ui/button";
@@ -104,17 +105,17 @@ export function RoutineTriggerCard({
 
       {trigger.kind === "webhook" && trigger.webhookUrl && (
         <div className="space-y-1.5">
-          <Label htmlFor={`webhook-url-${trigger.id}`} className="text-xs">Webhook URL</Label>
+          <Label htmlFor={`webhook-url-${trigger.id}`} className="text-xs">{t("components.routineTriggerCard.webhookUrl", { defaultValue: "Webhook URL" })}</Label>
           <Input id={`webhook-url-${trigger.id}`} value={trigger.webhookUrl} readOnly onFocus={(event) => event.target.select()} />
           <p className="text-xs text-muted-foreground">
-            Send a POST request with Content-Type: application/json. Keep this URL private when signing is disabled.
+            {t("components.routineTriggerCard.sendAPostRequestWithContentTypeApplicationJsonKe", { defaultValue: "Send a POST request with Content-Type: application/json. Keep this URL private when signing is disabled." })}
           </p>
         </div>
       )}
 
       <div className="grid gap-3 md:grid-cols-2">
         <div className="space-y-1.5">
-          <Label className="text-xs">Label</Label>
+          <Label className="text-xs">{t("components.routineTriggerCard.label", { defaultValue: "Label" })}</Label>
           <Input
             value={draft.label}
             disabled={disabled}
@@ -123,7 +124,7 @@ export function RoutineTriggerCard({
         </div>
         {trigger.kind === "schedule" && (
           <div className="space-y-1.5 md:col-span-2">
-            <Label className="text-xs">Schedule</Label>
+            <Label className="text-xs">{t("components.routineTriggerCard.schedule", { defaultValue: "Schedule" })}</Label>
             <ScheduleEditor
               value={draft.cronExpression}
               onChange={(cronExpression) =>
@@ -135,7 +136,7 @@ export function RoutineTriggerCard({
         {trigger.kind === "webhook" && (
           <>
             <div className="space-y-1.5">
-              <Label className="text-xs">Signing mode</Label>
+              <Label className="text-xs">{t("components.routineTriggerCard.signingMode", { defaultValue: "Signing mode" })}</Label>
               <Select
                 value={draft.signingMode}
                 onValueChange={(signingMode) =>
@@ -180,12 +181,12 @@ export function RoutineTriggerCard({
             onClick={() => onDelete(trigger.id)}
           >
             <Trash2 className="mr-1.5 h-3.5 w-3.5" />
-            Delete
+            {t("components.routineTriggerCard.delete", { defaultValue: "Delete" })}
           </Button>
           {trigger.kind === "webhook" && (
             <Button variant="outline" size="sm" onClick={() => onRotate(trigger.id)}>
               <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
-              Rotate secret
+              {t("components.routineTriggerCard.rotateSecret", { defaultValue: "Rotate secret" })}
             </Button>
           )}
           <Button
@@ -196,7 +197,7 @@ export function RoutineTriggerCard({
             }
           >
             <Save className="mr-1.5 h-3.5 w-3.5" />
-            Save trigger
+            {t("components.routineTriggerCard.saveTrigger", { defaultValue: "Save trigger" })}
           </Button>
         </div>
       )}

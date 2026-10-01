@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CheckCircle2, Loader2, RotateCcw, Undo2 } from "lucide-react";
 import type { IssueReviewPolicy, StalledReviewDecisionAction } from "@paperclipai/shared";
@@ -104,7 +105,7 @@ export function StalledReviewActions({
       <Textarea
         value={note}
         onChange={(event) => setNote(event.target.value)}
-        placeholder="Add a note — required to request changes, optional otherwise…"
+        placeholder={t("components.stalledReviewActions.addANoteRequiredToRequestChangesOptionalOtherwis", { defaultValue: "Add a note — required to request changes, optional otherwise…" })}
         className="min-h-16 text-sm"
         data-testid="stalled-review-note"
         disabled={pending}

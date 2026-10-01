@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
@@ -157,12 +158,12 @@ export function ConfigureBuiltInAgentModal({
 
         <div className="space-y-4">
           <InlineBanner tone="info" compact>
-            Creates <strong>{definition.displayName}</strong> in your roster, badged{" "}
-            <strong>Built-in</strong>. Organizations that require hire approval will queue this for the
+            {t("components.configureBuiltInAgentModal.creates", { defaultValue: "Creates" })} <strong>{definition.displayName}</strong> in your roster, badged{" "}
+            <strong>{t("components.configureBuiltInAgentModal.builtIn", { defaultValue: "Built-in" })}</strong>. Organizations that require hire approval will queue this for the
             board.
           </InlineBanner>
 
-          <Field label="Adapter type">
+          <Field label={t("components.configureBuiltInAgentModal.adapterType", { defaultValue: "Adapter type" })}>
             <AdapterTypeDropdown
               value={adapterType}
               onChange={(next) => {
@@ -196,12 +197,11 @@ export function ConfigureBuiltInAgentModal({
 
           {!setupSupportedInModal && (
             <InlineBanner tone="warning" compact>
-              This adapter needs command or endpoint fields before it can run. Provision the
-              built-in row now, then finish those fields from the full agent configuration.
+              {t("components.configureBuiltInAgentModal.thisAdapterNeedsCommandOrEndpointFieldsBeforeItC", { defaultValue: "This adapter needs command or endpoint fields before it can run. Provision the built-in row now, then finish those fields from the full agent configuration." })}
             </InlineBanner>
           )}
 
-          <Field label="Monthly budget (optional)" hint="Leave blank for no cap.">
+          <Field label={t("components.configureBuiltInAgentModal.monthlyBudgetOptional", { defaultValue: "Monthly budget (optional)" })} hint={t("components.configureBuiltInAgentModal.leaveBlankForNoCap", { defaultValue: "Leave blank for no cap." })}>
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground">$</span>
               <Input
@@ -231,7 +231,7 @@ export function ConfigureBuiltInAgentModal({
             onClick={() => onOpenChange(false)}
             disabled={provision.isPending}
           >
-            Not now
+            {t("components.configureBuiltInAgentModal.notNow", { defaultValue: "Not now" })}
           </Button>
           <Button
             onClick={() => {

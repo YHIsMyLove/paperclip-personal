@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import {
   Clock3,
   LoaderCircle,
@@ -78,7 +79,7 @@ export function TaskBrowserFooter({
 
   return (
     <footer
-      aria-label="Browser session"
+      aria-label={t("components.taskSidePanel.taskBrowserFooter.browserSession", { defaultValue: "Browser session" })}
       className="flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 border-t px-3 py-2 text-xs text-muted-foreground"
     >
       {closingSoon && (
@@ -99,7 +100,7 @@ export function TaskBrowserFooter({
         </span>
       )}
       {controlledElsewhere && viewport === "fit" && (
-        <span>Size follows another viewer</span>
+        <span>{t("components.taskSidePanel.taskBrowserFooter.sizeFollowsAnotherViewer", { defaultValue: "Size follows another viewer" })}</span>
       )}
       {resizing ? (
         <span role="status" className="flex items-center gap-1">
@@ -107,10 +108,10 @@ export function TaskBrowserFooter({
             className="size-3 animate-spin motion-reduce:animate-none"
             aria-hidden="true"
           />
-          Resizing…
+          {t("components.taskSidePanel.taskBrowserFooter.resizing", { defaultValue: "Resizing…" })}
         </span>
       ) : (
-        browser.status === "running" && <span>Browsing</span>
+        browser.status === "running" && <span>{t("components.taskSidePanel.taskBrowserFooter.browsing", { defaultValue: "Browsing" })}</span>
       )}
       <div className="ml-auto flex items-center gap-1">
         {closingSoon && canExtend && (
@@ -122,7 +123,7 @@ export function TaskBrowserFooter({
                 disabled={disabled}
                 onClick={() => onControl("keep_open")}
               >
-                Keep browsing
+                {t("components.taskSidePanel.taskBrowserFooter.keepBrowsing", { defaultValue: "Keep browsing" })}
               </Button>
             </TooltipTrigger>
             <TooltipContent>
@@ -140,11 +141,11 @@ export function TaskBrowserFooter({
                 disabled={disabled}
                 onClick={() => onControl("cancel")}
               >
-                <Square aria-hidden="true" /> Stop browsing
+                <Square aria-hidden="true" /> {t("components.taskSidePanel.taskBrowserFooter.stopBrowsing", { defaultValue: "Stop browsing" })}
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              Stop the agent’s browser work and leave the browser open.
+              {t("components.taskSidePanel.taskBrowserFooter.stopTheAgentsBrowserWorkAndLeaveTheBrowserOpen", { defaultValue: "Stop the agent’s browser work and leave the browser open." })}
             </TooltipContent>
           </Tooltip>
         )}
@@ -154,7 +155,7 @@ export function TaskBrowserFooter({
               <Button
                 size="icon-xs"
                 variant="ghost"
-                aria-label="Browser options"
+                aria-label={t("components.taskSidePanel.taskBrowserFooter.browserOptions", { defaultValue: "Browser options" })}
                 disabled={disabled}
               >
                 <MoreHorizontal aria-hidden="true" />
@@ -164,13 +165,13 @@ export function TaskBrowserFooter({
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger disabled={resizing || !resizeAvailable}>
                   <Monitor aria-hidden="true" />
-                  <span>Browser size</span>
+                  <span>{t("components.taskSidePanel.taskBrowserFooter.browserSize", { defaultValue: "Browser size" })}</span>
                   <span className="ml-auto text-xs text-muted-foreground">
                     {sizeLabel}
                   </span>
                 </DropdownMenuSubTrigger>
                 <DropdownMenuSubContent className="w-64">
-                  <DropdownMenuLabel>Browser size</DropdownMenuLabel>
+                  <DropdownMenuLabel>{t("components.taskSidePanel.taskBrowserFooter.browserSize", { defaultValue: "Browser size" })}</DropdownMenuLabel>
                   <DropdownMenuRadioGroup
                     value={viewport}
                     onValueChange={(value) =>
@@ -183,11 +184,11 @@ export function TaskBrowserFooter({
                         if (viewport === "fit") onResize("fit");
                       }}
                     >
-                      Fit to pane
+                      {t("components.taskSidePanel.taskBrowserFooter.fitToPane", { defaultValue: "Fit to pane" })}
                     </DropdownMenuRadioItem>
                     {controlledElsewhere && (
                       <DropdownMenuItem onSelect={() => onResize("fit")}>
-                        Fit to this pane instead
+                        {t("components.taskSidePanel.taskBrowserFooter.fitToThisPaneInstead", { defaultValue: "Fit to this pane instead" })}
                       </DropdownMenuItem>
                     )}
                     <DropdownMenuSeparator />
@@ -197,7 +198,7 @@ export function TaskBrowserFooter({
                         if (viewport === "default") onResize("default");
                       }}
                     >
-                      Browser default
+                      {t("components.taskSidePanel.taskBrowserFooter.browserDefault", { defaultValue: "Browser default" })}
                     </DropdownMenuRadioItem>
                     <DropdownMenuSeparator />
                     {BROWSER_USE_VIEWPORT_PRESETS.map((preset) => (
@@ -221,9 +222,9 @@ export function TaskBrowserFooter({
               <DropdownMenuItem onSelect={onReconnect} className="items-start">
                 <RefreshCw className="mt-0.5" aria-hidden="true" />
                 <span className="flex flex-col gap-1">
-                  <span>Reconnect view</span>
+                  <span>{t("components.taskSidePanel.taskBrowserFooter.reconnectView", { defaultValue: "Reconnect view" })}</span>
                   <span className="text-xs font-normal text-muted-foreground">
-                    Reload the live view. Browser work keeps running.
+                    {t("components.taskSidePanel.taskBrowserFooter.reloadTheLiveViewBrowserWorkKeepsRunning", { defaultValue: "Reload the live view. Browser work keeps running." })}
                   </span>
                 </span>
               </DropdownMenuItem>
@@ -234,9 +235,9 @@ export function TaskBrowserFooter({
                 >
                   <Clock3 className="mt-0.5" aria-hidden="true" />
                   <span className="flex flex-col gap-1">
-                    <span>Keep browser open</span>
+                    <span>{t("components.taskSidePanel.taskBrowserFooter.keepBrowserOpen", { defaultValue: "Keep browser open" })}</span>
                     <span className="text-xs font-normal text-muted-foreground">
-                      Keep it open for up to 10 more minutes.
+                      {t("components.taskSidePanel.taskBrowserFooter.keepItOpenForUpTo10MoreMinutes", { defaultValue: "Keep it open for up to 10 more minutes." })}
                     </span>
                   </span>
                 </DropdownMenuItem>
@@ -249,9 +250,9 @@ export function TaskBrowserFooter({
               >
                 <X className="mt-0.5" aria-hidden="true" />
                 <span className="flex flex-col gap-1">
-                  <span>Close browser</span>
+                  <span>{t("components.taskSidePanel.taskBrowserFooter.closeBrowser", { defaultValue: "Close browser" })}</span>
                   <span className="text-xs font-normal text-muted-foreground">
-                    End this browser and stop any browsing.
+                    {t("components.taskSidePanel.taskBrowserFooter.endThisBrowserAndStopAnyBrowsing", { defaultValue: "End this browser and stop any browsing." })}
                   </span>
                 </span>
               </DropdownMenuItem>

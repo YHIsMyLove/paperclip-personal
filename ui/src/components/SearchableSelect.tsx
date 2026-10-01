@@ -1,5 +1,6 @@
 import { Check, ChevronsUpDown, X } from "lucide-react";
 import { useMemo, useRef, useState, type ReactNode } from "react";
+import { t } from "@/i18n";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -256,7 +257,7 @@ export function SearchableSelect<
           <button
             type="button"
             className="inline-flex size-9 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground"
-            aria-label="Close selector"
+            aria-label={t("components.searchableSelect.closeSelector", { defaultValue: "Close selector" })}
             onClick={() => closePopover({ suppressTriggerFocus: true })}
           >
             <X className="size-5" />

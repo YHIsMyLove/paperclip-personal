@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { Agent } from "@paperclipai/shared";
 import { toolsApi } from "@/api/tools";
@@ -34,11 +35,11 @@ export function EmailConnectionAccess({
     },
   });
   if (grants.isLoading || installs.isLoading)
-    return <p className="text-sm text-muted-foreground">Loading access…</p>;
+    return <p className="text-sm text-muted-foreground">{t("components.emailConnectionAccess.loadingAccess", { defaultValue: "Loading access…" })}</p>;
   if (grants.error || installs.error)
     return (
       <p role="alert" className="text-sm text-destructive">
-        Connection access could not be loaded.
+        {t("components.emailConnectionAccess.connectionAccessCouldNotBeLoaded", { defaultValue: "Connection access could not be loaded." })}
       </p>
     );
   const active = grants.data?.grants.filter((g) => g.status === "active") ?? [];
@@ -63,16 +64,16 @@ export function EmailConnectionAccess({
     <div className="space-y-8">
       <section className="space-y-3">
         <h2 className="text-sm font-semibold">
-          Which humans can use this credential?
+          {t("components.emailConnectionAccess.whichHumansCanUseThisCredential", { defaultValue: "Which humans can use this credential?" })}
         </h2>
         <p className="text-sm">{humanLabel}</p>
       </section>
       <section className="space-y-4">
         <h2 className="text-sm font-semibold">
-          Which agents can use this connection?
+          {t("components.emailConnectionAccess.whichAgentsCanUseThisConnection2", { defaultValue: "Which agents can use this connection?" })}
         </h2>
         <RadioCardGroup
-          ariaLabel="Which agents can use this connection"
+          ariaLabel={t("components.emailConnectionAccess.whichAgentsCanUseThisConnection", { defaultValue: "Which agents can use this connection" })}
           value={allAgents ? "all" : "selected"}
           disabled={disabled}
           className="sm:grid-cols-2"
@@ -107,7 +108,7 @@ export function EmailConnectionAccess({
           />
         )}
         <p className="text-xs text-muted-foreground">
-          Removing an assigned agent stops receiving and sending from its inbox.
+          {t("components.emailConnectionAccess.removingAnAssignedAgentStopsReceivingAndSendingF", { defaultValue: "Removing an assigned agent stops receiving and sending from its inbox." })}
         </p>
         {save.error && (
           <p role="alert" className="text-sm text-destructive">

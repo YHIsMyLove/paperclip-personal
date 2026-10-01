@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { t } from "@/i18n";
 import { ChevronsUpDown } from "lucide-react";
 import type { PluginOrganizationSwitcherProps } from "@paperclipai/plugin-sdk/ui";
 import { useAccountIdentity, useCompanyListQuery } from "@/api/companies-query";
@@ -11,7 +12,7 @@ import { Skeleton } from "./ui/skeleton";
 
 /** Reserve the trigger's space until its owner is known. Never flash another name. */
 function OrganizationSwitcherLoading({ collapsed }: { collapsed: boolean }) {
-  return <div role="status" aria-label="Loading organization" aria-busy="true"
+  return <div role="status" aria-label={t("components.pluginOrganizationSwitcher.loadingOrganization", { defaultValue: "Loading organization" })} aria-busy="true"
     className="flex h-9 min-w-0 flex-1 items-center gap-2 px-4">
     <Skeleton className="size-5 shrink-0" />
     {!collapsed && <>

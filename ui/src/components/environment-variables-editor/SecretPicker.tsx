@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
+import { t } from "@/i18n";
 import { CornerUpLeft, Folder, KeyRound, Plus } from "lucide-react";
 import type { CompanySecret, SecretStatus } from "@paperclipai/shared";
 import {
@@ -253,9 +254,9 @@ export function SecretPicker({
       deriveGroups={deriveGroups}
       disabled={disabled}
       disablePortal={disablePortal}
-      placeholder="Select secret…"
-      searchPlaceholder="Search secrets…"
-      emptyMessage="No matching secrets"
+      placeholder={t("components.environmentVariablesEditor.secretPicker.selectSecret", { defaultValue: "Select secret…" })}
+      searchPlaceholder={t("components.environmentVariablesEditor.secretPicker.searchSecrets", { defaultValue: "Search secrets…" })}
+      emptyMessage={t("components.environmentVariablesEditor.secretPicker.noMatchingSecrets", { defaultValue: "No matching secrets" })}
       triggerClassName={cn(
         "h-(--sz-34px) min-h-(--sz-34px) font-mono text-sm",
         boundMissing && "border-destructive text-destructive",
@@ -264,7 +265,7 @@ export function SecretPicker({
       )}
       renderValue={(option) => {
         if (!option) {
-          return <span className="text-muted-foreground">Select secret…</span>;
+          return <span className="text-muted-foreground">{t("components.environmentVariablesEditor.secretPicker.selectSecret", { defaultValue: "Select secret…" })}</span>;
         }
         if (option.missing) {
           return (
@@ -324,10 +325,10 @@ export function SecretPicker({
                 <Plus className="size-3.5 shrink-0" />
                 {query.trim() ? (
                   <span>
-                    Create secret <span className="font-mono">&ldquo;{query.trim()}&rdquo;</span>…
+                    {t("components.environmentVariablesEditor.secretPicker.createSecret", { defaultValue: "Create secret" })} <span className="font-mono">&ldquo;{query.trim()}&rdquo;</span>…
                   </span>
                 ) : (
-                  <span>Create new secret…</span>
+                  <span>{t("components.environmentVariablesEditor.secretPicker.createNewSecret", { defaultValue: "Create new secret…" })}</span>
                 )}
               </span>
             ),

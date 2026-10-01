@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { t } from "@/i18n";
 import { RefreshCw } from "lucide-react";
 import { Navigate, Outlet, useLocation } from "@/lib/router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -52,13 +53,12 @@ function NoBoardAccessPage() {
   return (
     <div className="mx-auto max-w-xl py-10">
       <Card className="block p-6">
-        <h1 className="text-xl font-semibold">No organization access</h1>
+        <h1 className="text-xl font-semibold">{t("components.cloudAccessGate.noOrganizationAccess", { defaultValue: "No organization access" })}</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          This account is signed in, but it does not have an active organization membership or instance-admin access on
-          this Paperclip instance.
+          {t("components.cloudAccessGate.thisAccountIsSignedInButItDoesNotHaveAnActiveOrg", { defaultValue: "This account is signed in, but it does not have an active organization membership or instance-admin access on this Paperclip instance." })}
         </p>
         <p className="mt-2 text-sm text-muted-foreground">
-          Use an organization invite or sign in with an account that already belongs to this org.
+          {t("components.cloudAccessGate.useAnOrganizationInviteOrSignInWithAnAccountThat", { defaultValue: "Use an organization invite or sign in with an account that already belongs to this org." })}
         </p>
       </Card>
     </div>
@@ -214,7 +214,7 @@ export function CloudAccessGate({ allowMembershipRequest = false }: { allowMembe
     <>
       {isReconnecting && (
         <div role="status" className="bg-muted px-4 py-2 text-center text-sm text-muted-foreground">
-          Connection interrupted. Reconnecting automatically…
+          {t("components.cloudAccessGate.connectionInterruptedReconnectingAutomatically", { defaultValue: "Connection interrupted. Reconnecting automatically…" })}
         </div>
       )}
       <Outlet />

@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { InlineBanner } from "@/components/InlineBanner";
 import { webhookUrlWarningReason } from "@/lib/webhook-url-warning";
 
@@ -31,8 +32,8 @@ export function WebhookUrlWarning({ url }: { url: string }) {
   return <InlineBanner tone="warning" title={warning.title}>
     <div className="space-y-2">
       <p>{warning.message}</p>
-      <p>You can continue for local or private-network use. For public senders, use a publicly reachable HTTPS URL.</p>
-      <a className="underline underline-offset-4" href="https://docs.paperclip.ing/reference/deploy/https/" target="_blank" rel="noopener noreferrer">Learn how to set up HTTPS and public access</a>
+      <p>{t("components.routineTriggers.webhookUrlWarning.youCanContinueForLocalOrPrivateNetworkUseForPubl", { defaultValue: "You can continue for local or private-network use. For public senders, use a publicly reachable HTTPS URL." })}</p>
+      <a className="underline underline-offset-4" href="https://docs.paperclip.ing/reference/deploy/https/" target="_blank" rel="noopener noreferrer">{t("components.routineTriggers.webhookUrlWarning.learnHowToSetUpHttpsAndPublicAccess", { defaultValue: "Learn how to set up HTTPS and public access" })}</a>
     </div>
   </InlineBanner>;
 }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { type AiProvider, type AiAuthMethod, type AiConnectionLoginIntent } from "@paperclipai/shared";
 import { AgentProviderConnection } from "@/components/new-agent/AgentProviderConnection";
@@ -76,13 +77,13 @@ function SubscriptionConnectionStep({ companyId, provider, initialMethod, fixedM
   const error = environmentError ?? [envs, caps, settings, experimental, general].find((query) => query.error)?.error?.message;
   const intent: AiConnectionLoginIntent = { provider, method: "subscription", name, ownership, agentIds, allAgents, connectionId };
   return <div className="mx-auto w-full min-w-0 max-w-xl space-y-6">
-    {!hideName && <label className="block space-y-2 text-sm">Connection name<Input value={name} onChange={(event) => setName(event.target.value)} disabled={Boolean(connectionId)} /></label>}
+    {!hideName && <label className="block space-y-2 text-sm">{t("components.aiConnections.aiConnectionCredentialStep.connectionName", { defaultValue: "Connection name" })}<Input value={name} onChange={(event) => setName(event.target.value)} disabled={Boolean(connectionId)} /></label>}
     {!suppliedEnvironmentId && !forced.forced && loginEnvironments.length > 1 && <Select value={environmentId ?? ""} onValueChange={setChosenEnvironment}>
-      <SelectTrigger aria-label="Sign-in environment"><SelectValue placeholder="Sign-in environment" /></SelectTrigger>
+      <SelectTrigger aria-label={t("components.aiConnections.aiConnectionCredentialStep.signInEnvironment", { defaultValue: "Sign-in environment" })}><SelectValue placeholder={t("components.aiConnections.aiConnectionCredentialStep.signInEnvironment", { defaultValue: "Sign-in environment" })} /></SelectTrigger>
       <SelectContent>{loginEnvironments.map((env) => <SelectItem key={env.id} value={env.id}>{env.name}</SelectItem>)}</SelectContent>
     </Select>}
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
-    {loading ? <p role="status" className="text-sm text-muted-foreground">Preparing sign-in…</p> : <AgentProviderConnection
+    {loading ? <p role="status" className="text-sm text-muted-foreground">{t("components.aiConnections.aiConnectionCredentialStep.preparingSignIn", { defaultValue: "Preparing sign-in…" })}</p> : <AgentProviderConnection
       key={environmentId ?? "local"}
       companyId={companyId}
       adapterType={provider === "anthropic" ? "claude_local" : provider === "xai" ? "grok_local" : "codex_local"}
@@ -107,9 +108,9 @@ function ApiKeyConnectionStep({ companyId, provider, connectionId, name: initial
     onSettled: () => setApiKey(""),
   });
   return <div className="mx-auto w-full min-w-0 max-w-xl space-y-4">
-    {!hideName && <label className="block space-y-2 text-sm">Connection name<Input value={name} onChange={(event) => setName(event.target.value)} disabled={Boolean(connectionId)} /></label>}
+    {!hideName && <label className="block space-y-2 text-sm">{t("components.aiConnections.aiConnectionCredentialStep.connectionName", { defaultValue: "Connection name" })}<Input value={name} onChange={(event) => setName(event.target.value)} disabled={Boolean(connectionId)} /></label>}
     {save.error && <p role="alert" className="text-sm text-destructive">{save.error.message}</p>}
-    <ProviderApiKeyCard providerName="OpenRouter" value={apiKey} onChange={setApiKey} onSubmit={() => save.mutate()} disabled={save.isPending} placeholder="Enter API key here" autoFocus />
-    <div className="flex justify-between gap-2"><Button variant="ghost" onClick={onCancel}>Cancel</Button><Button disabled={!name.trim() || !apiKey.trim() || save.isPending} onClick={() => save.mutate()}>{save.isPending ? "Connecting…" : "Connect"}</Button></div>
+    <ProviderApiKeyCard providerName="OpenRouter" value={apiKey} onChange={setApiKey} onSubmit={() => save.mutate()} disabled={save.isPending} placeholder={t("components.aiConnections.aiConnectionCredentialStep.enterApiKeyHere", { defaultValue: "Enter API key here" })} autoFocus />
+    <div className="flex justify-between gap-2"><Button variant="ghost" onClick={onCancel}>{t("components.aiConnections.aiConnectionCredentialStep.cancel", { defaultValue: "Cancel" })}</Button><Button disabled={!name.trim() || !apiKey.trim() || save.isPending} onClick={() => save.mutate()}>{save.isPending ? "Connecting…" : "Connect"}</Button></div>
   </div>;
 }

@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import {
   ISSUE_DETAIL_CONTENT_PAINT_MARK,
   ISSUE_DETAIL_CONTENT_MEASURE,
@@ -2851,9 +2852,9 @@ export function TaskChatThread(props: TaskChatThreadProps) {
                   role="status"
                   className="absolute inset-x-0 top-0 z-20 mx-auto flex w-full max-w-(--tc-shell-max-w) items-center gap-2 border border-border bg-background px-4 py-2 text-sm text-muted-foreground"
                 >
-                  Some task history could not be loaded.
+                  {t("components.taskChatThread.someTaskHistoryCouldNotBeLoaded", { defaultValue: "Some task history could not be loaded." })}
                   <Button variant="ghost" size="sm" onClick={retryHistory}>
-                    Retry
+                    {t("components.taskChatThread.retry", { defaultValue: "Retry" })}
                   </Button>
                 </div>
               ) : null}
@@ -2862,7 +2863,7 @@ export function TaskChatThread(props: TaskChatThreadProps) {
                   className="absolute inset-0 z-10 overflow-hidden bg-background"
                   data-testid="task-chat-history-loading"
                   role="status"
-                  aria-label="Loading conversation"
+                  aria-label={t("components.taskChatThread.loadingConversation", { defaultValue: "Loading conversation" })}
                 >
                   <div className="mx-auto flex w-full max-w-(--tc-shell-max-w) flex-col gap-4 px-4 py-3">
                     {threadHeader}

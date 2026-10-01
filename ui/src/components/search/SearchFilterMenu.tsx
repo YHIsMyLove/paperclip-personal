@@ -1,4 +1,5 @@
 import { type ReactNode, useMemo, useState } from "react";
+import { t } from "@/i18n";
 import { Check, ChevronDown, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -123,7 +124,7 @@ export function SearchFilterMenu(props: SearchFilterMenuProps) {
               className="text-xs text-muted-foreground hover:text-foreground"
               onClick={() => props.onClear()}
             >
-              Clear
+              {t("components.search.searchFilterMenu.clear", { defaultValue: "Clear" })}
             </button>
           ) : null}
         </div>

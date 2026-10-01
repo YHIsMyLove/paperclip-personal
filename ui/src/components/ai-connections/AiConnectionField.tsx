@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { t } from "@/i18n";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   aiConnectionBindingSchema,
@@ -87,8 +88,7 @@ export function AiConnectionField({
     <div className="space-y-4">
       {value && (adapterType !== "opencode_local" || Boolean(model)) && !isAiConnectionCompatible(value, adapterType, model) && (
         <p role="alert" className="text-sm text-destructive">
-          This connection does not support the current harness and model. Choose
-          a compatible connection before saving.
+          {t("components.aiConnections.aiConnectionField.thisConnectionDoesNotSupportTheCurrentHarnessAnd", { defaultValue: "This connection does not support the current harness and model. Choose a compatible connection before saving." })}
         </p>
       )}
       <AiConnectionPicker
@@ -130,15 +130,14 @@ export function AiConnectionField({
                 )?.name}
           </p>
           <p className="text-xs text-muted-foreground">
-            After adoption, missing credentials block execution. Previous
-            authentication will not be used as a fallback.
+            {t("components.aiConnections.aiConnectionField.afterAdoptionMissingCredentialsBlockExecutionPre", { defaultValue: "After adoption, missing credentials block execution. Previous authentication will not be used as a fallback." })}
           </p>
           <DialogFooter>
             <Button
               variant="ghost"
               onClick={() => setPendingAdoption(undefined)}
             >
-              Cancel
+              {t("components.aiConnections.aiConnectionField.cancel", { defaultValue: "Cancel" })}
             </Button>
             <Button
               onClick={() => {
@@ -146,7 +145,7 @@ export function AiConnectionField({
                 setPendingAdoption(undefined);
               }}
             >
-              Use this binding when saved
+              {t("components.aiConnections.aiConnectionField.useThisBindingWhenSaved", { defaultValue: "Use this binding when saved" })}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -154,7 +153,7 @@ export function AiConnectionField({
       <Dialog open={connecting} onOpenChange={setConnecting}>
         <DialogContent className="max-h-(--sz-85vh) overflow-y-auto sm:max-w-2xl" onCloseAutoFocus={restoreFocus}>
           <DialogHeader>
-            <DialogTitle>Connect account</DialogTitle>
+            <DialogTitle>{t("components.aiConnections.aiConnectionField.connectAccount", { defaultValue: "Connect account" })}</DialogTitle>
           </DialogHeader>
           <AiConnectionCredentialStep
             companyId={companyId}

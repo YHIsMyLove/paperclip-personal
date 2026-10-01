@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import type { IssueRelatedWorkItem, IssueRelatedWorkSummary } from "@paperclipai/shared";
 import { IssueReferencePill } from "./IssueReferencePill";
 import { ExternalObjectPill } from "./ExternalObjectPill";
@@ -111,9 +112,9 @@ function ExternalObjectsSection({
   return (
     <section className="space-y-3 rounded-lg border border-border p-3">
       <div className="space-y-1">
-        <h3 className="text-sm font-semibold">External objects</h3>
+        <h3 className="text-sm font-semibold">{t("components.issueRelatedWorkPanel.externalObjects", { defaultValue: "External objects" })}</h3>
         <p className="text-xs text-muted-foreground">
-          Remote work referenced from this issue — pull requests, deployments, tickets in other systems, and more.
+          {t("components.issueRelatedWorkPanel.remoteWorkReferencedFromThisIssuePullRequestsDep", { defaultValue: "Remote work referenced from this issue — pull requests, deployments, tickets in other systems, and more." })}
         </p>
       </div>
 
@@ -126,15 +127,15 @@ function ExternalObjectsSection({
               onClick={onRetry}
               className="text-primary underline-offset-2 hover:underline"
             >
-              Retry
+              {t("components.issueRelatedWorkPanel.retry", { defaultValue: "Retry" })}
             </button>
           ) : null}
         </p>
       ) : isLoading ? (
-        <p className="text-xs text-muted-foreground">Loading external objects…</p>
+        <p className="text-xs text-muted-foreground">{t("components.issueRelatedWorkPanel.loadingExternalObjects", { defaultValue: "Loading external objects…" })}</p>
       ) : sorted.length === 0 ? (
         <p className="text-xs text-muted-foreground">
-          This issue does not reference any external objects yet.
+          {t("components.issueRelatedWorkPanel.thisIssueDoesNotReferenceAnyExternalObjectsYet", { defaultValue: "This issue does not reference any external objects yet." })}
         </p>
       ) : (
         <ul className="-mx-1 flex flex-col">
@@ -191,8 +192,8 @@ export function IssueRelatedWorkPanel({
   return (
     <div className="space-y-3">
       <Section
-        title="References"
-        description="Other tasks this task currently points at in its title, description, comments, or documents."
+        title={t("components.issueRelatedWorkPanel.references", { defaultValue: "References" })}
+        description={t("components.issueRelatedWorkPanel.otherTasksThisTaskCurrentlyPointsAtInItsTitleDes", { defaultValue: "Other tasks this task currently points at in its title, description, comments, or documents." })}
         items={outbound}
         emptyLabel="This task does not reference any other tasks yet."
       />
@@ -205,8 +206,8 @@ export function IssueRelatedWorkPanel({
         />
       ) : null}
       <Section
-        title="Referenced by"
-        description="Other tasks that currently point at this task."
+        title={t("components.issueRelatedWorkPanel.referencedBy", { defaultValue: "Referenced by" })}
+        description={t("components.issueRelatedWorkPanel.otherTasksThatCurrentlyPointAtThisTask", { defaultValue: "Other tasks that currently point at this task." })}
         items={inbound}
         emptyLabel="No other tasks reference this task yet."
       />

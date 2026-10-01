@@ -158,7 +158,7 @@ export function SidebarAccountMenu({
                 "flex min-w-0 items-center gap-2.5 rounded-lg text-left text-(length:--text-compact) font-medium text-foreground/80 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                 rail ? "w-full px-3 py-2" : "flex-1 px-2 py-1.5",
               )}
-              aria-label="Open account menu"
+              aria-label={t("components.sidebarAccountMenu.openAccountMenu", { defaultValue: "Open account menu" })}
             >
               <Avatar size="sm">
                 {session?.user.image ? <AvatarImage src={session.user.image} alt={displayName} /> : null}
@@ -263,7 +263,7 @@ export function SidebarAccountMenu({
                 <Flag className="h-4 w-4" aria-hidden="true" />
               </a>
             </TooltipTrigger>
-            <TooltipContent side="top">Share feedback</TooltipContent>
+            <TooltipContent side="top">{t("components.sidebarAccountMenu.shareFeedback", { defaultValue: "Share feedback" })}</TooltipContent>
           </Tooltip>
         ) : null}
       </div>

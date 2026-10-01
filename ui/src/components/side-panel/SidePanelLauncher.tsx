@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { t } from "@/i18n";
 import { AlertCircle, Check, Loader2 } from "lucide-react";
 import {
   Command,
@@ -47,7 +48,7 @@ function LauncherContent({
               {section.loading ? (
                 <div className="flex items-center gap-2 px-2 py-3 text-sm text-muted-foreground" role="status">
                   <Loader2 className="size-4 animate-spin" aria-hidden />
-                  Loading…
+                  {t("components.sidePanel.sidePanelLauncher.loading", { defaultValue: "Loading…" })}
                 </div>
               ) : null}
               {section.error ? (
@@ -74,7 +75,7 @@ function LauncherContent({
                       </span>
                     ) : null}
                   </span>
-                  {item.alreadyOpen ? <Check className="size-4 text-muted-foreground" aria-label="Already open" /> : null}
+                  {item.alreadyOpen ? <Check className="size-4 text-muted-foreground" aria-label={t("components.sidePanel.sidePanelLauncher.alreadyOpen", { defaultValue: "Already open" })} /> : null}
                   {item.shortcut ? <CommandShortcut>{item.shortcut}</CommandShortcut> : null}
                 </CommandItem>
               ))}

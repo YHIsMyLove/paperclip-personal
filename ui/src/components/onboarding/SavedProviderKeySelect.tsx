@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { aiConnectionsApi } from "@/api/ai-connections";
 import type { AiProvider } from "@paperclipai/shared";
 import { useQuery } from "@tanstack/react-query";
@@ -114,12 +115,12 @@ export function SavedProviderKeySelect({
       )}
       {loading && (
         <p role="status" className="text-sm text-muted-foreground">
-          Checking saved API keys…
+          {t("components.onboarding.savedProviderKeySelect.checkingSavedApiKeys", { defaultValue: "Checking saved API keys…" })}
         </p>
       )}
       {error && (
         <p role="alert" className="text-sm text-destructive">
-          Some saved keys could not be loaded. You can still enter a new key.
+          {t("components.onboarding.savedProviderKeySelect.someSavedKeysCouldNotBeLoadedYouCanStillEnterANe", { defaultValue: "Some saved keys could not be loaded. You can still enter a new key." })}
         </p>
       )}
       {value && (

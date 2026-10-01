@@ -11,6 +11,7 @@ import { resolveAgentAppearance } from "@paperclipai/shared";
  * draggable brush.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
+import { t } from "@/i18n";
 import { useLocation } from "@/lib/router";
 import type { WorkTimelineActor, WorkTimelineResult } from "@paperclipai/shared";
 import { applyCompanyPrefix, extractCompanyPrefixFromPath } from "@/lib/company-routes";
@@ -946,7 +947,7 @@ function MiniMap({
           height={H - 2}
           width={handleW}
           testId="timeline-minimap-left-handle"
-          label="Drag left edge to resize visible range"
+          label={t("components.timeline.workTimelineChart.dragLeftEdgeToResizeVisibleRange", { defaultValue: "Drag left edge to resize visible range" })}
           onMouseDown={(e) => startRangeDrag("left", e)}
         />
         <MiniMapHandle
@@ -955,7 +956,7 @@ function MiniMap({
           height={H - 2}
           width={handleW}
           testId="timeline-minimap-right-handle"
-          label="Drag right edge to resize visible range"
+          label={t("components.timeline.workTimelineChart.dragRightEdgeToResizeVisibleRange", { defaultValue: "Drag right edge to resize visible range" })}
           onMouseDown={(e) => startRangeDrag("right", e)}
         />
       </svg>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { t } from "@/i18n";
 import { useQuery } from "@tanstack/react-query";
 import { Check, Copy, Download } from "lucide-react";
 import { fileResourcesApi } from "@/api/file-resources";
@@ -60,7 +61,7 @@ export function TaskWorkspaceFilePanel({
               type="button"
               variant="ghost"
               size="icon-sm"
-              aria-label="Copy file contents"
+              aria-label={t("components.taskSidePanel.taskWorkspaceFilePanel.copyFileContents", { defaultValue: "Copy file contents" })}
               title={copied ? "Copied" : "Copy file contents"}
               onClick={() => {
                 void copyTextToClipboard(contentQuery.data!.content.data).then(() => {
@@ -74,7 +75,7 @@ export function TaskWorkspaceFilePanel({
           ) : null}
           {downloadUrl ? (
             <Button asChild variant="ghost" size="icon-sm">
-              <a href={downloadUrl} download={resource?.title} aria-label="Download file" title="Download file">
+              <a href={downloadUrl} download={resource?.title} aria-label={t("components.taskSidePanel.taskWorkspaceFilePanel.downloadFile", { defaultValue: "Download file" })} title={t("components.taskSidePanel.taskWorkspaceFilePanel.downloadFile", { defaultValue: "Download file" })}>
                 <Download aria-hidden />
               </a>
             </Button>

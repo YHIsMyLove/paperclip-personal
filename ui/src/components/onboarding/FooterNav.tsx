@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { motion } from "motion/react";
 import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
 
@@ -66,7 +67,7 @@ export function FooterNav({
           disabled={loading}
         >
           <ArrowLeft className="mr-1 size-3.5" />
-          Back
+          {t("components.onboarding.footerNav.back", { defaultValue: "Back" })}
         </Button>
       ) : (
         <span />

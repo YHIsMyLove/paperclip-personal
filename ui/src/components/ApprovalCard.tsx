@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { AgentIdentity } from "@/components/AgentIdentity";
 import { CheckCircle2, XCircle, Clock } from "lucide-react";
 import { Link } from "@/lib/router";
@@ -71,7 +72,7 @@ export function ApprovalCard({
                 </Badge>
                 {requesterAgent && (
                   <div className="inline-flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
-                    <span>Requested by</span>
+                    <span>{t("components.approvalCard.requestedBy", { defaultValue: "Requested by" })}</span>
                     <AgentIdentity agent={requesterAgent} size="sm" className="inline-flex" />
                   </div>
                 )}
@@ -105,7 +106,7 @@ export function ApprovalCard({
 
       {approval.decisionNote && (
         <div className="mt-4 rounded-lg border border-border/60 bg-muted/30 px-3.5 py-3 text-xs leading-5 text-muted-foreground">
-          <span className="font-medium text-foreground">Decision note.</span> {approval.decisionNote}
+          <span className="font-medium text-foreground">{t("components.approvalCard.decisionNote", { defaultValue: "Decision note." })}</span> {approval.decisionNote}
         </div>
       )}
 
@@ -139,11 +140,11 @@ export function ApprovalCard({
                 to={detailLink}
                 className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-auto px-2 text-xs text-muted-foreground")}
               >
-                View details
+                {t("components.approvalCard.viewDetails", { defaultValue: "View details" })}
               </Link>
             ) : (
               <Button variant="ghost" size="sm" className="h-auto px-2 text-xs text-muted-foreground" onClick={onOpen}>
-                View details
+                {t("components.approvalCard.viewDetails", { defaultValue: "View details" })}
               </Button>
             )
           ) : null}

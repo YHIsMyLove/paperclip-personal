@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { t } from "@/i18n";
 import {
   ChevronDown,
   ChevronRight,
@@ -528,12 +529,12 @@ const EnumField = React.memo(({
         disabled={disabled}
       >
         <SelectTrigger className="w-full" aria-label={label} aria-required={isRequired}>
-          <SelectValue placeholder="Select an option" />
+          <SelectValue placeholder={t("components.jsonSchemaForm.selectAnOption", { defaultValue: "Select an option" })} />
         </SelectTrigger>
         <SelectContent>
           {showUnsetOption && (
             <SelectItem value={ENUM_UNSET_VALUE} textValue="None">
-              <span className="text-muted-foreground">None</span>
+              <span className="text-muted-foreground">{t("components.jsonSchemaForm.none", { defaultValue: "None" })}</span>
             </SelectItem>
           )}
           {options.map((option) => (
@@ -719,7 +720,7 @@ const SecretField = React.memo(({
           value={bindingValue}
           onChange={handlePickerChange}
           label=""
-          placeholder="Select an existing secret"
+          placeholder={t("components.jsonSchemaForm.selectAnExistingSecret", { defaultValue: "Select an existing secret" })}
           allowVersionSelector={false}
           emptyHint="No active secrets yet. Create one or paste a raw value below."
           disabled={disabled}
@@ -738,7 +739,7 @@ const SecretField = React.memo(({
                   }}
                   disabled={disabled}
                 >
-                  Hide raw value input
+                  {t("components.jsonSchemaForm.hideRawValueInput", { defaultValue: "Hide raw value input" })}
                 </button>
               ) : null}
             </div>
@@ -749,7 +750,7 @@ const SecretField = React.memo(({
               onClick={() => setShowRawInput(true)}
               disabled={disabled}
             >
-              Or paste a raw value
+              {t("components.jsonSchemaForm.orPasteARawValue", { defaultValue: "Or paste a raw value" })}
             </button>
           )
         ) : null}
@@ -995,13 +996,13 @@ const ArrayField = React.memo(({
               }}
             >
               <Trash2 className="h-4 w-4" />
-              <span className="sr-only">Remove item</span>
+              <span className="sr-only">{t("components.jsonSchemaForm.removeItem", { defaultValue: "Remove item" })}</span>
             </Button>
           </div>
         ))}
         {items.length === 0 && (
           <div className="rounded-lg border border-dashed p-4 text-center text-xs text-muted-foreground">
-            No items added yet.
+            {t("components.jsonSchemaForm.noItemsAddedYet", { defaultValue: "No items added yet." })}
           </div>
         )}
       </div>
@@ -1037,7 +1038,7 @@ function JsonObjectField({ value, onChange, disabled, label, error }: {
   };
   return <div className="space-y-2">
     <Textarea aria-label={`${label} JSON`} aria-invalid={!!error} value={text} onChange={(event) => change(event.target.value)} disabled={disabled} rows={5} className="font-mono text-sm" />
-    <p className="text-xs text-muted-foreground">Enter a JSON object using the action's argument names.</p>
+    <p className="text-xs text-muted-foreground">{t("components.jsonSchemaForm.enterAJsonObjectUsingTheActionsArgumentNames", { defaultValue: "Enter a JSON object using the action's argument names." })}</p>
     {error && <p role="alert" className="text-xs text-destructive">{error}</p>}
   </div>;
 }
@@ -1364,7 +1365,7 @@ export function JsonSchemaForm({
           className,
         )}
       >
-        No configuration options available.
+        {t("components.jsonSchemaForm.noConfigurationOptionsAvailable", { defaultValue: "No configuration options available." })}
       </div>
     );
   }

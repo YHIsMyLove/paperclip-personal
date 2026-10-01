@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { type BrowserUseControl, type TaskBrowser } from "@paperclipai/shared";
 import { browserUseApi } from "@/api/browser-use";
@@ -185,7 +186,7 @@ export function TaskBrowserPanel({
           <iframe
             ref={frameRef}
             key={refresh}
-            title="Live Browser Use browser"
+            title={t("components.taskSidePanel.taskBrowserPanel.liveBrowserUseBrowser", { defaultValue: "Live Browser Use browser" })}
             src={url}
             onLoad={() => setViewerLoad("loaded")}
             referrerPolicy="no-referrer"
@@ -203,23 +204,22 @@ export function TaskBrowserPanel({
                     className="size-5 animate-spin text-muted-foreground motion-reduce:animate-none"
                     aria-hidden="true"
                   />
-                  <p className="text-sm">Connecting to browser…</p>
+                  <p className="text-sm">{t("components.taskSidePanel.taskBrowserPanel.connectingToBrowser", { defaultValue: "Connecting to browser…" })}</p>
                 </>
               ) : (
                 <>
                   <p className="text-sm font-medium">
-                    The live view did not load
+                    {t("components.taskSidePanel.taskBrowserPanel.theLiveViewDidNotLoad", { defaultValue: "The live view did not load" })}
                   </p>
                   <p className="max-w-sm text-sm text-muted-foreground">
-                    Reconnect the view or open this task in another browser. The
-                    remote browser is still running.
+                    {t("components.taskSidePanel.taskBrowserPanel.reconnectTheViewOrOpenThisTaskInAnotherBrowserTh", { defaultValue: "Reconnect the view or open this task in another browser. The remote browser is still running." })}
                   </p>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={reconnect}
                   >
-                    Reconnect view
+                    {t("components.taskSidePanel.taskBrowserPanel.reconnectView", { defaultValue: "Reconnect view" })}
                   </Button>
                 </>
               )}
@@ -261,7 +261,7 @@ export function TaskBrowserPanel({
           </div>
           {browser?.status === "closed" && !accessError && onOpenActiveBrowser && (
             <Button variant="outline" size="sm" onClick={onOpenActiveBrowser}>
-              Open active browser
+              {t("components.taskSidePanel.taskBrowserPanel.openActiveBrowser", { defaultValue: "Open active browser" })}
             </Button>
           )}
         </div>
@@ -273,8 +273,7 @@ export function TaskBrowserPanel({
       )}
       {viewable && presenceError && (
         <p role="alert" className="px-3 py-2 text-xs text-destructive">
-          Could not keep this browser open. Check your connection before the
-          timer runs out.
+          {t("components.taskSidePanel.taskBrowserPanel.couldNotKeepThisBrowserOpenCheckYourConnectionBe", { defaultValue: "Could not keep this browser open. Check your connection before the timer runs out." })}
         </p>
       )}
       {viewable && viewport.error && (

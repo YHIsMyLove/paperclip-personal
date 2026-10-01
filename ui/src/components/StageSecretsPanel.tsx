@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { KeyRound, Save } from "lucide-react";
 import type { CompanySecret, RoutineEnvConfig } from "@paperclipai/shared";
 import { Button } from "@/components/ui/button";
@@ -54,8 +55,8 @@ export function StageSecretsPanel({
     return (
       <EmptyState
         icon={KeyRound}
-        message="Secrets are available only to step automation. Pick an agent to run this step, then add the secrets it needs."
-        action="Set up automation"
+        message={t("components.stageSecretsPanel.secretsAreAvailableOnlyToStepAutomationPickAnAge", { defaultValue: "Secrets are available only to step automation. Pick an agent to run this step, then add the secrets it needs." })}
+        action={t("components.stageSecretsPanel.setUpAutomation", { defaultValue: "Set up automation" })}
         onAction={onSetupAutomation}
       />
     );
@@ -74,13 +75,13 @@ export function StageSecretsPanel({
         <p>
           These env vars are injected when{" "}
           <span className="font-medium text-foreground">{displayName}</span> runs this step. They override
-          matching project and agent env on collisions. <span className="font-mono">PAPERCLIP_*</span> names
+          matching project and agent env on collisions. <span className="font-mono">{t("components.stageSecretsPanel.paperclip", { defaultValue: "PAPERCLIP_*" })}</span> names
           are reserved.
         </p>
       </div>
 
       {secretsLoading ? (
-        <p className="text-sm text-muted-foreground">Loading secrets…</p>
+        <p className="text-sm text-muted-foreground">{t("components.stageSecretsPanel.loadingSecrets", { defaultValue: "Loading secrets…" })}</p>
       ) : (
         <EnvironmentVariablesEditor
           value={value}
@@ -95,7 +96,7 @@ export function StageSecretsPanel({
           <Save className="h-4 w-4 mr-1.5" />
           {saving ? "Saving…" : "Save secrets"}
         </Button>
-        {dirty && !saving ? <span className="text-xs text-muted-foreground">Unsaved changes</span> : null}
+        {dirty && !saving ? <span className="text-xs text-muted-foreground">{t("components.stageSecretsPanel.unsavedChanges", { defaultValue: "Unsaved changes" })}</span> : null}
       </div>
     </div>
   );

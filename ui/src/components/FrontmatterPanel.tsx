@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
+import { t } from "@/i18n";
 import {
   analyzeFrontmatterBlock,
   asStringArray,
@@ -339,12 +340,12 @@ export function FrontmatterPanel({
             aria-controls="frontmatter-panel-body"
           >
             {chevron}
-            <span className="text-sm font-medium">Frontmatter</span>
+            <span className="text-sm font-medium">{t("components.frontmatterPanel.frontmatter", { defaultValue: "Frontmatter" })}</span>
             {!open && present ? (
               <span className="truncate text-xs text-muted-foreground">{summary}</span>
             ) : null}
             {!open && !present ? (
-              <span className="text-xs text-muted-foreground">None</span>
+              <span className="text-xs text-muted-foreground">{t("components.frontmatterPanel.none", { defaultValue: "None" })}</span>
             ) : null}
           </button>
 
@@ -356,7 +357,7 @@ export function FrontmatterPanel({
               <TabsList variant="line" className="h-7">
                 {canUseFields ? (
                   <TabsTrigger value="fields" className="px-2 py-0.5 text-xs">
-                    Fields
+                    {t("components.frontmatterPanel.fields", { defaultValue: "Fields" })}
                   </TabsTrigger>
                 ) : (
                   <Tooltip>
@@ -368,7 +369,7 @@ export function FrontmatterPanel({
                           aria-disabled="true"
                           className="px-2 py-0.5 text-xs opacity-50"
                         >
-                          Fields
+                          {t("components.frontmatterPanel.fields", { defaultValue: "Fields" })}
                         </TabsTrigger>
                       </span>
                     </TooltipTrigger>
@@ -380,14 +381,14 @@ export function FrontmatterPanel({
                   </Tooltip>
                 )}
                 <TabsTrigger value="yaml" className="px-2 py-0.5 text-xs">
-                  YAML
+                  {t("components.frontmatterPanel.yaml", { defaultValue: "YAML" })}
                 </TabsTrigger>
               </TabsList>
             </Tabs>
           ) : !readOnly ? (
             <Button variant="ghost" size="sm" onClick={addFrontmatter} data-testid="add-frontmatter">
               <Plus className="mr-1 h-3.5 w-3.5" />
-              Add frontmatter
+              {t("components.frontmatterPanel.addFrontmatter", { defaultValue: "Add frontmatter" })}
             </Button>
           ) : null}
 
@@ -421,7 +422,7 @@ export function FrontmatterPanel({
             </div>
           ) : (
             <div className="px-3 pb-2 text-xs text-muted-foreground">
-              This file has no frontmatter.
+              {t("components.frontmatterPanel.thisFileHasNoFrontmatter", { defaultValue: "This file has no frontmatter." })}
             </div>
           )}
         </CollapsibleContent>
@@ -517,7 +518,7 @@ function FieldsForm({
             <ChipInput
               values={form.allowedTools}
               readOnly={readOnly}
-              placeholder="Add a tool…"
+              placeholder={t("components.frontmatterPanel.addATool", { defaultValue: "Add a tool…" })}
               onChange={(next) => onCommit({ ...form, allowedTools: next })}
             />
           )}
@@ -528,7 +529,7 @@ function FieldsForm({
         <div>
           <Label className="text-xs text-muted-foreground">metadata</Label>
           {form.metadataComplex !== null ? (
-            <p className="mt-1 text-xs text-muted-foreground">Complex value — edit in YAML.</p>
+            <p className="mt-1 text-xs text-muted-foreground">{t("components.frontmatterPanel.complexValueEditInYaml", { defaultValue: "Complex value — edit in YAML." })}</p>
           ) : (
             <MetadataRows
               rows={form.metaRows}
@@ -560,7 +561,7 @@ function FieldsForm({
         ) : (
           <div key={row.id}>
             <Label className="text-xs text-muted-foreground">{row.key}</Label>
-            <p className="mt-1 text-xs text-muted-foreground">Complex value — edit in YAML.</p>
+            <p className="mt-1 text-xs text-muted-foreground">{t("components.frontmatterPanel.complexValueEditInYaml", { defaultValue: "Complex value — edit in YAML." })}</p>
           </div>
         ),
       )}
@@ -686,7 +687,7 @@ function ChipInput({
             }
           }}
           onBlur={commit}
-          aria-label="Add tool"
+          aria-label={t("components.frontmatterPanel.addTool", { defaultValue: "Add tool" })}
           className="min-w-24 flex-1 bg-transparent text-xs outline-none"
         />
       ) : null}
@@ -712,7 +713,7 @@ function YamlEditor({
       {!canReturnToFields && !parseError ? (
         <div className="mb-1.5 flex items-start gap-2 rounded-md bg-muted/40 px-2 py-1.5 text-xs text-muted-foreground">
           <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-          <span>Editing raw YAML to preserve formatting the form can't reconstruct.</span>
+          <span>{t("components.frontmatterPanel.editingRawYamlToPreserveFormattingTheFormCantRec", { defaultValue: "Editing raw YAML to preserve formatting the form can't reconstruct." })}</span>
         </div>
       ) : null}
       <Textarea
@@ -722,10 +723,10 @@ function YamlEditor({
         rows={Math.min(12, Math.max(3, value.split("\n").length))}
         onChange={(event) => onChange(event.target.value)}
         className="font-mono text-xs"
-        aria-label="Frontmatter YAML"
+        aria-label={t("components.frontmatterPanel.frontmatterYaml", { defaultValue: "Frontmatter YAML" })}
       />
       <p className="mt-1 text-xs text-muted-foreground">
-        Raw YAML is the source of truth in this mode.
+        {t("components.frontmatterPanel.rawYamlIsTheSourceOfTruthInThisMode", { defaultValue: "Raw YAML is the source of truth in this mode." })}
       </p>
     </div>
   );

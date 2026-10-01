@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { AgentAvatar } from "./AgentAvatar";
 import {
   Component,
@@ -1328,7 +1329,7 @@ export const MarkdownEditor = forwardRef<MarkdownEditorRef, MarkdownEditorProps>
               setRichEditorError(null);
             }}
           >
-            Retry rich editor
+            {t("components.markdownEditor.retryRichEditor", { defaultValue: "Retry rich editor" })}
           </button>
         </div>
         <textarea
@@ -1615,27 +1616,27 @@ export const MarkdownEditor = forwardRef<MarkdownEditorRef, MarkdownEditorProps>
                 )}
                 {option.kind === "issue" && (
                   <span className="ml-auto text-(length:--text-nano) uppercase tracking-wide text-muted-foreground">
-                    Task
+                    {t("components.markdownEditor.task", { defaultValue: "Task" })}
                   </span>
                 )}
                 {option.kind === "project" && option.projectId && (
                   <span className="ml-auto text-(length:--text-nano) uppercase tracking-wide text-muted-foreground">
-                    Project
+                    {t("components.markdownEditor.project", { defaultValue: "Project" })}
                   </span>
                 )}
                 {option.kind === "user" && (
                   <span className="ml-auto text-(length:--text-nano) uppercase tracking-wide text-muted-foreground">
-                    User
+                    {t("components.markdownEditor.user", { defaultValue: "User" })}
                   </span>
                 )}
                 {option.kind === "skill" && (
                   <span className="ml-auto text-(length:--text-nano) uppercase tracking-wide text-muted-foreground">
-                    Skill
+                    {t("components.markdownEditor.skill", { defaultValue: "Skill" })}
                   </span>
                 )}
                 {option.kind === "routine" && (
                   <span className="ml-auto text-(length:--text-nano) uppercase tracking-wide text-muted-foreground">
-                    Routine
+                    {t("components.markdownEditor.routine", { defaultValue: "Routine" })}
                   </span>
                 )}
                 {option.kind === "action" && (

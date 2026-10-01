@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { Clock, EyeOff, ShieldX, UserCog } from "lucide-react";
 import {
   describeIssueWriteDenial,
@@ -99,11 +100,11 @@ export function IssueWriteDenialNotice({
               label and the first words of the value together at every width. */}
           <dl className={cn("space-y-0.5 text-xs leading-5", tone.action)}>
             <div className="min-w-0">
-              <dt className="inline font-medium">Who can act:</dt>{" "}
+              <dt className="inline font-medium">{t("components.issueWriteDenialNotice.whoCanAct", { defaultValue: "Who can act:" })}</dt>{" "}
               <dd className="inline">{copy.whoCanAct}</dd>
             </div>
             <div className="min-w-0">
-              <dt className="inline font-medium">Try this:</dt>{" "}
+              <dt className="inline font-medium">{t("components.issueWriteDenialNotice.tryThis", { defaultValue: "Try this:" })}</dt>{" "}
               <dd className="inline">{copy.sanctionedPath}</dd>
             </div>
           </dl>

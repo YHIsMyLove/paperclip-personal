@@ -1,5 +1,6 @@
 import { AgentAvatar } from "@/components/AgentAvatar";
 import { useState } from "react";
+import { t } from "@/i18n";
 import type { Agent } from "@paperclipai/shared";
 import {
   Popover,
@@ -87,7 +88,7 @@ export function ReportsToPicker({
             setOpen(false);
           }}
         >
-          No manager
+          {t("components.reportsToPicker.noManager", { defaultValue: "No manager" })}
         </button>
         {terminatedManager && (
           <div className="flex min-w-0 items-center gap-2 overflow-hidden px-2 py-1.5 text-xs text-muted-foreground border-b border-border mb-0.5">
@@ -99,7 +100,7 @@ export function ReportsToPicker({
         )}
         {unknownManager && (
           <div className="px-2 py-1.5 text-xs text-muted-foreground border-b border-border mb-0.5">
-            Saved manager is missing from this organization. Choose a new manager or clear.
+            {t("components.reportsToPicker.savedManagerIsMissingFromThisOrganizationChooseA", { defaultValue: "Saved manager is missing from this organization. Choose a new manager or clear." })}
           </div>
         )}
         {rows.map((a) => (

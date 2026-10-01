@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { Link } from "@/lib/router";
 import type { ExecutionWorkspace } from "@paperclipai/shared";
 import { Button } from "@/components/ui/button";
@@ -152,21 +153,21 @@ export function ProjectWorkspaceSummaryCard({
               <div className="flex items-start gap-2">
                 <GitBranch className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground" />
                 <div className="min-w-0 flex-1">
-                  <div className="text-(length:--text-micro) uppercase tracking-(--tracking-eyebrow) text-muted-foreground">Branch</div>
+                  <div className="text-(length:--text-micro) uppercase tracking-(--tracking-eyebrow) text-muted-foreground">{t("components.projectWorkspaceSummaryCard.branch", { defaultValue: "Branch" })}</div>
                   <div className="flex items-start gap-2">
                     <CopyText
                       text={summary.branchName}
                       containerClassName="min-w-0"
                       className="min-w-0 break-all text-left font-mono text-xs text-foreground"
-                      copiedLabel="Branch copied"
+                      copiedLabel={t("components.projectWorkspaceSummaryCard.branchCopied", { defaultValue: "Branch copied" })}
                     >
                       {summary.branchName}
                     </CopyText>
                     <CopyText
                       text={summary.branchName}
-                      ariaLabel="Copy branch"
+                      ariaLabel={t("components.projectWorkspaceSummaryCard.copyBranch", { defaultValue: "Copy branch" })}
                       className="mt-0.5 shrink-0 text-muted-foreground hover:text-foreground"
-                      copiedLabel="Branch copied"
+                      copiedLabel={t("components.projectWorkspaceSummaryCard.branchCopied", { defaultValue: "Branch copied" })}
                     >
                       <Copy className="h-3.5 w-3.5" />
                     </CopyText>
@@ -184,22 +185,22 @@ export function ProjectWorkspaceSummaryCard({
               <div className="flex items-start gap-2">
                 <FolderOpen className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground" />
                 <div className="min-w-0 flex-1">
-                  <div className="text-(length:--text-micro) uppercase tracking-(--tracking-eyebrow) text-muted-foreground">Path</div>
+                  <div className="text-(length:--text-micro) uppercase tracking-(--tracking-eyebrow) text-muted-foreground">{t("components.projectWorkspaceSummaryCard.path", { defaultValue: "Path" })}</div>
                   <div className="flex items-start gap-2">
                     <CopyText
                       text={summary.cwd}
                       title={summary.cwd}
                       containerClassName="min-w-0"
                       className="min-w-0 break-all text-left font-mono text-xs text-foreground"
-                      copiedLabel="Path copied"
+                      copiedLabel={t("components.projectWorkspaceSummaryCard.pathCopied", { defaultValue: "Path copied" })}
                     >
                       {truncatePath(summary.cwd)}
                     </CopyText>
                     <CopyText
                       text={summary.cwd}
-                      ariaLabel="Copy path"
+                      ariaLabel={t("components.projectWorkspaceSummaryCard.copyPath", { defaultValue: "Copy path" })}
                       className="mt-0.5 shrink-0 text-muted-foreground hover:text-foreground"
-                      copiedLabel="Path copied"
+                      copiedLabel={t("components.projectWorkspaceSummaryCard.pathCopied", { defaultValue: "Path copied" })}
                     >
                       <Copy className="h-3.5 w-3.5" />
                     </CopyText>
@@ -212,7 +213,7 @@ export function ProjectWorkspaceSummaryCard({
               <div className="flex items-start gap-2">
                 <ExternalLink className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground" />
                 <div className="min-w-0">
-                  <div className="text-(length:--text-micro) uppercase tracking-(--tracking-eyebrow) text-muted-foreground">Service</div>
+                  <div className="text-(length:--text-micro) uppercase tracking-(--tracking-eyebrow) text-muted-foreground">{t("components.projectWorkspaceSummaryCard.service", { defaultValue: "Service" })}</div>
                   <a
                     href={summary.primaryServiceUrl}
                     target="_blank"
@@ -235,7 +236,7 @@ export function ProjectWorkspaceSummaryCard({
         {summary.issues.length > 0 ? (
           <div className="space-y-2">
             <div className="text-(length:--text-micro) font-medium uppercase tracking-(--tracking-eyebrow) text-muted-foreground">
-              Linked tasks
+              {t("components.projectWorkspaceSummaryCard.linkedTasks", { defaultValue: "Linked tasks" })}
             </div>
             <div className="flex flex-wrap gap-2">
               {visibleIssues.map((issue) => (

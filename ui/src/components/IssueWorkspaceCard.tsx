@@ -1,5 +1,6 @@
 import { useWorkspaceIsolationControls } from "@/hooks/useWorkspaceIsolationControls";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { t } from "@/i18n";
 import { Link } from "@/lib/router";
 import type { Issue, ExecutionWorkspace } from "@paperclipai/shared";
 import { useQuery } from "@tanstack/react-query";
@@ -359,7 +360,7 @@ export function IssueWorkspaceCard({
                   className="h-6 px-2 text-xs text-muted-foreground"
                   onClick={handleCancel}
                 >
-                  <X className="h-3 w-3 mr-1" />Cancel
+                  <X className="h-3 w-3 mr-1" />{t("components.issueWorkspaceCard.cancel", { defaultValue: "Cancel" })}
                 </Button>
                 <Button
                   size="sm"
@@ -367,7 +368,7 @@ export function IssueWorkspaceCard({
                   onClick={handleSave}
                   disabled={!canSaveWorkspaceConfig}
                 >
-                  Save
+                  {t("components.issueWorkspaceCard.save", { defaultValue: "Save" })}
                 </Button>
               </>
             ) : (
@@ -377,7 +378,7 @@ export function IssueWorkspaceCard({
                 className="h-6 px-2 text-xs text-muted-foreground"
                 onClick={() => setEditing(true)}
               >
-                <Pencil className="h-3 w-3 mr-1" />Edit
+                <Pencil className="h-3 w-3 mr-1" />{t("components.issueWorkspaceCard.edit", { defaultValue: "Edit" })}
               </Button>
             )}
           </div>
@@ -401,13 +402,13 @@ export function IssueWorkspaceCard({
           )}
           {workspace?.repoUrl && (
             <div className="flex items-center gap-1.5 text-muted-foreground">
-              <span className="text-(length:--text-micro)">Repo:</span>
+              <span className="text-(length:--text-micro)">{t("components.issueWorkspaceCard.repo", { defaultValue: "Repo:" })}</span>
               <CopyableInline value={workspace.repoUrl} mono />
             </div>
           )}
           {environmentsEnabled && currentEnvironmentId && (
             <div className="text-muted-foreground" style={{ overflowWrap: "anywhere" }}>
-              Environment: <span className="text-foreground">{currentEnvironment?.name ?? currentEnvironmentId}</span>
+              {t("components.issueWorkspaceCard.environment", { defaultValue: "Environment:" })} <span className="text-foreground">{currentEnvironment?.name ?? currentEnvironmentId}</span>
               {currentSelection === "reuse_existing" && currentReusableEnvironmentId === currentEnvironmentId
                 ? " · reused workspace"
                 : !issue.executionWorkspaceSettings?.environmentId && projectEnvironmentId === currentEnvironmentId
@@ -445,7 +446,7 @@ export function IssueWorkspaceCard({
                 to={currentWorkspaceLink}
                 className="text-(length:--text-micro) text-muted-foreground hover:text-foreground hover:underline"
               >
-                View workspace details →
+                {t("components.issueWorkspaceCard.viewWorkspaceDetails", { defaultValue: "View workspace details →" })}
               </Link>
             </div>
           )}
@@ -519,7 +520,7 @@ export function IssueWorkspaceCard({
             className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-foreground"
           >
             <FolderSearch className="h-3.5 w-3.5 shrink-0" />
-            Browse files…
+            {t("components.issueWorkspaceCard.browseFiles", { defaultValue: "Browse files…" })}
           </button>
           <button
             type="button"
@@ -527,7 +528,7 @@ export function IssueWorkspaceCard({
             className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-foreground"
           >
             <FileSearch className="h-3.5 w-3.5 shrink-0" />
-            Open file by path…
+            {t("components.issueWorkspaceCard.openFileByPath", { defaultValue: "Open file by path…" })}
           </button>
         </div>
       )}

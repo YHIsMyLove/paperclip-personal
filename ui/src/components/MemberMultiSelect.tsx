@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type ComponentProps, type ReactNode } from "react";
+import { t } from "@/i18n";
 import { ChevronRight } from "lucide-react";
 import { Identity } from "@/components/Identity";
 import { Button } from "@/components/ui/button";
@@ -178,7 +179,7 @@ export function MemberMultiSelect({
                 );
               })}
               {filteredMembers.length === 0 ? (
-                <div className="px-3 py-4 text-sm text-muted-foreground">No matches.</div>
+                <div className="px-3 py-4 text-sm text-muted-foreground">{t("components.memberMultiSelect.noMatches", { defaultValue: "No matches." })}</div>
               ) : null}
             </div>
           )}
@@ -189,7 +190,7 @@ export function MemberMultiSelect({
             <div className="flex items-center gap-2">
               {staged ? (
                 <Button type="button" variant="ghost" size="sm" onClick={() => setOpen(false)} disabled={pending}>
-                  Cancel
+                  {t("components.memberMultiSelect.cancel", { defaultValue: "Cancel" })}
                 </Button>
               ) : null}
               <Button

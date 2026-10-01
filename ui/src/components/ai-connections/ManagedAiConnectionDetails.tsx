@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { heartbeatsApi } from "@/api/heartbeats";
 import { Button } from "@/components/ui/button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -99,7 +100,7 @@ export function ManagedAiConnectionDetails({
           <div className="space-y-2">
             {runs.error && (
               <p role="alert">
-                Could not load active runs. Retry before revoking.
+                {t("components.aiConnections.managedAiConnectionDetails.couldNotLoadActiveRunsRetryBeforeRevoking", { defaultValue: "Could not load active runs. Retry before revoking." })}
               </p>
             )}
             {runs.data?.map((run) => (
@@ -116,7 +117,7 @@ export function ManagedAiConnectionDetails({
                   disabled={stop.isPending}
                   onClick={() => stop.mutate(run.id)}
                 >
-                  Stop run
+                  {t("components.aiConnections.managedAiConnectionDetails.stopRun", { defaultValue: "Stop run" })}
                 </Button>
               </div>
             ))}

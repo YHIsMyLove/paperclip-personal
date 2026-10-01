@@ -2,6 +2,7 @@ import { useCompany } from "@/context/CompanyContext";
 import { useAgentAppearanceDraft } from "@/hooks/useAgentAppearanceDraft";
 import { AgentCharacter } from "../AgentCharacter";
 import { useId, useState } from "react";
+import { t } from "@/i18n";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, ArrowRight, Check, ChevronRight } from "lucide-react";
 import { adaptersApi } from "@/api/adapters";
@@ -148,7 +149,7 @@ export function AgentBasicsDialog({
       >
         <div
           className="flex items-center gap-2 px-6 py-5 text-xs text-muted-foreground"
-          aria-label="New agent progress"
+          aria-label={t("components.newAgent.agentBasicsDialog.newAgentProgress", { defaultValue: "New agent progress" })}
         >
           <span
             className={cn(step === "name" && "font-medium text-foreground")}
@@ -191,13 +192,13 @@ export function AgentBasicsDialog({
             {step === "name" ? (
               <div className="space-y-2">
                 <label htmlFor={id} className="text-sm font-medium">
-                  Agent name
+                  {t("components.newAgent.agentBasicsDialog.agentName", { defaultValue: "Agent name" })}
                 </label>
                 <Input
                   id={id}
                   autoFocus
                   maxLength={100}
-                  placeholder="e.g. Darnold"
+                  placeholder={t("components.newAgent.agentBasicsDialog.eGDarnold", { defaultValue: "e.g. Darnold" })}
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                   className="h-12 text-base"
@@ -209,16 +210,16 @@ export function AgentBasicsDialog({
                     className="px-0 text-muted-foreground"
                     onClick={onInvite}
                   >
-                    Invite an external agent
+                    {t("components.newAgent.agentBasicsDialog.inviteAnExternalAgent", { defaultValue: "Invite an external agent" })}
                   </Button>
                 )}
               </div>
             ) : (
               <fieldset className="space-y-4">
-                <legend className="sr-only">Adapter</legend>
+                <legend className="sr-only">{t("components.newAgent.agentBasicsDialog.adapter", { defaultValue: "Adapter" })}</legend>
                 {isPending && (
                   <p role="status" className="text-sm text-muted-foreground">
-                    Loading adapters…
+                    {t("components.newAgent.agentBasicsDialog.loadingAdapters", { defaultValue: "Loading adapters…" })}
                   </p>
                 )}
                 {error && (
@@ -264,7 +265,7 @@ export function AgentBasicsDialog({
                 </div>
                 {validAdapter && adapterType === "paperclip_runner" && (
                   <label className="flex flex-col gap-2 text-sm font-medium">
-                    Runner
+                    {t("components.newAgent.agentBasicsDialog.runner", { defaultValue: "Runner" })}
                     <select
                       className="rounded-md border border-border bg-background px-3 py-2"
                       value={runnerProvider}
@@ -275,7 +276,7 @@ export function AgentBasicsDialog({
                       <option value="codex">Codex (app server)</option>
                       <option value="claude">Claude (ACPX)</option>
                       <option value="grok">Grok Build (ACPX)</option>
-                      <option value="opencode">OpenCode</option>
+                      <option value="opencode">{t("components.newAgent.agentBasicsDialog.opencode", { defaultValue: "OpenCode" })}</option>
                     </select>
                   </label>
                 )}
@@ -293,7 +294,7 @@ export function AgentBasicsDialog({
               ) : (
                 <>
                   <ArrowLeft className="size-4" />
-                  Back
+                  {t("components.newAgent.agentBasicsDialog.back", { defaultValue: "Back" })}
                 </>
               )}
             </Button>

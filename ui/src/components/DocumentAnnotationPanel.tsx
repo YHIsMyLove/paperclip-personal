@@ -1,5 +1,6 @@
 import { AgentAvatar } from "./AgentAvatar";
 import { useCallback, useMemo, useRef, useState, useEffect } from "react";
+import { t } from "@/i18n";
 import type {
   DocumentAnnotationComment,
   DocumentAnnotationThreadWithComments,
@@ -189,7 +190,7 @@ export function AnnotationPanelBody(props: AnnotationPanelProps) {
             props.onFocusThread(null);
             props.onOpenChange(false);
           }}
-          aria-label="Close annotation panel"
+          aria-label={t("components.documentAnnotationPanel.closeAnnotationPanel", { defaultValue: "Close annotation panel" })}
         >
           <X className="h-4 w-4" />
         </Button>
@@ -279,7 +280,7 @@ export function AnnotationPanelBody(props: AnnotationPanelProps) {
                 }
               }
             }}
-            placeholder="Write a comment…"
+            placeholder={t("components.documentAnnotationPanel.writeAComment", { defaultValue: "Write a comment…" })}
             disabled={props.newCommentDisabled}
             className="resize-y rounded-none text-sm"
           />
@@ -293,7 +294,7 @@ export function AnnotationPanelBody(props: AnnotationPanelProps) {
                 setComposerValue("");
               }}
             >
-              Cancel
+              {t("components.documentAnnotationPanel.cancel", { defaultValue: "Cancel" })}
             </Button>
             <Button
               type="button"
@@ -383,7 +384,7 @@ export function ThreadCard(props: {
                   }
                 }
               }}
-              placeholder="Reply…"
+              placeholder={t("components.documentAnnotationPanel.reply", { defaultValue: "Reply…" })}
               className="resize-y rounded-none text-sm"
               disabled={props.pendingReply}
             />
@@ -398,11 +399,11 @@ export function ThreadCard(props: {
               >
                 {thread.status === "resolved" ? (
                   <>
-                    <RotateCcw className="h-3 w-3" /> Reopen
+                    <RotateCcw className="h-3 w-3" /> {t("components.documentAnnotationPanel.reopen", { defaultValue: "Reopen" })}
                   </>
                 ) : (
                   <>
-                    <Check className="h-3 w-3" /> Resolve
+                    <Check className="h-3 w-3" /> {t("components.documentAnnotationPanel.resolve", { defaultValue: "Resolve" })}
                   </>
                 )}
               </Button>
@@ -421,8 +422,8 @@ export function ThreadCard(props: {
                     variant="ghost"
                     size="icon-xs"
                     className="text-muted-foreground"
-                    title="More actions"
-                    aria-label="More thread actions"
+                    title={t("components.documentAnnotationPanel.moreActions", { defaultValue: "More actions" })}
+                    aria-label={t("components.documentAnnotationPanel.moreThreadActions", { defaultValue: "More thread actions" })}
                   >
                     <MoreHorizontal className="h-3.5 w-3.5" />
                   </Button>
@@ -435,7 +436,7 @@ export function ThreadCard(props: {
                     }}
                   >
                     <Copy className="h-3.5 w-3.5" />
-                    Copy link
+                    {t("components.documentAnnotationPanel.copyLink", { defaultValue: "Copy link" })}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

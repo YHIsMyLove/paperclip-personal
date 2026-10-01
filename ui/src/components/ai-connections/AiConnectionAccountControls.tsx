@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { t } from "@/i18n";
 import { CheckCircle2, RefreshCw, Star, TriangleAlert, Unplug } from "lucide-react";
 import type { ConnectionGrant } from "@paperclipai/shared";
 import { RevokeGrantDialog } from "@/pages/apps/app-detail/IdentitiesSection";
@@ -26,7 +27,7 @@ export function AiConnectionAccountControls({
   const available = account.status === "connected";
   const activeDefault = account.isDefault && available;
   return (
-    <section className="space-y-4" aria-label="AI account settings">
+    <section className="space-y-4" aria-label={t("components.aiConnections.aiConnectionAccountControls.aiAccountSettings", { defaultValue: "AI account settings" })}>
       {ownPersonal && (
         <div className={cn(
           "flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border p-3",
@@ -35,7 +36,7 @@ export function AiConnectionAccountControls({
           <div className="flex items-center gap-3">
             <Star aria-hidden className={cn("size-5 shrink-0", activeDefault ? "fill-current text-(--status-task-icon-done)" : "text-muted-foreground")} />
             <div>
-              <h3 className="text-sm font-semibold">Personal default</h3>
+              <h3 className="text-sm font-semibold">{t("components.aiConnections.aiConnectionAccountControls.personalDefault", { defaultValue: "Personal default" })}</h3>
               <p className="text-xs text-muted-foreground">For your {AI_PROVIDERS[account.provider].name} tasks</p>
             </div>
           </div>
@@ -45,8 +46,8 @@ export function AiConnectionAccountControls({
               {available ? "Your default" : "Default unavailable"}
             </span>
           ) : !readOnly ? (
-            <Button variant="outline" size="sm" disabled={!available} onClick={onMakeDefault}>Make default</Button>
-          ) : <span className="text-xs text-muted-foreground">Not your default</span>}
+            <Button variant="outline" size="sm" disabled={!available} onClick={onMakeDefault}>{t("components.aiConnections.aiConnectionAccountControls.makeDefault", { defaultValue: "Make default" })}</Button>
+          ) : <span className="text-xs text-muted-foreground">{t("components.aiConnections.aiConnectionAccountControls.notYourDefault", { defaultValue: "Not your default" })}</span>}
         </div>
       )}
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -56,13 +57,13 @@ export function AiConnectionAccountControls({
         </div>
         {!readOnly && grant.capabilities?.canRevoke && (
           <div className="flex flex-wrap items-center gap-2">
-            {<Button variant="outline" size="sm" onClick={onReconnect}><RefreshCw className="size-4" aria-hidden />Reconnect</Button>}
-            {account.status !== "revoked" && <Button variant="ghost" size="sm" className="text-destructive" onClick={() => setRevoking(true)}><Unplug className="size-4" aria-hidden />Revoke identity</Button>}
+            {<Button variant="outline" size="sm" onClick={onReconnect}><RefreshCw className="size-4" aria-hidden />{t("components.aiConnections.aiConnectionAccountControls.reconnect", { defaultValue: "Reconnect" })}</Button>}
+            {account.status !== "revoked" && <Button variant="ghost" size="sm" className="text-destructive" onClick={() => setRevoking(true)}><Unplug className="size-4" aria-hidden />{t("components.aiConnections.aiConnectionAccountControls.revokeIdentity", { defaultValue: "Revoke identity" })}</Button>}
           </div>
         )}
       </div>
       {revoking && <RevokeGrantDialog grant={grant} providerName={account.name} pending={revokePending} credentialPolicy={account.ownership === "shared" ? "shared" : "per_user"} isOwnIdentity={account.ownerUserId === currentUserId}
-        description="New runs using this account will be blocked. Existing runs may retain credentials already issued to them. No other account will be selected automatically."
+        description={t("components.aiConnections.aiConnectionAccountControls.newRunsUsingThisAccountWillBeBlockedExistingRuns", { defaultValue: "New runs using this account will be blocked. Existing runs may retain credentials already issued to them. No other account will be selected automatically." })}
         onCancel={() => setRevoking(false)} onConfirm={async () => { setRevokePending(true); setRevokeError(undefined); try { await onRevoke(); setRevoking(false); } catch (error) { setRevokeError(error instanceof Error ? error.message : "Could not revoke this account. Retry."); } finally { setRevokePending(false); } }}>{revokeError && <p role="alert" className="text-sm text-destructive">{revokeError}</p>}{revocationDetails}</RevokeGrantDialog>}
     </section>
   );

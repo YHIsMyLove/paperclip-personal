@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { t } from "@/i18n";
 import { cn } from "@/lib/utils";
 import { PauseCircle, PlayCircle, Repeat, XCircle } from "lucide-react";
 import { Button } from "./ui/button";
@@ -58,13 +59,13 @@ export function TaskTreeControlMenuItems({
           onClick={onCancel}
         >
           <XCircle className="h-3 w-3" />
-          Cancel subtree...
+          {t("components.taskTreeControls.cancelSubtree", { defaultValue: "Cancel subtree..." })}
         </button>
       ) : null}
       {canRestore ? (
         <button disabled={pending} className={itemClass} onClick={onRestore}>
           <Repeat className="h-3 w-3" />
-          Restore subtree...
+          {t("components.taskTreeControls.restoreSubtree", { defaultValue: "Restore subtree..." })}
         </button>
       ) : null}
     </>
@@ -143,7 +144,7 @@ export function TaskTreeControlDialog({
               disabled={pending}
               onClick={onRetry}
             >
-              Retry preview
+              {t("components.taskTreeControls.retryPreview", { defaultValue: "Retry preview" })}
             </Button>
           </div>
         ) : null}

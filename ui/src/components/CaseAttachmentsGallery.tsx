@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { t } from "@/i18n";
 import { FileText } from "lucide-react";
 import {
   caseAttachmentUrl,
@@ -36,7 +37,7 @@ export function CaseAttachmentsGallery({ attachments }: { attachments: CaseAttac
   );
 
   if (attachments.length === 0) {
-    return <p className="text-xs text-muted-foreground">No attachments.</p>;
+    return <p className="text-xs text-muted-foreground">{t("components.caseAttachmentsGallery.noAttachments", { defaultValue: "No attachments." })}</p>;
   }
 
   return (

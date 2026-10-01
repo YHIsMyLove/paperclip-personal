@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import {
   useCallback,
   useEffect,
@@ -224,7 +225,7 @@ export function FileViewerMetadataRow({
           ) : null}
         </>
       ) : state ? (
-        <span className="h-3 w-28 rounded bg-muted animate-pulse" aria-label="Loading file details" />
+        <span className="h-3 w-28 rounded bg-muted animate-pulse" aria-label={t("components.fileViewerSheet.loadingFileDetails", { defaultValue: "Loading file details" })} />
       ) : null}
     </div>
   );
@@ -275,7 +276,7 @@ export function FileContentViewer({ content, highlightedLine, onLoaded }: FileCo
       return (
         <FileViewerStateView
           icon={<AlertTriangle aria-hidden="true" className="h-6 w-6 text-amber-500" />}
-          title="Image preview unavailable"
+          title={t("components.fileViewerSheet.imagePreviewUnavailable", { defaultValue: "Image preview unavailable" })}
         />
       );
     }
@@ -298,7 +299,7 @@ export function FileContentViewer({ content, highlightedLine, onLoaded }: FileCo
       return (
         <FileViewerStateView
           icon={<AlertTriangle aria-hidden="true" className="h-6 w-6 text-amber-500" />}
-          title="Video preview unavailable"
+          title={t("components.fileViewerSheet.videoPreviewUnavailable", { defaultValue: "Video preview unavailable" })}
         />
       );
     }
@@ -320,7 +321,7 @@ export function FileContentViewer({ content, highlightedLine, onLoaded }: FileCo
     return (
       <FileViewerStateView
         icon={<AlertTriangle aria-hidden="true" className="h-6 w-6 text-amber-500" />}
-        title="Preview not supported for this file type"
+        title={t("components.fileViewerSheet.previewNotSupportedForThisFileType", { defaultValue: "Preview not supported for this file type" })}
         body={resource.contentType ? `Content type: ${resource.contentType}` : undefined}
       />
     );
@@ -382,15 +383,15 @@ export function FileContentViewer({ content, highlightedLine, onLoaded }: FileCo
       <div className="absolute right-3 top-3 z-20">
         <div
           role="group"
-          aria-label="Markdown preview mode"
+          aria-label={t("components.fileViewerSheet.markdownPreviewMode", { defaultValue: "Markdown preview mode" })}
           className="inline-flex rounded-md border border-border bg-background/95 p-0.5 shadow-sm backdrop-blur"
         >
           <Button
             type="button"
             variant={markdownMode === "rendered" ? "secondary" : "ghost"}
             size="icon-sm"
-            aria-label="Show rendered Markdown"
-            title="Rendered Markdown"
+            aria-label={t("components.fileViewerSheet.showRenderedMarkdown", { defaultValue: "Show rendered Markdown" })}
+            title={t("components.fileViewerSheet.renderedMarkdown", { defaultValue: "Rendered Markdown" })}
             aria-pressed={markdownMode === "rendered"}
             onClick={() => setMarkdownMode("rendered")}
             className={cn(
@@ -404,8 +405,8 @@ export function FileContentViewer({ content, highlightedLine, onLoaded }: FileCo
             type="button"
             variant={markdownMode === "raw" ? "secondary" : "ghost"}
             size="icon-sm"
-            aria-label="Show raw Markdown"
-            title="Raw Markdown"
+            aria-label={t("components.fileViewerSheet.showRawMarkdown", { defaultValue: "Show raw Markdown" })}
+            title={t("components.fileViewerSheet.rawMarkdown", { defaultValue: "Raw Markdown" })}
             aria-pressed={markdownMode === "raw"}
             onClick={() => setMarkdownMode("raw")}
             className={cn(
@@ -442,7 +443,7 @@ function LoadingView({ elapsedMs }: { elapsedMs: number }) {
   if (elapsedMs < 400) {
     return (
       <div className="flex-1 space-y-2 p-6" aria-busy="true" aria-live="polite">
-        <span className="sr-only">Loading file preview</span>
+        <span className="sr-only">{t("components.fileViewerSheet.loadingFilePreview", { defaultValue: "Loading file preview" })}</span>
         {Array.from({ length: 10 }).map((_, index) => (
           <div key={index} className="h-3 rounded bg-muted animate-pulse" style={{ width: `${90 - index * 6}%` }} />
         ))}
@@ -457,7 +458,7 @@ function LoadingView({ elapsedMs }: { elapsedMs: number }) {
     >
       <div className="flex items-center gap-2 text-muted-foreground">
         <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin" />
-        Loading file preview...
+        {t("components.fileViewerSheet.loadingFilePreview2", { defaultValue: "Loading file preview..." })}
       </div>
     </div>
   );
@@ -761,10 +762,10 @@ export function FileViewerSheet({
                   size="sm"
                   onClick={() => viewer.backToFiles()}
                   className="h-7 gap-1 px-2 text-xs"
-                  aria-label="Back to files"
+                  aria-label={t("components.fileViewerSheet.backToFiles", { defaultValue: "Back to files" })}
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
-                  Back to files
+                  {t("components.fileViewerSheet.backToFiles", { defaultValue: "Back to files" })}
                 </Button>
               ) : null}
               {state ? (
@@ -778,8 +779,8 @@ export function FileViewerSheet({
                     <a
                       href={downloadUrl}
                       download={resolvedResource?.title ?? basename(state.path)}
-                      aria-label="Download file"
-                      title="Download file"
+                      aria-label={t("components.fileViewerSheet.downloadFile", { defaultValue: "Download file" })}
+                      title={t("components.fileViewerSheet.downloadFile", { defaultValue: "Download file" })}
                     >
                       <Download className="h-4 w-4" />
                     </a>
@@ -830,8 +831,8 @@ export function FileViewerSheet({
                 size="icon-sm"
                 onClick={() => handleOpenChange(false)}
                 className="h-7 w-7"
-                aria-label="Close file viewer"
-                title="Close"
+                aria-label={t("components.fileViewerSheet.closeFileViewer", { defaultValue: "Close file viewer" })}
+                title={t("components.fileViewerSheet.close", { defaultValue: "Close" })}
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -871,7 +872,7 @@ export function FileViewerSheet({
               <div
                 role="separator"
                 aria-orientation="vertical"
-                aria-label="Resize file tree"
+                aria-label={t("components.fileViewerSheet.resizeFileTree", { defaultValue: "Resize file tree" })}
                 aria-valuemin={MIN_FILE_TREE_WIDTH}
                 aria-valuemax={MAX_FILE_TREE_WIDTH}
                 aria-valuenow={fileTreeWidth}
@@ -956,17 +957,17 @@ export function FileViewerBody({
       return (
         <FileViewerStateView
           icon={<FileSearch aria-hidden="true" className="h-6 w-6 text-muted-foreground" />}
-          title="File not found"
-          body="That file was not found in the active workspace."
+          title={t("components.fileViewerSheet.fileNotFound", { defaultValue: "File not found" })}
+          body={t("components.fileViewerSheet.thatFileWasNotFoundInTheActiveWorkspace", { defaultValue: "That file was not found in the active workspace." })}
           actions={
             <>
               {onFallbackToProject ? (
                 <Button type="button" variant="secondary" size="sm" onClick={onFallbackToProject}>
-                  Try project workspace
+                  {t("components.fileViewerSheet.tryProjectWorkspace", { defaultValue: "Try project workspace" })}
                 </Button>
               ) : null}
               <Button type="button" variant="ghost" size="sm" onClick={onRetry}>
-                <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> Retry
+                <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> {t("components.fileViewerSheet.retry", { defaultValue: "Retry" })}
               </Button>
             </>
           }
@@ -977,8 +978,8 @@ export function FileViewerBody({
       return (
         <FileViewerStateView
           icon={<FolderOpen aria-hidden="true" className="h-6 w-6 text-muted-foreground" />}
-          title="No workspace available"
-          body="This issue does not have a workspace that supports preview yet."
+          title={t("components.fileViewerSheet.noWorkspaceAvailable", { defaultValue: "No workspace available" })}
+          body={t("components.fileViewerSheet.thisIssueDoesNotHaveAWorkspaceThatSupportsPrevie", { defaultValue: "This issue does not have a workspace that supports preview yet." })}
         />
       );
     }
@@ -990,7 +991,7 @@ export function FileViewerBody({
         body={denial.body}
         actions={
           <Button type="button" variant="ghost" size="sm" onClick={onRetry}>
-            <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> Retry
+            <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> {t("components.fileViewerSheet.retry", { defaultValue: "Retry" })}
           </Button>
         }
       />
@@ -1004,7 +1005,7 @@ export function FileViewerBody({
     return (
       <FileViewerStateView
         icon={<Cloud aria-hidden="true" className="h-6 w-6 text-muted-foreground" />}
-        title="Remote workspace preview coming soon"
+        title={t("components.fileViewerSheet.remoteWorkspacePreviewComingSoon", { defaultValue: "Remote workspace preview coming soon" })}
         body="This workspace is hosted remotely; inline previews are not supported yet."
       />
     );
@@ -1029,7 +1030,7 @@ export function FileViewerBody({
         body={denial.body}
         actions={
           <Button type="button" variant="ghost" size="sm" onClick={onRetry}>
-            <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> Retry
+            <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> {t("components.fileViewerSheet.retry", { defaultValue: "Retry" })}
           </Button>
         }
       />

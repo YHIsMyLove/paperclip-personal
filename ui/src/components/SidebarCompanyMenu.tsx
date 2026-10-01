@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
+import { t } from "@/i18n";
 import { useQuery } from "@tanstack/react-query";
 import {
   Check,
@@ -298,7 +299,7 @@ function BuiltinCompanyMenu({ open: controlledOpen, onOpenChange }: SidebarCompa
       >
         <div className="flex h-(--organization-popover-header-height) items-center justify-between gap-2 px-3.5">
           <DropdownMenuLabel className="p-0 text-(length:--text-compact) font-semibold text-foreground">
-            Organizations
+            {t("components.sidebarCompanyMenu.organizations", { defaultValue: "Organizations" })}
           </DropdownMenuLabel>
           <button
             type="button"
@@ -349,11 +350,11 @@ function BuiltinCompanyMenu({ open: controlledOpen, onOpenChange }: SidebarCompa
                   }}
                 >
                   <RefreshCw className="h-4 w-4 mr-2" />
-                  Try again
+                  {t("components.sidebarCompanyMenu.tryAgain", { defaultValue: "Try again" })}
                 </DropdownMenuItem>
               </>
             ) : (
-              <DropdownMenuItem disabled>No organizations</DropdownMenuItem>
+              <DropdownMenuItem disabled>{t("components.sidebarCompanyMenu.noOrganizations", { defaultValue: "No organizations" })}</DropdownMenuItem>
             )
           ) : null}
         </div>
@@ -367,7 +368,7 @@ function BuiltinCompanyMenu({ open: controlledOpen, onOpenChange }: SidebarCompa
               <span className="flex size-5 shrink-0 items-center justify-center text-muted-foreground">
                 <Plus className="size-4" />
               </span>
-              <span className="min-w-0 flex-1 truncate">Create organization</span>
+              <span className="min-w-0 flex-1 truncate">{t("components.sidebarCompanyMenu.createOrganization", { defaultValue: "Create organization" })}</span>
             </DropdownMenuItem>
           )}
           {showInvitePeople ? (

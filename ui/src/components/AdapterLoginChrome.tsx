@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { t } from "@/i18n";
 import { AnimatePresence, motion } from "motion/react";
 import { Copy, Check, Loader2 } from "lucide-react";
 
@@ -99,7 +100,7 @@ export function OnboardingLoginCard({
       <div
         className="flex min-h-(--sz-108px) items-center justify-center rounded-xl bg-muted/40"
         role="status"
-        aria-label="Preparing the sign-in"
+        aria-label={t("components.adapterLoginChrome.preparingTheSignIn", { defaultValue: "Preparing the sign-in" })}
       >
         <Loader2 className="size-4 animate-spin text-muted-foreground" />
       </div>
@@ -309,13 +310,13 @@ export function OnboardingLoginCodeRow({
             animate={{ opacity: 1, y: 0, transition: COPIED_REVEAL }}
             exit={{ opacity: 0, transition: COPIED_REVEAL }}
           >
-            Copied!
+            {t("components.adapterLoginChrome.copied", { defaultValue: "Copied!" })}
           </motion.span>
         )}
       </AnimatePresence>
       <LoginCardCopyButton
         value={code}
-        label="Copy the code"
+        label={t("components.adapterLoginChrome.copyTheCode", { defaultValue: "Copy the code" })}
         onCopied={() => {
           // No wait here. A press is a direct action, and delaying its
           // acknowledgement would read as the button having missed.
@@ -381,10 +382,10 @@ export function OnboardingModelPicker({
     <div className="rounded-xl border border-border bg-card p-4">
       <div className="flex flex-col gap-3">
         <div className="flex items-baseline justify-between gap-3">
-          <span className="text-sm font-medium text-foreground">Model</span>
+          <span className="text-sm font-medium text-foreground">{t("components.adapterLoginChrome.model", { defaultValue: "Model" })}</span>
           {loading ? (
             <span role="status" className="text-xs text-muted-foreground">
-              Loading models…
+              {t("components.adapterLoginChrome.loadingModels", { defaultValue: "Loading models…" })}
             </span>
           ) : !error && total > 0 ? (
             <span className="text-xs text-muted-foreground">{total} available</span>
@@ -398,13 +399,13 @@ export function OnboardingModelPicker({
             <Input
               value={search}
               onChange={(event) => onSearchChange(event.target.value)}
-              placeholder="Search models"
-              aria-label="Search models"
+              placeholder={t("components.adapterLoginChrome.searchModels", { defaultValue: "Search models" })}
+              aria-label={t("components.adapterLoginChrome.searchModels", { defaultValue: "Search models" })}
               disabled={disabled}
             />
             <div
               role="radiogroup"
-              aria-label="Model"
+              aria-label={t("components.adapterLoginChrome.model", { defaultValue: "Model" })}
               className="flex max-h-72 flex-col gap-3 overflow-y-auto"
             >
               {groups.map((group) =>
@@ -578,7 +579,7 @@ export function ProviderApiKeyCard({
     <OnboardingLoginCard
       instruction={`Provide your ${providerName} API key to connect`}
     >
-      <OnboardingCardField {...field} label="API key" masked />
+      <OnboardingCardField {...field} label={t("components.adapterLoginChrome.apiKey", { defaultValue: "API key" })} masked />
     </OnboardingLoginCard>
   );
 }
@@ -597,13 +598,13 @@ export function LocalProviderLoginInstructions({ adapterType, login }: {
   return <div className="min-w-0 max-w-full space-y-3 text-sm text-muted-foreground">
     {ready ? <>
       <p role="status" className="flex items-center gap-2 text-foreground"><Check className="size-4 shrink-0 text-(--status-task-icon-done)" />{provider} is signed in. Click Connect to use this account.</p>
-      {!showCommand && <button type="button" className="underline underline-offset-4" onClick={() => setShowCommand(true)}>Use a different account</button>}
+      {!showCommand && <button type="button" className="underline underline-offset-4" onClick={() => setShowCommand(true)}>{t("components.adapterLoginChrome.useADifferentAccount", { defaultValue: "Use a different account" })}</button>}
     </> : <p>{isolated ? `Sign in to ${provider} for this connection on the machine running Paperclip. Your existing terminal login stays separate.` : `Connect uses your local ${provider} account on the machine running Paperclip.`}</p>}
     {(!ready || showCommand) && !login?.error && <>
-      <p>Run this in a terminal on that machine and finish signing in in your browser. We’ll check automatically when you return.</p>
+      <p>{t("components.adapterLoginChrome.runThisInATerminalOnThatMachineAndFinishSigningI", { defaultValue: "Run this in a terminal on that machine and finish signing in in your browser. We’ll check automatically when you return." })}</p>
       {command && <div className="flex min-w-0 max-w-full items-start gap-2 rounded-md border bg-muted p-3 text-foreground">
         <pre className="min-w-0 flex-1 whitespace-pre-wrap break-all font-mono text-xs"><code>{command}</code></pre>
-        <LoginCardCopyButton value={command} label="Copy sign-in command" />
+        <LoginCardCopyButton value={command} label={t("components.adapterLoginChrome.copySignInCommand", { defaultValue: "Copy sign-in command" })} />
       </div>}
     </>}
     {login?.error && <p role="alert">{login.error}</p>}

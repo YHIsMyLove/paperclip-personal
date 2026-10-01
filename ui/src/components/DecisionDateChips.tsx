@@ -1,4 +1,5 @@
 import { cloneElement, isValidElement, useState } from "react";
+import { t } from "@/i18n";
 import { CalendarRange } from "lucide-react";
 import {
   ATTENTION_DATE_RANGE_OPTIONS,
@@ -49,7 +50,7 @@ export function DecisionDateChips({ value, custom, onChange }: DecisionDateChips
         <PopoverContent align="start" className="w-auto space-y-2 p-3">
           <div className="flex flex-col gap-1.5">
             <label className="text-(length:--text-nano) font-medium uppercase tracking-wide text-muted-foreground">
-              From
+              {t("components.decisionDateChips.from", { defaultValue: "From" })}
             </label>
             <input
               type="date"
@@ -61,7 +62,7 @@ export function DecisionDateChips({ value, custom, onChange }: DecisionDateChips
           </div>
           <div className="flex flex-col gap-1.5">
             <label className="text-(length:--text-nano) font-medium uppercase tracking-wide text-muted-foreground">
-              To
+              {t("components.decisionDateChips.to", { defaultValue: "To" })}
             </label>
             <input
               type="date"
@@ -81,7 +82,7 @@ export function DecisionDateChips({ value, custom, onChange }: DecisionDateChips
                 setOpen(false);
               }}
             >
-              Clear
+              {t("components.decisionDateChips.clear", { defaultValue: "Clear" })}
             </Button>
           </div>
         </PopoverContent>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { t } from "@/i18n";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -83,14 +84,14 @@ export function SecretPopoverForm({
       </div>
 
       <label className="block space-y-1">
-        <span className="text-(length:--text-micro) font-medium text-muted-foreground">Name</span>
+        <span className="text-(length:--text-micro) font-medium text-muted-foreground">{t("components.environmentVariablesEditor.createSecretPopover.name", { defaultValue: "Name" })}</span>
         <input
           className={cn(fieldClass, nameError && "border-destructive focus-visible:ring-destructive/40")}
           value={name}
           autoFocus
           spellCheck={false}
           placeholder="secret_name"
-          aria-label="Secret name"
+          aria-label={t("components.environmentVariablesEditor.createSecretPopover.secretName", { defaultValue: "Secret name" })}
           aria-invalid={nameError ? true : undefined}
           onChange={(event) => setName(event.target.value)}
           onBlur={() => setTouched(true)}
@@ -105,7 +106,7 @@ export function SecretPopoverForm({
       </label>
 
       <label className="block space-y-1">
-        <span className="text-(length:--text-micro) font-medium text-muted-foreground">Value</span>
+        <span className="text-(length:--text-micro) font-medium text-muted-foreground">{t("components.environmentVariablesEditor.createSecretPopover.value", { defaultValue: "Value" })}</span>
         <div className="relative">
           <input
             className={cn(fieldClass, "pr-8", valueError && "border-destructive focus-visible:ring-destructive/40")}
@@ -114,7 +115,7 @@ export function SecretPopoverForm({
             readOnly={mode === "store"}
             spellCheck={false}
             placeholder={mode === "create" ? "value" : undefined}
-            aria-label="Secret value"
+            aria-label={t("components.environmentVariablesEditor.createSecretPopover.secretValue", { defaultValue: "Secret value" })}
             aria-invalid={valueError ? true : undefined}
             onChange={mode === "create" ? (event) => setValue(event.target.value) : undefined}
           />
@@ -134,7 +135,7 @@ export function SecretPopoverForm({
 
       <div className="flex items-center justify-end gap-2 pt-0.5">
         <Button type="button" variant="ghost" size="sm" onClick={onCancel} disabled={submitting}>
-          Cancel
+          {t("components.environmentVariablesEditor.createSecretPopover.cancel", { defaultValue: "Cancel" })}
         </Button>
         <Button type="button" size="sm" onClick={() => void handleSubmit()} disabled={!canSubmit}>
           {submitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { t } from "@/i18n";
 import type { BudgetIncident } from "@paperclipai/shared";
 import { AlertOctagon, ArrowUpRight, PauseCircle } from "lucide-react";
 import { formatCents } from "../lib/utils";
@@ -99,14 +100,14 @@ export function BudgetIncidentCard({
           </div>
           {parsed !== null && parsed <= incident.amountObserved ? (
             <p className="mt-2 text-xs text-red-700 dark:text-red-200/80">
-              The new budget must exceed current observed spend.
+              {t("components.budgetIncidentCard.theNewBudgetMustExceedCurrentObservedSpend", { defaultValue: "The new budget must exceed current observed spend." })}
             </p>
           ) : null}
         </div>
 
         <div className="flex justify-end">
           <Button variant="ghost" className="text-muted-foreground" disabled={isMutating} onClick={onKeepPaused}>
-            Keep paused
+            {t("components.budgetIncidentCard.keepPaused", { defaultValue: "Keep paused" })}
           </Button>
         </div>
       </CardContent>

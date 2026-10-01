@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +23,7 @@ export function SourceResolvedFoldBadge({
         className,
       )}
       title={title}
-      aria-label="Source-resolved watchdog fold"
+      aria-label={t("components.sourceResolvedFoldBadge.sourceResolvedWatchdogFold", { defaultValue: "Source-resolved watchdog fold" })}
     >
       {showIcon ? <Sparkles className="h-3 w-3 text-emerald-700 dark:text-emerald-300" aria-hidden /> : null}
       Source-resolved

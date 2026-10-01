@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { t } from "@/i18n";
 import { Loader2, ShieldCheck, Terminal, TriangleAlert } from "lucide-react";
 import { Link } from "@/lib/router";
 import { Button } from "@/components/ui/button";
@@ -20,7 +21,7 @@ function CliFallback({ hasActiveInvite = false }: { hasActiveInvite?: boolean })
     <div className="mt-6 border-t border-border pt-5">
       <div className="flex items-center gap-2 text-sm font-medium">
         <Terminal className="size-4 text-muted-foreground" aria-hidden />
-        <span>Prefer to finish setup from the host?</span>
+        <span>{t("components.bootstrapPendingPage.preferToFinishSetupFromTheHost", { defaultValue: "Prefer to finish setup from the host?" })}</span>
       </div>
       <p className="mt-2 text-sm text-muted-foreground">
         {hasActiveInvite
@@ -76,15 +77,13 @@ export function BootstrapPendingPage({
   if (!claimAvailable) {
     return (
       <StateChrome>
-        <h1 className="text-xl font-semibold">This Paperclip is waiting on its first admin</h1>
+        <h1 className="text-xl font-semibold">{t("components.bootstrapPendingPage.thisPaperclipIsWaitingOnItsFirstAdmin", { defaultValue: "This Paperclip is waiting on its first admin" })}</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          This instance runs in invite-only mode. The operator must generate a one-time first-admin invite URL
-          from the host. Once you have the link, open it from this browser to finish setup.
+          {t("components.bootstrapPendingPage.thisInstanceRunsInInviteOnlyModeTheOperatorMustG", { defaultValue: "This instance runs in invite-only mode. The operator must generate a one-time first-admin invite URL from the host. Once you have the link, open it from this browser to finish setup." })}
         </p>
         <CliFallback hasActiveInvite={hasActiveInvite} />
         <p className="mt-4 text-xs text-muted-foreground">
-          Browser-based claim is intentionally disabled in public mode so anyone on the network can't promote
-          themselves.
+          {t("components.bootstrapPendingPage.browserBasedClaimIsIntentionallyDisabledInPublic", { defaultValue: "Browser-based claim is intentionally disabled in public mode so anyone on the network can't promote themselves." })}
         </p>
       </StateChrome>
     );
@@ -98,19 +97,19 @@ export function BootstrapPendingPage({
             <ShieldCheck className="size-5" aria-hidden />
           </div>
           <div>
-            <h1 className="text-xl font-semibold">You're the instance admin</h1>
+            <h1 className="text-xl font-semibold">{t("components.bootstrapPendingPage.youreTheInstanceAdmin", { defaultValue: "You're the instance admin" })}</h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              Setup is complete. Taking you to onboarding to create your first organization...
+              {t("components.bootstrapPendingPage.setupIsCompleteTakingYouToOnboardingToCreateYour", { defaultValue: "Setup is complete. Taking you to onboarding to create your first organization..." })}
             </p>
           </div>
         </div>
         <div className="mt-5 flex items-center gap-3">
           <Loader2 className="size-4 animate-spin text-muted-foreground" aria-hidden />
-          <span className="text-sm text-muted-foreground">Redirecting...</span>
+          <span className="text-sm text-muted-foreground">{t("components.bootstrapPendingPage.redirecting", { defaultValue: "Redirecting..." })}</span>
         </div>
         <div className="mt-5">
           <Button asChild variant="outline">
-            <a href="/">Continue to dashboard</a>
+            <a href="/">{t("components.bootstrapPendingPage.continueToDashboard", { defaultValue: "Continue to dashboard" })}</a>
           </Button>
         </div>
       </StateChrome>
@@ -120,14 +119,13 @@ export function BootstrapPendingPage({
   if (!session) {
     return (
       <StateChrome>
-        <h1 className="text-xl font-semibold">Finish setting up this Paperclip</h1>
+        <h1 className="text-xl font-semibold">{t("components.bootstrapPendingPage.finishSettingUpThisPaperclip", { defaultValue: "Finish setting up this Paperclip" })}</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          No admin has claimed this instance yet. Sign in or create your Paperclip account to become the first
-          admin from this browser.
+          {t("components.bootstrapPendingPage.noAdminHasClaimedThisInstanceYetSignInOrCreateYo", { defaultValue: "No admin has claimed this instance yet. Sign in or create your Paperclip account to become the first admin from this browser." })}
         </p>
         <div className="mt-5">
           <Button asChild>
-            <Link to="/auth?next=/">Sign in / Create account</Link>
+            <Link to="/auth?next=/">{t("components.bootstrapPendingPage.signInCreateAccount", { defaultValue: "Sign in / Create account" })}</Link>
           </Button>
         </div>
         <CliFallback hasActiveInvite={hasActiveInvite} />
@@ -139,9 +137,9 @@ export function BootstrapPendingPage({
   const isClaiming = claimState === "claiming";
   return (
     <StateChrome>
-      <h1 className="text-xl font-semibold">Finish setting up this Paperclip</h1>
+      <h1 className="text-xl font-semibold">{t("components.bootstrapPendingPage.finishSettingUpThisPaperclip", { defaultValue: "Finish setting up this Paperclip" })}</h1>
       <p className="mt-2 text-sm text-muted-foreground">
-        No admin has claimed this instance yet. Claim it now to become the first admin and start onboarding.
+        {t("components.bootstrapPendingPage.noAdminHasClaimedThisInstanceYetClaimItNowToBeco", { defaultValue: "No admin has claimed this instance yet. Claim it now to become the first admin and start onboarding." })}
       </p>
       <div className="mt-5 flex flex-wrap items-center gap-3">
         <Button onClick={onClaim} disabled={isClaiming}>
@@ -149,13 +147,13 @@ export function BootstrapPendingPage({
           {isClaiming ? "Claiming..." : "Claim this instance"}
         </Button>
         <span className="text-sm text-muted-foreground">
-          Signed in as <span className="font-medium text-foreground">{displayIdentity(session)}</span>
+          {t("components.bootstrapPendingPage.signedInAs", { defaultValue: "Signed in as" })} <span className="font-medium text-foreground">{displayIdentity(session)}</span>
         </span>
       </div>
       <p className="mt-3 text-xs text-muted-foreground">
         Wrong account?{" "}
         <Link to="/auth?next=/" className="underline underline-offset-2">
-          Switch account
+          {t("components.bootstrapPendingPage.switchAccount", { defaultValue: "Switch account" })}
         </Link>
         .
       </p>

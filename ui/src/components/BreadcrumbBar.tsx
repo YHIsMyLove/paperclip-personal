@@ -14,6 +14,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Fragment, useMemo, type ReactNode } from "react";
+import { t } from "@/i18n";
 import { PluginSlotOutlet, usePluginSlots } from "@/plugins/slots";
 import { PluginLauncherOutlet, usePluginLaunchers } from "@/plugins/launchers";
 import { cn } from "../lib/utils";
@@ -102,7 +103,7 @@ export function BreadcrumbBar({ taskDetailLayout = false }: { taskDetailLayout?:
       size="icon-sm"
       className="mr-2 shrink-0"
       onClick={toggleSidebar}
-      aria-label="Open sidebar"
+      aria-label={t("components.breadcrumbBar.openSidebar", { defaultValue: "Open sidebar" })}
     >
       <Menu className="h-5 w-5" />
     </Button>

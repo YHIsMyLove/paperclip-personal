@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { t } from "@/i18n";
 import { useQuery } from "@tanstack/react-query";
 import {
   getAttachmentArtifactWorkProductMetadata,
@@ -64,7 +65,7 @@ export function IssueArtifactFile(props: IssueArtifactFileProps) {
       aria-label={`Open in tab: ${props.title}`}
       onClick={() => openTextAttachment(attachmentId, props.filename)}
     >
-      Open in tab
+      {t("components.artifacts.issueArtifactCard.openInTab", { defaultValue: "Open in tab" })}
     </Button>
   ) : null;
   const [galleryOpen, setGalleryOpen] = useState(false);
@@ -143,7 +144,7 @@ export function IssueArtifactFile(props: IssueArtifactFileProps) {
             {downloadPath ? (
               <Button asChild size="sm" variant="outline">
                 <a href={downloadPath} download={props.filename}>
-                  Download file
+                  {t("components.artifacts.issueArtifactCard.downloadFile", { defaultValue: "Download file" })}
                 </a>
               </Button>
             ) : null}
@@ -189,7 +190,7 @@ export function IssueArtifactFile(props: IssueArtifactFileProps) {
               size="sm"
               onClick={() => void data.refetch()}
             >
-              Retry preview
+              {t("components.artifacts.issueArtifactCard.retryPreview", { defaultValue: "Retry preview" })}
             </Button>
           )}
         </div>
@@ -215,7 +216,7 @@ export function IssueWorkProductArtifactCard({
     updatedAt: formatDateTime(wp.updatedAt),
     statusBadge:
       wp.healthStatus === "unhealthy" ? (
-        <Badge variant="destructive">Unhealthy</Badge>
+        <Badge variant="destructive">{t("components.artifacts.issueArtifactCard.unhealthy", { defaultValue: "Unhealthy" })}</Badge>
       ) : chip ? (
         <Badge variant="outline">{chip.label}</Badge>
       ) : undefined,

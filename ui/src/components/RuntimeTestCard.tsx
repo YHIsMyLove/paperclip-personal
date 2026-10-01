@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import {
   CircleCheck,
   CircleAlert,
@@ -62,7 +63,7 @@ export function RuntimeTestCard({
           : Play;
   return (
     <section
-      aria-label="Runtime test"
+      aria-label={t("components.runtimeTestCard.runtimeTest", { defaultValue: "Runtime test" })}
       className="rounded-lg border border-border bg-card"
     >
       <div className="flex items-start gap-3 p-4 sm:items-center">
@@ -117,7 +118,7 @@ export function RuntimeTestCard({
               aria-hidden="true"
               className="size-3 transition-transform group-open:rotate-90"
             />
-            Test details
+            {t("components.runtimeTestCard.testDetails", { defaultValue: "Test details" })}
           </summary>
           <ul className="space-y-3 px-4 pb-4">
             {result.checks.map((check) => (

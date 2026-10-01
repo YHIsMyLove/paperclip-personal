@@ -3,6 +3,7 @@ import { aiConnectionsApi } from "@/api/ai-connections";
 import { useLocalAiLogin } from "../ai-connections/useLocalAiLogin";
 import type { AiConnectionBinding, AiConnectionLoginIntent } from "@paperclipai/shared";
 import { useEffect, useRef, useState } from "react";
+import { t } from "@/i18n";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "motion/react";
 import {
@@ -232,7 +233,7 @@ export function AgentProviderConnection({
   return (
     <div className="min-w-0 max-w-full">
       <ModelSourceTiles
-        label="Connect your model provider"
+        label={t("components.newAgent.agentProviderConnection.connectYourModelProvider", { defaultValue: "Connect your model provider" })}
         sources={[
           {
             id: adapterType,
@@ -308,7 +309,7 @@ export function AgentProviderConnection({
                 />
                 {!selectedKey && (
                   <OnboardingCardField
-                    label="API key"
+                    label={t("components.newAgent.agentProviderConnection.apiKey", { defaultValue: "API key" })}
                     masked
                     autoFocus
                     value={apiKey}
@@ -382,7 +383,7 @@ export function AgentProviderConnection({
       </motion.div>
       {method === "subscription" && storedLogin.isError && (
         <p role="alert" className="mt-4 text-sm text-destructive">
-          Could not check your saved Claude subscription. Try again.
+          {t("components.newAgent.agentProviderConnection.couldNotCheckYourSavedClaudeSubscriptionTryAgain", { defaultValue: "Could not check your saved Claude subscription. Try again." })}
         </p>
       )}
       {error && (
@@ -391,7 +392,7 @@ export function AgentProviderConnection({
         </p>
       )}
       {localEnvironment && health.isError && (
-        <p role="alert" className="mt-4 text-sm text-destructive">Could not prepare sign-in. Reload this page to try again.</p>
+        <p role="alert" className="mt-4 text-sm text-destructive">{t("components.newAgent.agentProviderConnection.couldNotPrepareSignInReloadThisPageToTryAgain", { defaultValue: "Could not prepare sign-in. Reload this page to try again." })}</p>
       )}
       <FooterNav
         onBack={() => {

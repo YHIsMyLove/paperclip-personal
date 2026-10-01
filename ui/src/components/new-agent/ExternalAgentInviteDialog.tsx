@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { accessApi } from "@/api/access";
 import { queryKeys } from "@/lib/queryKeys";
@@ -63,20 +64,20 @@ export function ExternalAgentInviteDialog({ companyId, onClose, onBack }: {
           : "Generate a one-time onboarding prompt for an external agent. An organization admin must approve its join request before it can claim an API key."}
       </DialogDescription>
       {prompt ? <>
-        <Textarea aria-label="Agent onboarding prompt" readOnly value={prompt} className="min-h-64 font-mono text-xs" />
-        {copyError && <p role="alert" className="text-sm text-muted-foreground">Clipboard unavailable. Copy the prompt manually from the field above.</p>}
+        <Textarea aria-label={t("components.newAgent.externalAgentInviteDialog.agentOnboardingPrompt", { defaultValue: "Agent onboarding prompt" })} readOnly value={prompt} className="min-h-64 font-mono text-xs" />
+        {copyError && <p role="alert" className="text-sm text-muted-foreground">{t("components.newAgent.externalAgentInviteDialog.clipboardUnavailableCopyThePromptManuallyFromThe", { defaultValue: "Clipboard unavailable. Copy the prompt manually from the field above." })}</p>}
         <div className="flex justify-between gap-4">
-          <Button variant="ghost" onClick={onClose}>Done</Button>
+          <Button variant="ghost" onClick={onClose}>{t("components.newAgent.externalAgentInviteDialog.done", { defaultValue: "Done" })}</Button>
           <Button variant="outline" onClick={() => void copy(prompt)}>{copied ? "Copied prompt" : "Copy prompt"}</Button>
         </div>
       </> : <>
         <label className="space-y-2 text-sm">
-          <span>Optional message for the agent</span>
+          <span>{t("components.newAgent.externalAgentInviteDialog.optionalMessageForTheAgent", { defaultValue: "Optional message for the agent" })}</span>
           <Textarea value={message} onChange={(event) => setMessage(event.target.value)} maxLength={4000} className="min-h-24" />
         </label>
         {createInvite.error && <p role="alert" className="text-sm text-destructive">{createInvite.error.message}</p>}
         <div className="flex justify-between gap-4">
-          <Button variant="ghost" onClick={onBack}>Back</Button>
+          <Button variant="ghost" onClick={onBack}>{t("components.newAgent.externalAgentInviteDialog.back", { defaultValue: "Back" })}</Button>
           <Button disabled={createInvite.isPending} onClick={() => createInvite.mutate()}>
             {createInvite.isPending ? "Generating…" : "Generate onboarding prompt"}
           </Button>

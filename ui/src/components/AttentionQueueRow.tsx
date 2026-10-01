@@ -1,4 +1,5 @@
 import { memo, useState, type KeyboardEvent, type ReactNode } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   AlarmClock,
@@ -215,7 +216,7 @@ export const AttentionQueueRow = memo(function AttentionQueueRow({
           {showOpen && (
             <Button asChild variant="default" size="xs" className={ACTION_BTN}>
               <Link to={href!}>
-                Open
+                {t("components.attentionQueueRow.open", { defaultValue: "Open" })}
                 <ExternalLink className="h-3 w-3" />
               </Link>
             </Button>
@@ -224,7 +225,7 @@ export const AttentionQueueRow = memo(function AttentionQueueRow({
           {showRestore && (
             <Button type="button" variant="outline" size="xs" className={ACTION_BTN} onClick={() => onRestore(item)}>
               <RotateCcw className="h-3 w-3" />
-              Restore
+              {t("components.attentionQueueRow.restore", { defaultValue: "Restore" })}
             </Button>
           )}
         </div>
@@ -307,7 +308,7 @@ export const AttentionQueueRow = memo(function AttentionQueueRow({
                   variant="ghost"
                   size="icon-xs"
                   className="text-muted-foreground"
-                  aria-label="Row actions"
+                  aria-label={t("components.attentionQueueRow.rowActions", { defaultValue: "Row actions" })}
                 >
                   <MoreHorizontal className="h-4 w-4" />
                 </Button>
@@ -316,13 +317,13 @@ export const AttentionQueueRow = memo(function AttentionQueueRow({
                 {onSnooze && <SnoozeSubmenu onSnooze={(iso) => onSnooze(item, iso)} />}
                 <DropdownMenuItem onClick={() => onDismiss(item)}>
                   <X className="h-4 w-4" />
-                  Dismiss
+                  {t("components.attentionQueueRow.dismiss", { defaultValue: "Dismiss" })}
                 </DropdownMenuItem>
                 {href && (
                   <>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
-                      <Link to={href}>Open source</Link>
+                      <Link to={href}>{t("components.attentionQueueRow.openSource", { defaultValue: "Open source" })}</Link>
                     </DropdownMenuItem>
                   </>
                 )}
@@ -534,7 +535,7 @@ function CompactDecisionActions({
   if (actions.length === 0) return null;
 
   return (
-    <div className="flex w-full flex-wrap items-center gap-2 @xl:w-auto @xl:justify-end @xl:gap-1" aria-label="Decision actions">
+    <div className="flex w-full flex-wrap items-center gap-2 @xl:w-auto @xl:justify-end @xl:gap-1" aria-label={t("components.attentionQueueRow.decisionActions", { defaultValue: "Decision actions" })}>
       {actions.map(({ action, id, label, description }) => (
         <Button
           key={id}
@@ -658,7 +659,7 @@ function ExpandedImages({ images, issueHref }: { images: AttentionDetailImage[];
         >
           <span className="text-base font-semibold">{extra} more</span>
           <span className="mt-0.5 inline-flex items-center gap-1 text-(length:--text-nano)">
-            View issue
+            {t("components.attentionQueueRow.viewIssue", { defaultValue: "View issue" })}
             <ExternalLink className="h-3 w-3" />
           </span>
         </Link>
@@ -684,7 +685,7 @@ function SnoozeSubmenu({ onSnooze }: { onSnooze: (snoozedUntil: string) => void 
     <DropdownMenuSub>
       <DropdownMenuSubTrigger>
         <AlarmClock className="h-4 w-4" />
-        Snooze
+        {t("components.attentionQueueRow.snooze", { defaultValue: "Snooze" })}
       </DropdownMenuSubTrigger>
       <DropdownMenuSubContent>
         {SNOOZE_PRESETS.map((preset) => (
@@ -701,7 +702,7 @@ function SnoozeSubmenu({ onSnooze }: { onSnooze: (snoozedUntil: string) => void 
           onClick={(e) => e.stopPropagation()}
         >
           <span className="text-(length:--text-nano) font-medium uppercase tracking-(--tracking-eyebrow) text-muted-foreground">
-            Custom
+            {t("components.attentionQueueRow.custom", { defaultValue: "Custom" })}
           </span>
           <input
             type="datetime-local"
@@ -710,7 +711,7 @@ function SnoozeSubmenu({ onSnooze }: { onSnooze: (snoozedUntil: string) => void 
             className="w-full rounded-sm border border-border bg-background px-2 py-1 text-xs"
           />
           <Button type="button" size="xs" disabled={!customValue} onClick={applyCustom}>
-            Snooze until…
+            {t("components.attentionQueueRow.snoozeUntil", { defaultValue: "Snooze until…" })}
           </Button>
         </div>
       </DropdownMenuSubContent>
@@ -777,7 +778,7 @@ function InlineResolver({
   if (item.sourceKind === "issue_thread_interaction") {
     const issueId = (item.subject.metadata?.issueId as string | undefined) ?? item.relatedIssue?.id;
     if (!issueId) {
-      return <p className="text-xs text-muted-foreground">Missing issue reference for this decision.</p>;
+      return <p className="text-xs text-muted-foreground">{t("components.attentionQueueRow.missingIssueReferenceForThisDecision", { defaultValue: "Missing issue reference for this decision." })}</p>;
     }
     return (
       <>
@@ -856,7 +857,7 @@ function ApprovalResolver({ item, companyId, toggle }: { item: AttentionItem; co
       <Textarea
         value={note}
         onChange={(e) => setNote(e.target.value)}
-        placeholder="Optional decision note…"
+        placeholder={t("components.attentionQueueRow.optionalDecisionNote", { defaultValue: "Optional decision note…" })}
         className="min-h-16 text-sm"
       />
       <ResolverFooter toggle={toggle}>

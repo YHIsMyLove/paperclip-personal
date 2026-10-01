@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { AlertTriangle, ExternalLink } from "lucide-react";
 import type { AgentPermissions } from "@paperclipai/shared";
 import { getTrustPreset } from "@/lib/trust-policy-ui";
@@ -23,13 +24,10 @@ export function GitHubAgentTrustWarning({
         {agent.name} is not configured for low-trust review
       </p>
       <p>
-        GitHub comments and pull requests can contain malicious instructions. We
-        recommend a low-trust agent with a scoped work boundary and an isolated
-        sandbox runtime.
+        {t("components.gitHubAgentTrustWarning.githubCommentsAndPullRequestsCanContainMalicious", { defaultValue: "GitHub comments and pull requests can contain malicious instructions. We recommend a low-trust agent with a scoped work boundary and an isolated sandbox runtime." })}
       </p>
       <p className="text-xs text-muted-foreground">
-        Continuing keeps this agent’s current permissions. A restricted guest
-        profile does not replace the agent’s trust and runtime settings.
+        {t("components.gitHubAgentTrustWarning.continuingKeepsThisAgentsCurrentPermissionsARest", { defaultValue: "Continuing keeps this agent’s current permissions. A restricted guest profile does not replace the agent’s trust and runtime settings." })}
       </p>
       <a
         className="inline-flex items-center gap-1 underline underline-offset-4"
@@ -37,7 +35,7 @@ export function GitHubAgentTrustWarning({
         target="_blank"
         rel="noreferrer"
       >
-        Learn about low-trust agents
+        {t("components.gitHubAgentTrustWarning.learnAboutLowTrustAgents", { defaultValue: "Learn about low-trust agents" })}
         <ExternalLink className="size-3.5" />
       </a>
     </div>

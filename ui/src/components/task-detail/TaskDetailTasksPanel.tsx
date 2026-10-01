@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { t } from "@/i18n";
 import type { Issue, Project } from "@paperclipai/shared";
 import { ArrowUpRight, ChevronRight } from "lucide-react";
 import { Link } from "@/lib/router";
@@ -62,13 +63,13 @@ export function TaskDetailTasksPanel({ ancestors = [], subtasks, createdTasks, p
     groups.set(key, group);
   }
   return (
-    <section className="flex flex-col gap-6" aria-label="Related tasks">
+    <section className="flex flex-col gap-6" aria-label={t("components.taskDetail.taskDetailTasksPanel.relatedTasks", { defaultValue: "Related tasks" })}>
       {ancestors.length > 0 && (
         <TaskGroup name="Ancestors">
           <RelationNavigationList
             items={[...ancestors].reverse()}
             emptyMessage=""
-            ariaLabel="Ancestor tasks, root to parent"
+            ariaLabel={t("components.taskDetail.taskDetailTasksPanel.ancestorTasksRootToParent", { defaultValue: "Ancestor tasks, root to parent" })}
             issueLinkState={issueLinkState}
           />
         </TaskGroup>
@@ -83,15 +84,15 @@ export function TaskDetailTasksPanel({ ancestors = [], subtasks, createdTasks, p
           <TaskDetailTaskList items={group.tasks} ariaLabel={`${group.name} tasks`} issueLinkState={issueLinkState} />
         </TaskGroup>
       ))}
-      {isLoading && <p role="status" className="text-sm text-muted-foreground">Loading tasks…</p>}
+      {isLoading && <p role="status" className="text-sm text-muted-foreground">{t("components.taskDetail.taskDetailTasksPanel.loadingTasks", { defaultValue: "Loading tasks…" })}</p>}
       {hasError && (
         <div role="alert" className="flex items-center gap-2 text-sm text-destructive">
-          <span>Could not load all tasks.</span>
-          {onRetry && <Button variant="ghost" size="sm" onClick={onRetry}>Retry</Button>}
+          <span>{t("components.taskDetail.taskDetailTasksPanel.couldNotLoadAllTasks", { defaultValue: "Could not load all tasks." })}</span>
+          {onRetry && <Button variant="ghost" size="sm" onClick={onRetry}>{t("components.taskDetail.taskDetailTasksPanel.retry", { defaultValue: "Retry" })}</Button>}
         </div>
       )}
       {!isLoading && !hasError && ancestors.length === 0 && subtasks.length === 0 && createdTasks.length === 0 && (
-        <p className="py-6 text-center text-sm text-muted-foreground">No tasks yet.</p>
+        <p className="py-6 text-center text-sm text-muted-foreground">{t("components.taskDetail.taskDetailTasksPanel.noTasksYet", { defaultValue: "No tasks yet." })}</p>
       )}
     </section>
   );

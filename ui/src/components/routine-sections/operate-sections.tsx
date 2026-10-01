@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Activity as ActivityIcon } from "lucide-react";
 import { issuesApi } from "@/api/issues";
@@ -75,11 +76,11 @@ export function ActivitySection({ isLoading = false, error }: { isLoading?: bool
     return Array.from(byDay.entries());
   }, [events]);
 
-  if (isLoading) return <p className="text-sm text-muted-foreground">Loading activity…</p>;
+  if (isLoading) return <p className="text-sm text-muted-foreground">{t("components.routineSections.operateSections.loadingActivity", { defaultValue: "Loading activity…" })}</p>;
   if (error) return <p role="alert" className="text-sm text-destructive">{error.message}</p>;
 
   if (events.length === 0) {
-    return <EmptyState icon={ActivityIcon} message="No activity yet." />;
+    return <EmptyState icon={ActivityIcon} message={t("components.routineSections.operateSections.noActivityYet", { defaultValue: "No activity yet." })} />;
   }
 
   return (

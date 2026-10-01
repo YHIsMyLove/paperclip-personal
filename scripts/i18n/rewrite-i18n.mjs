@@ -115,6 +115,9 @@ for (const pair of pairs) {
     if (!isProse(value)) return match;
     // Already translated, or not a literal we should touch.
     if (/^\s*(t\()/.test(value)) return match;
+    // `[aria-label="Foo"]` is a CSS attribute selector, not a JSX prop. Wrapping
+    // it produces a selector that no element can ever match.
+    if (src[match.index - 1] === "[") return match;
     const esc = value.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
     const key = keyFor(value);
     edits++;

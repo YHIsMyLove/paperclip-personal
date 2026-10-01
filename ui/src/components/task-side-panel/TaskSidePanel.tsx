@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { TextAttachmentContext } from "@/context/TextAttachmentContext";
 import { TaskAttachmentPanel } from "./TaskAttachmentPanel";
 import { useTaskBrowsers } from "@/hooks/useTaskBrowsers";
@@ -486,7 +487,10 @@ export function TaskSidePanel({
   useEffect(() => {
     if (activeTab) return;
     window.requestAnimationFrame(() => {
-      bodyRef.current?.querySelector<HTMLInputElement>('input[aria-label="Search tabs and resources…"]')?.focus();
+      // The selector has to interpolate the translated label, otherwise it only
+      // matches while the UI is showing the English fallback.
+      const searchSelector = `input[aria-label="${t("components.taskSidePanel.taskSidePanel.searchTabsAndResources", { defaultValue: "Search tabs and resources…" })}"]`;
+      bodyRef.current?.querySelector<HTMLInputElement>(searchSelector)?.focus();
     });
   }, [activeTab]);
 
@@ -650,7 +654,7 @@ export function TaskSidePanel({
               ? "h-(--side-panel-tab-height) w-(--side-panel-tab-height) rounded-md"
               : "h-(--side-panel-tab-height) w-(--side-panel-tab-height) rounded-(--side-panel-control-radius)",
           )}
-          aria-label="Open a new tab"
+          aria-label={t("components.taskSidePanel.taskSidePanel.openANewTab", { defaultValue: "Open a new tab" })}
         >
           <Plus aria-hidden />
         </Button>

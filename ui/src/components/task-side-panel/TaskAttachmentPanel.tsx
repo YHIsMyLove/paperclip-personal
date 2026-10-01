@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { t } from "@/i18n";
 import { useQuery } from "@tanstack/react-query";
 import { Code2, Download, Eye } from "lucide-react";
 import { issuesApi } from "@/api/issues";
@@ -46,11 +47,11 @@ export function TextAttachmentPreview({ title, text, markdown, downloadUrl }: {
       <header className="flex items-center gap-2 border-b border-border px-3 py-2">
         <h2 className="min-w-0 flex-1 truncate text-sm font-medium" title={title}>{title}</h2>
         {markdown ? (
-          <div className="flex gap-1" role="group" aria-label="Markdown view">
-            <Button size="icon-sm" variant={raw ? "ghost" : "secondary"} aria-label="Rendered" title="Rendered" aria-pressed={!raw} onClick={() => setRaw(false)}>
+          <div className="flex gap-1" role="group" aria-label={t("components.taskSidePanel.taskAttachmentPanel.markdownView", { defaultValue: "Markdown view" })}>
+            <Button size="icon-sm" variant={raw ? "ghost" : "secondary"} aria-label={t("components.taskSidePanel.taskAttachmentPanel.rendered", { defaultValue: "Rendered" })} title={t("components.taskSidePanel.taskAttachmentPanel.rendered", { defaultValue: "Rendered" })} aria-pressed={!raw} onClick={() => setRaw(false)}>
               <Eye aria-hidden />
             </Button>
-            <Button size="icon-sm" variant={raw ? "secondary" : "ghost"} aria-label="Raw" title="Raw" aria-pressed={raw} onClick={() => setRaw(true)}>
+            <Button size="icon-sm" variant={raw ? "secondary" : "ghost"} aria-label={t("components.taskSidePanel.taskAttachmentPanel.raw", { defaultValue: "Raw" })} title={t("components.taskSidePanel.taskAttachmentPanel.raw", { defaultValue: "Raw" })} aria-pressed={raw} onClick={() => setRaw(true)}>
               <Code2 aria-hidden />
             </Button>
           </div>
@@ -60,7 +61,7 @@ export function TextAttachmentPreview({ title, text, markdown, downloadUrl }: {
         </Button>
       </header>
       <div className="min-h-0 flex-1 overflow-auto p-4">
-        {text.length === 0 ? <p className="text-sm text-muted-foreground">File is empty.</p>
+        {text.length === 0 ? <p className="text-sm text-muted-foreground">{t("components.taskSidePanel.taskAttachmentPanel.fileIsEmpty", { defaultValue: "File is empty." })}</p>
           : markdown && !raw ? <MarkdownBody mediaMode="reference">{text}</MarkdownBody>
           : <pre className="whitespace-pre-wrap break-words font-mono text-sm" aria-label={`${title} raw text`}>{text}</pre>}
       </div>
@@ -85,19 +86,19 @@ export function TaskAttachmentPanel({ issueId, attachmentId }: { issueId: string
     enabled: Boolean(eligible),
     retry: false,
   });
-  if (attachments.isLoading) return <p className="p-4 text-sm" role="status">Loading file…</p>;
-  if (attachments.isError) return <div className="p-4" role="alert">Could not load attachment details. <Button onClick={() => void attachments.refetch()}>Retry</Button></div>;
-  if (!attachment) return <p className="p-4 text-sm" role="status">File no longer available. Close this tab or choose another file.</p>;
+  if (attachments.isLoading) return <p className="p-4 text-sm" role="status">{t("components.taskSidePanel.taskAttachmentPanel.loadingFile", { defaultValue: "Loading file…" })}</p>;
+  if (attachments.isError) return <div className="p-4" role="alert">{t("components.taskSidePanel.taskAttachmentPanel.couldNotLoadAttachmentDetails", { defaultValue: "Could not load attachment details." })} <Button onClick={() => void attachments.refetch()}>{t("components.taskSidePanel.taskAttachmentPanel.retry", { defaultValue: "Retry" })}</Button></div>;
+  if (!attachment) return <p className="p-4 text-sm" role="status">{t("components.taskSidePanel.taskAttachmentPanel.fileNoLongerAvailableCloseThisTabOrChooseAnother", { defaultValue: "File no longer available. Close this tab or choose another file." })}</p>;
   const downloadUrl = attachmentDownloadPath(attachment);
   if (!eligible || content.isError) {
     return (
       <div className="space-y-3 p-4" role="alert">
         <p className="text-sm">{content.isError ? "Could not preview this file. Retry or download it." : "This file is too large or is not supported for text preview. Download it instead."}</p>
-        {eligible ? <Button onClick={() => void content.refetch()}>Retry</Button> : null}
-        <Button asChild variant="outline"><a href={downloadUrl} download>Download file</a></Button>
+        {eligible ? <Button onClick={() => void content.refetch()}>{t("components.taskSidePanel.taskAttachmentPanel.retry", { defaultValue: "Retry" })}</Button> : null}
+        <Button asChild variant="outline"><a href={downloadUrl} download>{t("components.taskSidePanel.taskAttachmentPanel.downloadFile", { defaultValue: "Download file" })}</a></Button>
       </div>
     );
   }
-  if (content.data === undefined) return <p className="p-4 text-sm" role="status">Loading file…</p>;
+  if (content.data === undefined) return <p className="p-4 text-sm" role="status">{t("components.taskSidePanel.taskAttachmentPanel.loadingFile", { defaultValue: "Loading file…" })}</p>;
   return <TextAttachmentPreview title={attachment.originalFilename ?? attachment.id} text={content.data} markdown={isMarkdownAttachment(attachment)} downloadUrl={downloadUrl} />;
 }

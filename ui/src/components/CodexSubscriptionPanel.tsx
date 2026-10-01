@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import type { QuotaWindow } from "@paperclipai/shared";
 import { cn, quotaSourceDisplayName } from "@/lib/utils";
 
@@ -66,10 +67,10 @@ export function CodexSubscriptionPanel({
       <div className="flex items-start justify-between gap-3 border-b border-border pb-3">
         <div className="min-w-0">
           <div className="text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-caps) text-muted-foreground">
-            Codex subscription
+            {t("components.codexSubscriptionPanel.codexSubscription", { defaultValue: "Codex subscription" })}
           </div>
           <div className="mt-1 text-sm text-muted-foreground">
-            Live Codex quota windows.
+            {t("components.codexSubscriptionPanel.liveCodexQuotaWindows", { defaultValue: "Live Codex quota windows." })}
           </div>
         </div>
         {source ? (
@@ -88,7 +89,7 @@ export function CodexSubscriptionPanel({
       <div className="mt-4 space-y-5">
         <div className="space-y-3">
           <div className="text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-caps) text-muted-foreground">
-            Account windows
+            {t("components.codexSubscriptionPanel.accountWindows", { defaultValue: "Account windows" })}
           </div>
           <div className="space-y-3">
             {accountWindows.map((window) => (
@@ -100,7 +101,7 @@ export function CodexSubscriptionPanel({
         {modelWindows.length > 0 ? (
           <div className="space-y-3">
             <div className="text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-caps) text-muted-foreground">
-              Model windows
+              {t("components.codexSubscriptionPanel.modelWindows", { defaultValue: "Model windows" })}
             </div>
             <div className="space-y-3">
               {modelWindows.map((window) => (

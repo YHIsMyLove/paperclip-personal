@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { t } from "@/i18n";
 import { AlertTriangle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -81,7 +82,7 @@ export function RoutineSaveBar({
         {saveConflict ? (
           <div className="flex items-center gap-2 text-sm text-amber-800 dark:text-amber-200">
             <AlertTriangle className="h-4 w-4" />
-            <span>Routine changed elsewhere. Reload to merge.</span>
+            <span>{t("components.routineSaveBar.routineChangedElsewhereReloadToMerge", { defaultValue: "Routine changed elsewhere. Reload to merge." })}</span>
           </div>
         ) : (
           <Popover>
@@ -98,7 +99,7 @@ export function RoutineSaveBar({
             </PopoverTrigger>
             <PopoverContent align="start" className="w-64">
               <p className="mb-2 text-xs font-medium text-muted-foreground">
-                Pending changes
+                {t("components.routineSaveBar.pendingChanges", { defaultValue: "Pending changes" })}
               </p>
               <ul className="space-y-1 text-sm">
                 {dirtyFields.map((field) => (
@@ -116,7 +117,7 @@ export function RoutineSaveBar({
           {saveConflict ? (
             <>
               <Button variant="outline" size="sm" onClick={onReload}>
-                Reload latest
+                {t("components.routineSaveBar.reloadLatest", { defaultValue: "Reload latest" })}
               </Button>
               <TooltipProvider>
                 <Tooltip>
@@ -132,7 +133,7 @@ export function RoutineSaveBar({
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
-                    Replaces the newer revision with your local edits.
+                    {t("components.routineSaveBar.replacesTheNewerRevisionWithYourLocalEdits", { defaultValue: "Replaces the newer revision with your local edits." })}
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -145,7 +146,7 @@ export function RoutineSaveBar({
                 disabled={isSaving || disabled}
                 onClick={() => setConfirmDiscardOpen(true)}
               >
-                Discard
+                {t("components.routineSaveBar.discard", { defaultValue: "Discard" })}
               </Button>
               <Button
                 size="sm"
@@ -166,7 +167,7 @@ export function RoutineSaveBar({
       <Dialog open={confirmDiscardOpen} onOpenChange={setConfirmDiscardOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Discard changes?</DialogTitle>
+            <DialogTitle>{t("components.routineSaveBar.discardChanges", { defaultValue: "Discard changes?" })}</DialogTitle>
             <DialogDescription>
               This will revert {dirtyCount} unsaved{" "}
               {dirtyCount === 1 ? "change" : "changes"} in this section.
@@ -174,7 +175,7 @@ export function RoutineSaveBar({
           </DialogHeader>
           <DialogFooter>
             <Button variant="ghost" size="sm" onClick={() => setConfirmDiscardOpen(false)}>
-              Keep editing
+              {t("components.routineSaveBar.keepEditing", { defaultValue: "Keep editing" })}
             </Button>
             <Button
               variant="destructive"
@@ -184,7 +185,7 @@ export function RoutineSaveBar({
                 setConfirmDiscardOpen(false);
               }}
             >
-              Discard changes
+              {t("components.routineSaveBar.discardChanges2", { defaultValue: "Discard changes" })}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -197,7 +198,7 @@ export function RoutineSaveBar({
 export function RoutineReadOnlyStrip() {
   return (
     <div className="-mx-8 mt-6 border-t border-border bg-muted/20 px-8 py-3 text-xs text-muted-foreground">
-      Read-only — you don't own this routine.
+      {t("components.routineSaveBar.readOnlyYouDontOwnThisRoutine", { defaultValue: "Read-only — you don't own this routine." })}
     </div>
   );
 }

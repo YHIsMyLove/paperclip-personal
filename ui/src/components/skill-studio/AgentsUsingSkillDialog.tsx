@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader2, Plus, Trash2, Users } from "lucide-react";
 import type {
@@ -390,7 +391,7 @@ function AgentRow({
               {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Remove"}
             </Button>
             <Button variant="ghost" size="sm" onClick={onCancelRemove} disabled={busy}>
-              Cancel
+              {t("components.skillStudio.agentsUsingSkillDialog.cancel", { defaultValue: "Cancel" })}
             </Button>
           </div>
         ) : (
@@ -440,9 +441,9 @@ function AddAgentPicker({
       groups={groups}
       loading={loading}
       loadingMessage="Loading agents..."
-      placeholder="Add agent…"
-      searchPlaceholder="Search agents..."
-      emptyMessage="All eligible agents already have this skill."
+      placeholder={t("components.skillStudio.agentsUsingSkillDialog.addAgent", { defaultValue: "Add agent…" })}
+      searchPlaceholder={t("components.skillStudio.agentsUsingSkillDialog.searchAgents", { defaultValue: "Search agents..." })}
+      emptyMessage={t("components.skillStudio.agentsUsingSkillDialog.allEligibleAgentsAlreadyHaveThisSkill", { defaultValue: "All eligible agents already have this skill." })}
       disabled={disabled}
       onValueChange={(_value, option) => {
         onSelect(option.agent);
@@ -453,7 +454,7 @@ function AddAgentPicker({
       renderValue={() => (
         <span className="flex items-center gap-1.5 text-muted-foreground">
           <Plus className="h-3.5 w-3.5" aria-hidden="true" />
-          Add agent…
+          {t("components.skillStudio.agentsUsingSkillDialog.addAgent", { defaultValue: "Add agent…" })}
         </span>
       )}
       renderOption={(option) => (

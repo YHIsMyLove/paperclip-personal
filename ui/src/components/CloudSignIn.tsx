@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { t } from "@/i18n";
 import type { CloudInstanceHealthStatus } from "@/api/health";
 import { cloudStackEntryUrl } from "@/lib/cloudLinks";
 import { beginCloudSignIn, clearCloudSignInAttempt } from "@/lib/cloud-sign-in";
@@ -20,7 +21,7 @@ export function CloudSignIn({ cloud, returnTo }: { cloud: CloudInstanceHealthSta
 
   return (
     <div className="mx-auto max-w-xl space-y-4 p-6">
-      <h1 className="text-xl font-semibold">Sign in to Paperclip Cloud</h1>
+      <h1 className="text-xl font-semibold">{t("components.cloudSignIn.signInToPaperclipCloud", { defaultValue: "Sign in to Paperclip Cloud" })}</h1>
       <p role="alert" className="text-sm text-muted-foreground">
         {entryUrl
           ? "We couldn't restore your session. Continue to Paperclip Cloud to try again."
@@ -28,7 +29,7 @@ export function CloudSignIn({ cloud, returnTo }: { cloud: CloudInstanceHealthSta
       </p>
       {entryUrl && (
         <Button asChild>
-          <a href={entryUrl} onClick={clearCloudSignInAttempt}>Continue to Paperclip Cloud</a>
+          <a href={entryUrl} onClick={clearCloudSignInAttempt}>{t("components.cloudSignIn.continueToPaperclipCloud", { defaultValue: "Continue to Paperclip Cloud" })}</a>
         </Button>
       )}
     </div>

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { t } from "@/i18n";
 import { useMemo } from "react";
 import * as RouterDom from "react-router-dom";
 import type { Issue } from "@paperclipai/shared";
@@ -442,7 +443,7 @@ export const IssueLinkQuicklook = React.forwardRef<
             <div className="h-4 w-full rounded bg-accent/40" />
             <div className="h-4 w-3/4 rounded bg-accent/30" />
             {!isLoading ? (
-              <p className="text-xs text-muted-foreground">Unable to load task preview.</p>
+              <p className="text-xs text-muted-foreground">{t("components.issueLinkQuicklook.unableToLoadTaskPreview", { defaultValue: "Unable to load task preview." })}</p>
             ) : null}
           </div>
         )}

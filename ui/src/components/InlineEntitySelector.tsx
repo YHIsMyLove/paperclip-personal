@@ -1,4 +1,5 @@
 import { forwardRef, useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { t } from "@/i18n";
 import { Check, X } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { orderItemsBySelectedAndRecent } from "../lib/recent-selections";
@@ -206,7 +207,7 @@ export const InlineEntitySelector = forwardRef<HTMLButtonElement, InlineEntitySe
             <button
               type="button"
               className="inline-flex size-9 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground"
-              aria-label="Close selector"
+              aria-label={t("components.inlineEntitySelector.closeSelector", { defaultValue: "Close selector" })}
               onClick={() => {
                 shouldPreventCloseAutoFocusRef.current = true;
                 setOpen(false);

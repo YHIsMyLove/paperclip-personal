@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { t } from "@/i18n";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
@@ -247,8 +248,8 @@ export function ScheduleEditor({
   return (
     <div className="space-y-3">
       <Select value={preset} onValueChange={(v) => handlePresetChange(v as SchedulePreset)}>
-        <SelectTrigger className="w-full" aria-label="Schedule frequency">
-          <SelectValue placeholder="Choose frequency..." />
+        <SelectTrigger className="w-full" aria-label={t("components.scheduleEditor.scheduleFrequency", { defaultValue: "Schedule frequency" })}>
+          <SelectValue placeholder={t("components.scheduleEditor.chooseFrequency", { defaultValue: "Choose frequency..." })} />
         </SelectTrigger>
         <SelectContent>
           {PRESETS.map((p) => (
@@ -277,12 +278,12 @@ export function ScheduleEditor({
               }
             }}
             placeholder="0 10 * * *"
-            aria-label="Cron expression"
+            aria-label={t("components.scheduleEditor.cronExpression", { defaultValue: "Cron expression" })}
             aria-invalid={!customValidation.valid}
             className="font-mono text-sm"
           />
           <p className="text-xs text-muted-foreground">
-            Five fields: minute hour day-of-month month day-of-week
+            {t("components.scheduleEditor.fiveFieldsMinuteHourDayOfMonthMonthDayOfWeek", { defaultValue: "Five fields: minute hour day-of-month month day-of-week" })}
           </p>
           <p
             className={customValidation.valid ? "text-xs text-muted-foreground" : "text-xs text-destructive"}
