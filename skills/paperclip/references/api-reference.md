@@ -907,6 +907,10 @@ A direct user request authorizes that hire within the requested scope; formal co
 A confirmed pre-creation validation failure (for example, an invalid `instructionsBundle.files` shape or a rejected retired `adapterConfig.promptTemplate`) creates nothing. Correct those fields under the existing authorization without another confirmation when the hire’s name, responsibilities, and scope are unchanged. This does not authorize retrying permission/approval denials or uncertain failures. Keep the bounded write retry limit. Use `instructionsBundle.files` as a record, never an array. Use `GET /api/openapi.json` to check the current schema.
 Leave timer heartbeats off by default for new hires. Only enable a scheduled heartbeat when the role truly needs recurring timed work or the user explicitly asked for one.
 
+The orchestrator is the exception: an agent that coordinates other agents (chief of staff, lead) needs `heartbeat.enabled=true` with an `intervalSec`. Workers stay event-driven — that is what the off-by-default policy is for — but the orchestrator is the only party that polls, so it is the only one that can notice a chain has stopped.
+
+An agent with heartbeats off wakes on `issue_commented`, `issue_blockers_resolved`, or `issue_children_completed`. Those are the only automatic wakes. A task carrying none of them is invisible: `todo` with no blocker, no comment, and no assignment action will sit untouched indefinitely, and `blocked` with an empty `blockedByIssueIds` and no `unblockDescriptor` has no blocker to resolve so no wake can ever fire for it. Chain dependent work with `blockedByIssueIds`, kick off ready work with an assign plus a comment, and park anything waiting on a person behind a saved `ask_user_questions` card with the task in `in_review`. Prose such as "waiting on PAP-12" is not a trigger — the scheduler reads edges, not sentences.
+
 Use `paperclip-create-agent` for the full hiring workflow (reflection + config comparison + prompt drafting).
 
 ### CEO strategy approval

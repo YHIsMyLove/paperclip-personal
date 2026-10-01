@@ -105,6 +105,12 @@ curl -sS "$PAPERCLIP_API_URL/llms/agent-icons.txt" \
 - if any `desiredSkills` or adapter settings expand browser access, external-system reach, filesystem scope, or secret-handling capability, justify each one in the hire comment
 - adapter and runtime config aligned to this environment
 - leave timer heartbeats off by default; only set `runtimeConfig.heartbeat.enabled=true` with an `intervalSec` when the role genuinely needs scheduled recurring work or the user explicitly asked for it
+  - **the exception is the orchestrator.** If this hire is the agent that will coordinate other agents (a chief of staff, a lead, anything that hands work off), it needs `heartbeat.enabled=true` with an `intervalSec` — an orchestrator that never polls cannot notice a stalled task, and the whole chain stops with it
+- **give every task you create a trigger.** An issue in `todo` that has no blocker, no comment, and no assignment action will never be picked up by anyone: there is no event that reaches it. Before creating one, decide which applies and set it:
+  - depends on an earlier task → set `blockedByIssueIds` so `issue_blockers_resolved` wakes the assignee when it lands
+  - should start now → assign it and leave a comment (a comment wakes the assignee)
+  - waiting on a person → save an `ask_user_questions` card and set `in_review`
+- **never leave an issue `blocked` without a first-class blocker.** `blocked` with an empty `blockedByIssueIds` and no `unblockDescriptor` is a black hole: nothing can resolve it, so no wake will ever fire and only a human noticing can recover it. Use `blockedByIssueIds` for task dependencies, or an `unblockDescriptor` with an exact `owner` and `action`. Writing "waiting on X" in prose does not count — prose is invisible to the scheduler
 - if the role may handle private advisories or sensitive disclosures, confirm a confidential workflow exists first (dedicated skill or documented manual process)
 - capabilities
 - managed instructions bundle (`AGENTS.md`) for adapters that support it; avoid durable `promptTemplate` config
