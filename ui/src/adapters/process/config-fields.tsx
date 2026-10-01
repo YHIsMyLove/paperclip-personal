@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { configFieldsForSection } from "../config-sections";
 import type { AdapterConfigFieldsProps } from "../types";
 import {
@@ -36,7 +37,7 @@ export function ProcessConfigFields({
 }: AdapterConfigFieldsProps) {
   return configFieldsForSection(section, (
     <>
-      <Field configSection="advanced" label="Command" hint={help.command}>
+      <Field configSection="advanced" label={t("adapters.process.command", { defaultValue: "Command" })} hint={help.command}>
         <DraftInput
           value={
             isCreate
@@ -50,10 +51,10 @@ export function ProcessConfigFields({
           }
           immediate
           className={inputClass}
-          placeholder="e.g. node, python"
+          placeholder={t("adapters.process.eGNodePython", { defaultValue: "e.g. node, python" })}
         />
       </Field>
-      <Field configSection="advanced" label="Args (comma-separated)" hint={help.args}>
+      <Field configSection="advanced" label={t("adapters.process.argsCommaSeparated", { defaultValue: "Args (comma-separated)" })} hint={help.args}>
         <DraftInput
           value={
             isCreate
@@ -71,7 +72,7 @@ export function ProcessConfigFields({
           }
           immediate
           className={inputClass}
-          placeholder="e.g. script.js, --flag"
+          placeholder={t("adapters.process.eGScriptJsFlag", { defaultValue: "e.g. script.js, --flag" })}
         />
       </Field>
     </>

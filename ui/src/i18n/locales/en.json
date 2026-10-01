@@ -892,6 +892,134 @@
       "oneShot": "One-shot",
       "deny": "Deny",
       "fail": "Fail"
+    },
+    "openclawGateway": {
+      "gatewayUrl": "Gateway URL",
+      "ws12700118789": "ws://127.0.0.1:18789",
+      "gatewayAuthToken": "Gateway auth token",
+      "openclawGatewayToken": "OpenClaw gateway token",
+      "agentId": "Agent ID",
+      "sessionStrategy": "Session strategy",
+      "sessionKey": "Session key",
+      "passwordAlternativeAuth": "Password (alternative auth)",
+      "gatewaySharedPassword": "Gateway shared password",
+      "role": "Role",
+      "scopesCommaSeparated": "Scopes (comma-separated)",
+      "paperclipApiUrlOverride": "Paperclip API URL override",
+      "httpsPaperclipExample": "https://paperclip.example",
+      "timeoutSeconds": "Timeout (seconds)",
+      "headersJson": "Headers JSON",
+      "claimedApiKeyPath": "Claimed API key path",
+      "openclawWorkspacePaperclipClaimedApiKeyJson": "~/.openclaw/workspace/paperclip-claimed-api-key.json",
+      "waitTimeoutMs": "Wait timeout (ms)",
+      "disableDeviceAuth": "Disable device auth",
+      "autoPairOnFirstConnect": "Auto-pair on first connect",
+      "deviceAuth": "Device auth",
+      "fixed": "Fixed",
+      "perIssue": "Per issue",
+      "perRun": "Per run",
+      "skipDeviceKeyAuthentication": "Skip device key authentication",
+      "automaticallyApproveDevicePairing": "Automatically approve device pairing",
+      "whenEnabledPaperclipPersistsADeviceKeyDuringOnbo": "When enabled, Paperclip persists a device key during onboarding so pairing approvals remain stable across runs."
+    },
+    "claudeLocal": {
+      "agentInstructionsFile": "Agent instructions file",
+      "executionEngine": "Execution engine",
+      "defaultUsesAcpIfAcpIsUnavailableTheRunFailsWithA": "Default uses ACP. If ACP is unavailable, the run fails with a setup error. Choose CLI explicitly to use it.",
+      "acpServerCommand": "ACP server command",
+      "optionalOverrideForTheClaudeAcpServerCommandDefa": "Optional override for the Claude ACP server command. Defaults to the package-local claude-agent-acp binary.",
+      "acpSessionMode": "ACP session mode",
+      "persistentKeepsAcpSessionStateBetweenRunsOneShot": "Persistent keeps ACP session state between runs. One-shot starts fresh each run.",
+      "acpNonInteractivePermissions": "ACP non-interactive permissions",
+      "fallbackIfTheAcpAgentAsksForInputOutsideAnIntera": "Fallback if the ACP agent asks for input outside an interactive session.",
+      "acpStateDirectory": "ACP state directory",
+      "optionalAcpSessionStateDirectoryDefaultsToPaperc": "Optional ACP session state directory. Defaults to Paperclip-managed organization/agent scoped storage.",
+      "acpWarmProcessIdleMs": "ACP warm process idle ms",
+      "defaultsTo0WhichClosesTheAcpProcessAfterEachRunW": "Defaults to 0, which closes the ACP process after each run while retaining persistent session state.",
+      "enableChrome": "Enable Chrome",
+      "skipPermissions": "Skip permissions",
+      "maxTurnsPerRun": "Max turns per run",
+      "claudeCli": "Claude CLI",
+      "acp": "ACP",
+      "persistent": "Persistent",
+      "oneShot": "One-shot",
+      "deny": "Deny",
+      "fail": "Fail"
+    },
+    "geminiLocal": {
+      "executionEngine": "Execution engine",
+      "defaultUsesAcpIfAcpIsUnavailableTheRunFailsWithA": "Default uses ACP. If ACP is unavailable, the run fails with a setup error. Choose CLI explicitly to use it.",
+      "acpServerCommand": "ACP server command",
+      "optionalOverrideForTheGeminiAcpServerCommandDefa": "Optional override for the Gemini ACP server command. Defaults to gemini --acp.",
+      "geminiAcp": "gemini --acp",
+      "acpSessionMode": "ACP session mode",
+      "persistentKeepsAcpSessionStateBetweenRunsOneShot": "Persistent keeps ACP session state between runs. One-shot starts fresh each run.",
+      "acpNonInteractivePermissions": "ACP non-interactive permissions",
+      "fallbackIfTheAcpAgentAsksForInputOutsideAnIntera": "Fallback if the ACP agent asks for input outside an interactive session.",
+      "acpStateDirectory": "ACP state directory",
+      "optionalAcpSessionStateDirectoryDefaultsToPaperc": "Optional ACP session state directory. Defaults to Paperclip-managed organization/agent scoped storage.",
+      "acpWarmProcessIdleMs": "ACP warm process idle ms",
+      "defaultsTo0WhichClosesTheAcpProcessAfterEachRunW": "Defaults to 0, which closes the ACP process after each run while retaining persistent session state.",
+      "agentInstructionsFile": "Agent instructions file",
+      "geminiCli": "Gemini CLI",
+      "acp": "ACP",
+      "persistent": "Persistent",
+      "oneShot": "One-shot",
+      "deny": "Deny",
+      "fail": "Fail"
+    },
+    "hermesGateway": {
+      "apiBaseUrl": "API base URL",
+      "http1270018642": "http://127.0.0.1:8642",
+      "apiKey": "API key",
+      "hermesApiServerKeyNotPaperclipApiKey": "Hermes API_SERVER_KEY, not PAPERCLIP_API_KEY",
+      "paperclipApiUrl": "Paperclip API URL",
+      "optionalPaperclipApiUrlReachableByTheHermesHostT": "Optional Paperclip API URL reachable by the Hermes host. This is not a credential.",
+      "http1270013100": "http://127.0.0.1:3100",
+      "sessionKeyStrategy": "Session key strategy",
+      "controlsXHermesSessionKeyIssueScopedPreventsCros": "Controls X-Hermes-Session-Key. Issue scoped prevents cross-task memory bleed by default.",
+      "timeoutSeconds": "Timeout seconds",
+      "eventReconnectMs": "Event reconnect ms",
+      "delayBeforeReconnectingTheHermesSseEventsStreamA": "Delay before reconnecting the Hermes SSE events stream after a nonterminal disconnect.",
+      "dangerouslyAllowRemoteHttp": "Dangerously allow remote HTTP",
+      "extraHeaders": "Extra headers",
+      "optionalJsonObjectOfExtraNonsecretHeadersSecurit": "Optional JSON object of extra nonsecret headers. Security-critical headers are generated by the adapter.",
+      "instructions": "Instructions",
+      "optionalStableHermesInstructionsSentSeparatelyFr": "Optional stable Hermes instructions sent separately from the wake input.",
+      "issueScoped": "Issue scoped",
+      "agentScoped": "Agent scoped",
+      "runScoped": "Run scoped",
+      "none": "None"
+    },
+    "process": {
+      "command": "Command",
+      "eGNodePython": "e.g. node, python",
+      "argsCommaSeparated": "Args (comma-separated)",
+      "eGScriptJsFlag": "e.g. script.js, --flag"
+    },
+    "http": {
+      "webhookUrl": "Webhook URL",
+      "https": "https://..."
+    },
+    "opencodeLocal": {
+      "agentInstructionsFile": "Agent instructions file",
+      "skipPermissions": "Skip permissions"
+    },
+    "runtimeJsonFields": {
+      "runtimeServicesJson": "Runtime services JSON",
+      "payloadTemplateJson": "Payload template JSON"
+    },
+    "cursor": {
+      "agentInstructionsFile": "Agent instructions file"
+    },
+    "grokLocal": {
+      "agentInstructionsFile": "Agent instructions file"
+    },
+    "kimiLocal": {
+      "agentInstructionsFile": "Agent instructions file"
+    },
+    "piLocal": {
+      "agentInstructionsFile": "Agent instructions file"
     }
   },
   "runner": {
@@ -2554,5 +2682,47 @@
     "byBiller": "By biller",
     "accountLevelFinancialEventsGroupedByWhoChargedOr": "Account-level financial events grouped by who charged or credited them.",
     "noFinanceEventsYet": "No finance events yet."
+  },
+  "components": {
+    "agentConfigPrimitives": {
+      "choose": "Choose",
+      "specifyPathManually": "Specify path manually",
+      "browserSecurityBlocksAppsFromReadingFullLocalPat": "Browser security blocks apps from reading full local paths via a file picker. Copy the absolute path and paste it into the input.",
+      "findTheFolderInFinder": "Find the folder in Finder.",
+      "hold": "Hold",
+      "option": "Option",
+      "pasteTheResultIntoThePathInput": "Paste the result into the path input.",
+      "findTheFolderInFileExplorer": "Find the folder in File Explorer.",
+      "shift": "Shift",
+      "clickCopyAsPath": "Click \"Copy as path\".",
+      "cUsersYournameDocumentsProject": "C:\\Users\\yourname\\Documents\\project",
+      "run": "Run",
+      "copyTheOutputAndPasteItIntoThePathInput": "Copy the output and paste it into the path input.",
+      "ok": "OK"
+    },
+    "trustPresetSection": {
+      "trustPreset": "Trust preset",
+      "chooseHowBroadlyThisAgentCanReadAndActOnPapercli": "Choose how broadly this agent can read and act on Paperclip work objects.",
+      "boundaryType": "Boundary type",
+      "viewPolicy": "View policy",
+      "preset": "Preset",
+      "rawOutput": "Raw output",
+      "projects": "Projects",
+      "rootIssue": "Root issue",
+      "explicitIssues": "Explicit issues",
+      "allowedAgents": "Allowed agents",
+      "allowedTools": "Allowed tools",
+      "allowedSecrets": "Allowed secrets",
+      "promotionTarget": "Promotion target",
+      "eeFields": "EE fields",
+      "trust": "Trust",
+      "project": "Project",
+      "issue": "Issue",
+      "ceSavesOneContainmentBoundaryAtATimeSavedPolicie": "CE saves one containment boundary at a time. Saved policies include this organization id.",
+      "clearBoundary": "Clear boundary",
+      "managedByEeApi": "Managed by EE/API",
+      "getPaperclipEe": "Get Paperclip EE.",
+      "advancedPermissionsRemainEditableThroughTheEePer": "Advanced permissions remain editable through the EE permissions extension when installed."
+    }
   }
 }

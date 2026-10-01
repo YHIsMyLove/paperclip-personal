@@ -967,6 +967,134 @@
       "oneShot": "一次性",
       "deny": "拒绝",
       "fail": "失败"
+    },
+    "openclawGateway": {
+      "gatewayUrl": "网关 URL",
+      "ws12700118789": "ws://127.0.0.1:18789",
+      "gatewayAuthToken": "网关认证令牌",
+      "openclawGatewayToken": "OpenClaw 网关令牌",
+      "agentId": "智能体 ID",
+      "sessionStrategy": "会话策略",
+      "sessionKey": "会话键",
+      "passwordAlternativeAuth": "密码（替代认证方式）",
+      "gatewaySharedPassword": "网关共享密码",
+      "role": "角色",
+      "scopesCommaSeparated": "权限范围（逗号分隔）",
+      "paperclipApiUrlOverride": "Paperclip API URL 覆盖",
+      "httpsPaperclipExample": "https://paperclip.example",
+      "timeoutSeconds": "超时（秒）",
+      "headersJson": "请求头 JSON",
+      "claimedApiKeyPath": "已认领的 API key 路径",
+      "openclawWorkspacePaperclipClaimedApiKeyJson": "~/.openclaw/workspace/paperclip-claimed-api-key.json",
+      "waitTimeoutMs": "等待超时（毫秒）",
+      "disableDeviceAuth": "禁用设备认证",
+      "autoPairOnFirstConnect": "首次连接时自动配对",
+      "deviceAuth": "设备认证",
+      "fixed": "固定",
+      "perIssue": "按任务",
+      "perRun": "按运行",
+      "skipDeviceKeyAuthentication": "跳过设备密钥认证",
+      "automaticallyApproveDevicePairing": "自动批准设备配对",
+      "whenEnabledPaperclipPersistsADeviceKeyDuringOnbo": "启用后，Paperclip 会在引导过程中持久化一个设备密钥，使配对批准在多次运行之间保持稳定。"
+    },
+    "claudeLocal": {
+      "agentInstructionsFile": "智能体指令文件",
+      "executionEngine": "执行引擎",
+      "defaultUsesAcpIfAcpIsUnavailableTheRunFailsWithA": "默认使用 ACP。若 ACP 不可用，运行会以设置错误失败。请显式选择 CLI 以使用它。",
+      "acpServerCommand": "ACP 服务器命令",
+      "optionalOverrideForTheClaudeAcpServerCommandDefa": "可选：覆盖 Claude ACP 服务器命令。默认为包内的 claude-agent-acp 可执行文件。",
+      "acpSessionMode": "ACP 会话模式",
+      "persistentKeepsAcpSessionStateBetweenRunsOneShot": "「持久」在多次运行之间保留 ACP 会话状态；「一次性」每次运行都重新开始。",
+      "acpNonInteractivePermissions": "ACP 非交互式权限",
+      "fallbackIfTheAcpAgentAsksForInputOutsideAnIntera": "当 ACP 智能体在交互式会话之外请求输入时的回退行为。",
+      "acpStateDirectory": "ACP 状态目录",
+      "optionalAcpSessionStateDirectoryDefaultsToPaperc": "可选的 ACP 会话状态目录。默认为 Paperclip 托管的、按组织／智能体划分的存储。",
+      "acpWarmProcessIdleMs": "ACP 热备进程空闲时长（毫秒）",
+      "defaultsTo0WhichClosesTheAcpProcessAfterEachRunW": "默认为 0，即每次运行后关闭 ACP 进程，同时保留持久会话状态。",
+      "enableChrome": "启用 Chrome",
+      "skipPermissions": "跳过权限检查",
+      "maxTurnsPerRun": "每次运行的最大轮次",
+      "claudeCli": "Claude CLI",
+      "acp": "ACP",
+      "persistent": "持久",
+      "oneShot": "一次性",
+      "deny": "拒绝",
+      "fail": "失败"
+    },
+    "geminiLocal": {
+      "executionEngine": "执行引擎",
+      "defaultUsesAcpIfAcpIsUnavailableTheRunFailsWithA": "默认使用 ACP。若 ACP 不可用，运行会以设置错误失败。请显式选择 CLI 以使用它。",
+      "acpServerCommand": "ACP 服务器命令",
+      "optionalOverrideForTheGeminiAcpServerCommandDefa": "可选：覆盖 Gemini ACP 服务器命令。默认为 gemini --acp。",
+      "geminiAcp": "gemini --acp",
+      "acpSessionMode": "ACP 会话模式",
+      "persistentKeepsAcpSessionStateBetweenRunsOneShot": "「持久」在多次运行之间保留 ACP 会话状态；「一次性」每次运行都重新开始。",
+      "acpNonInteractivePermissions": "ACP 非交互式权限",
+      "fallbackIfTheAcpAgentAsksForInputOutsideAnIntera": "当 ACP 智能体在交互式会话之外请求输入时的回退行为。",
+      "acpStateDirectory": "ACP 状态目录",
+      "optionalAcpSessionStateDirectoryDefaultsToPaperc": "可选的 ACP 会话状态目录。默认为 Paperclip 托管的、按组织／智能体划分的存储。",
+      "acpWarmProcessIdleMs": "ACP 热备进程空闲时长（毫秒）",
+      "defaultsTo0WhichClosesTheAcpProcessAfterEachRunW": "默认为 0，即每次运行后关闭 ACP 进程，同时保留持久会话状态。",
+      "agentInstructionsFile": "智能体指令文件",
+      "geminiCli": "Gemini CLI",
+      "acp": "ACP",
+      "persistent": "持久",
+      "oneShot": "一次性",
+      "deny": "拒绝",
+      "fail": "失败"
+    },
+    "hermesGateway": {
+      "apiBaseUrl": "API 基础 URL",
+      "http1270018642": "http://127.0.0.1:8642",
+      "apiKey": "API 密钥",
+      "hermesApiServerKeyNotPaperclipApiKey": "Hermes 的 API_SERVER_KEY，不是 PAPERCLIP_API_KEY",
+      "paperclipApiUrl": "Paperclip API URL",
+      "optionalPaperclipApiUrlReachableByTheHermesHostT": "可选。Hermes 主机可访问的 Paperclip API URL。这不是凭据。",
+      "http1270013100": "http://127.0.0.1:3100",
+      "sessionKeyStrategy": "会话键策略",
+      "controlsXHermesSessionKeyIssueScopedPreventsCros": "控制 X-Hermes-Session-Key。按任务划分的范围默认可防止跨任务的记忆串扰。",
+      "timeoutSeconds": "超时秒数",
+      "eventReconnectMs": "事件重连毫秒数",
+      "delayBeforeReconnectingTheHermesSseEventsStreamA": "在非终止性断开后，重新连接 Hermes SSE 事件流之前的延迟。",
+      "dangerouslyAllowRemoteHttp": "危险：允许远程 HTTP",
+      "extraHeaders": "额外请求头",
+      "optionalJsonObjectOfExtraNonsecretHeadersSecurit": "可选的额外非机密请求头 JSON 对象。安全关键请求头由适配器生成。",
+      "instructions": "说明",
+      "optionalStableHermesInstructionsSentSeparatelyFr": "可选的稳定 Hermes 说明，与唤醒输入分开发送。",
+      "issueScoped": "按任务",
+      "agentScoped": "按智能体",
+      "runScoped": "按运行",
+      "none": "无"
+    },
+    "process": {
+      "command": "命令",
+      "eGNodePython": "例如 node、python",
+      "argsCommaSeparated": "参数（逗号分隔）",
+      "eGScriptJsFlag": "例如 script.js、--flag"
+    },
+    "http": {
+      "webhookUrl": "Webhook URL",
+      "https": "https://..."
+    },
+    "opencodeLocal": {
+      "agentInstructionsFile": "智能体指令文件",
+      "skipPermissions": "跳过权限检查"
+    },
+    "runtimeJsonFields": {
+      "runtimeServicesJson": "运行时服务 JSON",
+      "payloadTemplateJson": "载荷模板 JSON"
+    },
+    "cursor": {
+      "agentInstructionsFile": "智能体指令文件"
+    },
+    "grokLocal": {
+      "agentInstructionsFile": "智能体指令文件"
+    },
+    "kimiLocal": {
+      "agentInstructionsFile": "智能体指令文件"
+    },
+    "piLocal": {
+      "agentInstructionsFile": "智能体指令文件"
     }
   },
   "secrets": {
@@ -2554,5 +2682,47 @@
     "byBiller": "按计费方",
     "accountLevelFinancialEventsGroupedByWhoChargedOr": "按收费或授予额度方分组的账号级财务事件。",
     "noFinanceEventsYet": "暂无财务事件。"
+  },
+  "components": {
+    "agentConfigPrimitives": {
+      "choose": "选择",
+      "specifyPathManually": "手动指定路径",
+      "browserSecurityBlocksAppsFromReadingFullLocalPat": "出于浏览器安全考虑，应用无法通过文件选择器读取完整的本地路径。请复制绝对路径并粘贴到输入框中。",
+      "findTheFolderInFinder": "在访达中查找该文件夹。",
+      "hold": "按住",
+      "option": "选项键",
+      "pasteTheResultIntoThePathInput": "把结果粘贴到路径输入框中。",
+      "findTheFolderInFileExplorer": "在文件资源管理器中查找该文件夹。",
+      "shift": "Shift",
+      "clickCopyAsPath": "点击「复制为路径」",
+      "cUsersYournameDocumentsProject": "C:\\Users\\yourname\\Documents\\project",
+      "run": "运行",
+      "copyTheOutputAndPasteItIntoThePathInput": "复制输出并粘贴到路径输入框中。",
+      "ok": "确定"
+    },
+    "trustPresetSection": {
+      "trustPreset": "信任预设",
+      "chooseHowBroadlyThisAgentCanReadAndActOnPapercli": "选择此智能体可以在多大范围内读取和操作 Paperclip 的工作对象。",
+      "boundaryType": "边界类型",
+      "viewPolicy": "查看策略",
+      "preset": "预设",
+      "rawOutput": "原始输出",
+      "projects": "项目",
+      "rootIssue": "根任务",
+      "explicitIssues": "明确列出的任务",
+      "allowedAgents": "允许的智能体",
+      "allowedTools": "允许的工具",
+      "allowedSecrets": "允许的密钥",
+      "promotionTarget": "提升目标",
+      "eeFields": "EE 字段",
+      "trust": "信任",
+      "project": "项目",
+      "issue": "任务",
+      "ceSavesOneContainmentBoundaryAtATimeSavedPolicie": "CE 每次保存一个包含边界。已保存的策略中包含此组织 ID。",
+      "clearBoundary": "清除边界",
+      "managedByEeApi": "由 EE／API 管理",
+      "getPaperclipEe": "获取 Paperclip EE。",
+      "advancedPermissionsRemainEditableThroughTheEePer": "安装 EE 权限扩展后，高级权限仍可通过它进行编辑。"
+    }
   }
 }

@@ -1,5 +1,6 @@
 import { configFieldsForSection } from "../config-sections";
 import { useEffect, useState } from "react";
+import { t } from "@/i18n";
 import { Eye, EyeOff } from "lucide-react";
 import type { AdapterConfigFieldsProps, CreateConfigValues } from "../types";
 import {
@@ -143,7 +144,7 @@ export function HermesGatewayConfigFields({
   return configFieldsForSection(section, (
     <>
       <Field
-        label="API base URL"
+        label={t("adapters.hermesGateway.apiBaseUrl", { defaultValue: "API base URL" })}
         hint="Hermes API server base URL that Paperclip can reach, such as http://127.0.0.1:8642 or a private HTTPS URL. Default dashboard root/chat URLs such as http://127.0.0.1:9119/chat are accepted and map to /api."
       >
         <DraftInput
@@ -151,48 +152,48 @@ export function HermesGatewayConfigFields({
           onCommit={(v) => writeValue("apiBaseUrl", v || undefined)}
           immediate
           className={inputClass}
-          placeholder="http://127.0.0.1:8642"
+          placeholder={t("adapters.hermesGateway.http1270018642", { defaultValue: "http://127.0.0.1:8642" })}
         />
       </Field>
 
       <SecretField
-        label="API key"
+        label={t("adapters.hermesGateway.apiKey", { defaultValue: "API key" })}
         value={isCreate ? String(readCreateValue(values, "apiKey", "") ?? "") : editApiKeyValue}
         onCommit={(v) => writeValue("apiKey", v || undefined)}
-        placeholder="Hermes API_SERVER_KEY, not PAPERCLIP_API_KEY"
+        placeholder={t("adapters.hermesGateway.hermesApiServerKeyNotPaperclipApiKey", { defaultValue: "Hermes API_SERVER_KEY, not PAPERCLIP_API_KEY" })}
         stored={!isCreate && hasStoredApiKey && !editApiKeyValue}
       />
 
       <Field
-        label="Paperclip API URL"
-        hint="Optional Paperclip API URL reachable by the Hermes host. This is not a credential."
+        label={t("adapters.hermesGateway.paperclipApiUrl", { defaultValue: "Paperclip API URL" })}
+        hint={t("adapters.hermesGateway.optionalPaperclipApiUrlReachableByTheHermesHostT", { defaultValue: "Optional Paperclip API URL reachable by the Hermes host. This is not a credential." })}
       >
         <DraftInput
           value={paperclipApiUrl}
           onCommit={(v) => writeValue("paperclipApiUrl", v || undefined)}
           immediate
           className={inputClass}
-          placeholder="http://127.0.0.1:3100"
+          placeholder={t("adapters.hermesGateway.http1270013100", { defaultValue: "http://127.0.0.1:3100" })}
         />
       </Field>
 
       <Field configSection="runPolicy"
-        label="Session key strategy"
-        hint="Controls X-Hermes-Session-Key. Issue scoped prevents cross-task memory bleed by default."
+        label={t("adapters.hermesGateway.sessionKeyStrategy", { defaultValue: "Session key strategy" })}
+        hint={t("adapters.hermesGateway.controlsXHermesSessionKeyIssueScopedPreventsCros", { defaultValue: "Controls X-Hermes-Session-Key. Issue scoped prevents cross-task memory bleed by default." })}
       >
         <select
           value={sessionKeyStrategy}
           onChange={(event) => writeValue("sessionKeyStrategy", event.target.value)}
           className={inputClass}
         >
-          <option value="issue">Issue scoped</option>
-          <option value="agent">Agent scoped</option>
-          <option value="run">Run scoped</option>
-          <option value="none">None</option>
+          <option value="issue">{t("adapters.hermesGateway.issueScoped", { defaultValue: "Issue scoped" })}</option>
+          <option value="agent">{t("adapters.hermesGateway.agentScoped", { defaultValue: "Agent scoped" })}</option>
+          <option value="run">{t("adapters.hermesGateway.runScoped", { defaultValue: "Run scoped" })}</option>
+          <option value="none">{t("adapters.hermesGateway.none", { defaultValue: "None" })}</option>
         </select>
       </Field>
 
-      <Field configSection="runPolicy" label="Timeout seconds">
+      <Field configSection="runPolicy" label={t("adapters.hermesGateway.timeoutSeconds", { defaultValue: "Timeout seconds" })}>
         <DraftNumberInput
           value={Number.isFinite(timeoutSec) ? timeoutSec : DEFAULT_TIMEOUT_SEC}
           onCommit={(v) => writeValue("timeoutSec", v)}
@@ -202,8 +203,8 @@ export function HermesGatewayConfigFields({
       </Field>
 
       <Field
-        label="Event reconnect ms"
-        hint="Delay before reconnecting the Hermes SSE events stream after a nonterminal disconnect."
+        label={t("adapters.hermesGateway.eventReconnectMs", { defaultValue: "Event reconnect ms" })}
+        hint={t("adapters.hermesGateway.delayBeforeReconnectingTheHermesSseEventsStreamA", { defaultValue: "Delay before reconnecting the Hermes SSE events stream after a nonterminal disconnect." })}
       >
         <DraftNumberInput
           value={Number.isFinite(eventReconnectMs) ? eventReconnectMs : DEFAULT_EVENT_RECONNECT_MS}
@@ -214,15 +215,15 @@ export function HermesGatewayConfigFields({
       </Field>
 
       <ToggleField
-        label="Dangerously allow remote HTTP"
+        label={t("adapters.hermesGateway.dangerouslyAllowRemoteHttp", { defaultValue: "Dangerously allow remote HTTP" })}
         hint="Unsafe dev-only escape hatch. Remote Hermes gateways should use HTTPS; loopback HTTP remains allowed."
         checked={allowInsecureRemoteHttp}
         onChange={(v) => writeValue("dangerouslyAllowInsecureRemoteHttp", v)}
       />
 
       <Field
-        label="Extra headers"
-        hint="Optional JSON object of extra nonsecret headers. Security-critical headers are generated by the adapter."
+        label={t("adapters.hermesGateway.extraHeaders", { defaultValue: "Extra headers" })}
+        hint={t("adapters.hermesGateway.optionalJsonObjectOfExtraNonsecretHeadersSecurit", { defaultValue: "Optional JSON object of extra nonsecret headers. Security-critical headers are generated by the adapter." })}
       >
         <textarea
           value={headers}
@@ -241,7 +242,7 @@ export function HermesGatewayConfigFields({
         />
       </Field>
 
-      <Field label="Instructions" hint="Optional stable Hermes instructions sent separately from the wake input.">
+      <Field label={t("adapters.hermesGateway.instructions", { defaultValue: "Instructions" })} hint={t("adapters.hermesGateway.optionalStableHermesInstructionsSentSeparatelyFr", { defaultValue: "Optional stable Hermes instructions sent separately from the wake input." })}>
         <DraftTextarea
           value={instructions}
           onCommit={(v) => writeValue("instructions", v || undefined)}
