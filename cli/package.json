@@ -57,7 +57,7 @@
     "@paperclipai/shared": "workspace:*",
     "commander": "^15.0.0",
     "dotenv": "^17.4.2",
-    "drizzle-orm": "0.45.2",
+    "drizzle-orm": "0.45.3",
     "embedded-postgres": "^18.1.0-beta.16",
     "picocolors": "^1.1.1",
     "postgres": "^3.4.9",
