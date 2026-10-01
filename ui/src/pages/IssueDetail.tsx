@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { TextAttachmentContext } from "../context/TextAttachmentContext";
 import { useTaskBrowsers, useBrowserArrivals } from "@/hooks/useTaskBrowsers";
 import { WorkspaceExportRecovery } from "../components/WorkspaceExportRecovery";
@@ -823,10 +824,14 @@ function IssueAttributionByline({
     <TooltipProvider>
       <AvatarGroup
         className="-space-x-1.5"
-        aria-label="Task people"
+        aria-label={t("issueDetail.taskPeople", { defaultValue: "Task people" })}
         data-testid="issue-attribution-avatar-stack"
       >
         {assignee ? (
+          // Not translated: this label is a semantic discriminator typed
+          // "Assignee" | "Originating", and AttributionAvatar lowercases it to
+          // build data-testid={`issue-${label}-avatar`}. Translating it would
+          // change the test selector rather than the UI.
           <AttributionAvatar label="Assignee" actor={assignee} />
         ) : null}
         {originator ? (
@@ -1001,9 +1006,7 @@ function IssueDetailLoadingState({
                   className="border-violet-500/30 bg-violet-500/10 text-(length:--text-nano) text-violet-600 dark:text-violet-400"
                   title={`Routine execution from routine ${headerSeed.originId}`}
                 >
-                  <Repeat className="h-3 w-3" />
-                  Routine
-                </Badge>
+                  <Repeat className="h-3 w-3" />{t("issueDetail.routine", { defaultValue: "Routine" })}</Badge>
               ) : null}
               {/* Seeded header — same anatomy as the resolved one below, so the
                   eyebrow does not change shape when the real issue arrives. */}
@@ -1016,9 +1019,7 @@ function IssueDetailLoadingState({
                 </span>
               ) : (
                 <span className="inline-flex items-center gap-1 text-xs text-muted-foreground opacity-50 px-1 -mx-1 py-0.5">
-                  <ProjectTile size="xs" />
-                  No project
-                </span>
+                  <ProjectTile size="xs" />{t("issueDetail.noProject", { defaultValue: "No project" })}</span>
               )}
             </>
           ) : (
@@ -1117,7 +1118,7 @@ function InboxMobileToolbar({
             navigate(backHref);
           }
         }}
-        aria-label="Back to inbox"
+        aria-label={t("issueDetail.backToInbox", { defaultValue: "Back to inbox" })}
       >
         <ArrowLeft className="h-5 w-5" />
       </Button>
@@ -1129,7 +1130,7 @@ function InboxMobileToolbar({
             size="icon-sm"
             onClick={onArchive}
             disabled={archivePending}
-            aria-label="Archive from inbox"
+            aria-label={t("issueDetail.archiveFromInbox", { defaultValue: "Archive from inbox" })}
           >
             <Archive className="h-5 w-5" />
           </Button>
@@ -1137,7 +1138,7 @@ function InboxMobileToolbar({
 
         <Popover open={menuOpen} onOpenChange={setMenuOpen}>
           <PopoverTrigger asChild>
-            <Button variant="ghost" size="icon-sm" aria-label="More actions">
+            <Button variant="ghost" size="icon-sm" aria-label={t("issueDetail.moreActions", { defaultValue: "More actions" })}>
               <MoreVertical className="h-5 w-5" />
             </Button>
           </PopoverTrigger>
@@ -1149,9 +1150,7 @@ function InboxMobileToolbar({
                 setMenuOpen(false);
               }}
             >
-              <Copy className="h-3 w-3" />
-              Copy as markdown
-            </button>
+              <Copy className="h-3 w-3" />{t("issueDetail.copyAsMarkdown", { defaultValue: "Copy as markdown" })}</button>
             <button
               className="flex items-center gap-2 w-full px-2 py-1.5 text-xs rounded hover:bg-accent/50"
               onClick={() => {
@@ -1159,9 +1158,7 @@ function InboxMobileToolbar({
                 setMenuOpen(false);
               }}
             >
-              <SlidersHorizontal className="h-3 w-3" />
-              Properties
-            </button>
+              <SlidersHorizontal className="h-3 w-3" />{t("issueDetail.properties", { defaultValue: "Properties" })}</button>
             {issueIdProp && (
               <button
                 className="flex items-center gap-2 w-full px-2 py-1.5 text-xs rounded hover:bg-accent/50 text-destructive"
@@ -1170,9 +1167,7 @@ function InboxMobileToolbar({
                   setMenuOpen(false);
                 }}
               >
-                <EyeOff className="h-3 w-3" />
-                Hide this task
-              </button>
+                <EyeOff className="h-3 w-3" />{t("issueDetail.hideThisTask", { defaultValue: "Hide this task" })}</button>
             )}
           </PopoverContent>
         </Popover>
@@ -2673,19 +2668,15 @@ function IssueDetailActivityTab({
     <>
       {shouldShowCostSummary && (
         <div className="mb-3 px-3 py-2 rounded-lg border border-border">
-          <div className="text-sm font-medium text-muted-foreground mb-1">
-            Cost Summary
-          </div>
+          <div className="text-sm font-medium text-muted-foreground mb-1">{t("issueDetail.costSummary", { defaultValue: "Cost Summary" })}</div>
           {!issueCostSummary.hasCost &&
           !issueCostSummary.hasTokens &&
           !hasIssueTreeCost ? (
-            <div className="text-xs text-muted-foreground">
-              No cost data yet.
-            </div>
+            <div className="text-xs text-muted-foreground">{t("issueDetail.noCostDataYet", { defaultValue: "No cost data yet." })}</div>
           ) : (
             <div className="space-y-1 text-xs text-muted-foreground tabular-nums">
               <div className="flex flex-wrap gap-3">
-                <span className="font-medium text-foreground">This task</span>
+                <span className="font-medium text-foreground">{t("issueDetail.thisTask", { defaultValue: "This task" })}</span>
                 {issueCostSummary.hasCost ? (
                   <span className="font-medium text-foreground">
                     ${issueCostSummary.cost.toFixed(4)}
@@ -2708,7 +2699,7 @@ function IssueDetailActivityTab({
                 {!issueCostSummary.hasCost &&
                 !issueCostSummary.hasTokens &&
                 !issueCostSummary.hasRuntime ? (
-                  <span>No direct cost data.</span>
+                  <span>{t("issueDetail.noDirectCostData", { defaultValue: "No direct cost data." })}</span>
                 ) : null}
               </div>
               {hasIssueTreeCost && issueTreeCostSummary ? (
@@ -6888,8 +6879,8 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
           "Uploading..."
         ) : (
           <>
-            <span className="hidden sm:inline">Upload attachment</span>
-            <span className="sm:hidden">Upload</span>
+            <span className="hidden sm:inline">{t("issueDetail.uploadAttachment", { defaultValue: "Upload attachment" })}</span>
+            <span className="sm:hidden">{t("issueDetail.upload", { defaultValue: "Upload" })}</span>
           </>
         )}
       </Button>
@@ -7011,9 +7002,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
             <span className="relative flex h-1.5 w-1.5">
               <span className="animate-pulse absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500" />
-            </span>
-            Live
-          </Badge>
+            </span>{t("issueDetail.live", { defaultValue: "Live" })}</Badge>
         )}
 
         {issue.originKind === "routine_execution" && issue.originId && (
@@ -7022,20 +7011,16 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
             className="inline-flex items-center gap-1 rounded-full bg-violet-500/10 border border-violet-500/30 px-2 py-0.5 text-(length:--text-nano) font-medium text-violet-600 dark:text-violet-400 shrink-0 hover:bg-violet-500/20 transition-colors"
             title={`Routine execution from routine ${issue.originId}`}
           >
-            <Repeat className="h-3 w-3" />
-            Routine
-          </Link>
+            <Repeat className="h-3 w-3" />{t("issueDetail.routine", { defaultValue: "Routine" })}</Link>
         )}
 
         {issue.originKind === "task_watchdog" ? (
           <Badge
             variant="outline"
             className="border-sky-500/40 bg-sky-500/10 text-(length:--text-nano) text-sky-700 dark:text-sky-300"
-            title="This task is a generated watchdog task. It verifies whether stopped work in the watched task tree is legitimate."
+            title={t("issueDetail.thisTaskIsAGeneratedWatchdogTaskItVerifiesWhethe", { defaultValue: "This task is a generated watchdog task. It verifies whether stopped work in the watched task tree is legitimate." })}
           >
-            <ScanEye className="h-3 w-3" />
-            Watchdog
-          </Badge>
+            <ScanEye className="h-3 w-3" />{t("issueDetail.watchdog", { defaultValue: "Watchdog" })}</Badge>
         ) : null}
 
         {/* Task Chat Redesign: no mode chip in the header — mode is a
@@ -7068,11 +7053,9 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
             variant="outline"
             data-testid="issue-detail-parked-blocker"
             className="border-amber-500/60 bg-amber-500/15 text-(length:--text-nano) text-amber-700 dark:text-amber-300"
-            title="Blocked by parked work — at least one assigned blocker is in backlog and will not wake its assignee."
+            title={t("issueDetail.blockedByParkedWorkAtLeastOneAssignedBlockerIsIn", { defaultValue: "Blocked by parked work — at least one assigned blocker is in backlog and will not wake its assignee." })}
           >
-            <Flag className="h-3 w-3" />
-            Blocked by parked work
-          </Badge>
+            <Flag className="h-3 w-3" />{t("issueDetail.blockedByParkedWork", { defaultValue: "Blocked by parked work" })}</Badge>
         ) : null}
 
         {/* Project reads as a tile plus a name, matching the project rows in
@@ -7099,9 +7082,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
           </Link>
         ) : (
           <span className="inline-flex items-center gap-1 text-xs text-muted-foreground opacity-50 px-1 -mx-1 py-0.5">
-            <ProjectTile size="xs" />
-            No project
-          </span>
+            <ProjectTile size="xs" />{t("issueDetail.noProject", { defaultValue: "No project" })}</span>
         )}
 
         <IssueAttributionByline
@@ -7141,7 +7122,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
               variant="ghost"
               size="icon-xs"
               onClick={copyIssueToClipboard}
-              title="Copy task as markdown"
+              title={t("issueDetail.copyTaskAsMarkdown", { defaultValue: "Copy task as markdown" })}
             >
               {copied ? (
                 <Check className="h-4 w-4 text-green-500" />
@@ -7153,7 +7134,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
               variant="ghost"
               size="icon-xs"
               onClick={() => setMobilePropsOpen(true)}
-              title="Properties"
+              title={t("issueDetail.properties", { defaultValue: "Properties" })}
             >
               <SlidersHorizontal className="h-4 w-4" />
             </Button>
@@ -7170,8 +7151,8 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
                   archiveFromInbox.mutate(issue.id);
               }}
               disabled={archivePending}
-              title="Archive from inbox"
-              aria-label="Archive from inbox"
+              title={t("issueDetail.archiveFromInbox", { defaultValue: "Archive from inbox" })}
+              aria-label={t("issueDetail.archiveFromInbox", { defaultValue: "Archive from inbox" })}
             >
               <Archive className="h-4 w-4" />
             </Button>
@@ -7181,8 +7162,8 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
               variant="ghost"
               size="icon-xs"
               onClick={() => setFileViewerPromptOpen(true)}
-              title="Open file... (g f)"
-              aria-label="Open file in this issue"
+              title={t("issueDetail.openFileGF", { defaultValue: "Open file... (g f)" })}
+              aria-label={t("issueDetail.openFileInThisIssue", { defaultValue: "Open file in this issue" })}
             >
               <FileCode2 className="h-4 w-4" />
             </Button>
@@ -7192,7 +7173,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
               variant="ghost"
               size="icon-xs"
               onClick={copyIssueToClipboard}
-              title="Copy task as markdown"
+              title={t("issueDetail.copyTaskAsMarkdown", { defaultValue: "Copy task as markdown" })}
             >
               {copied ? (
                 <Check className="h-4 w-4 text-green-500" />
@@ -7226,8 +7207,8 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
                   variant="ghost"
                   size="icon-xs"
                   className="shrink-0"
-                  aria-label="More task actions"
-                  title="More task actions"
+                  aria-label={t("issueDetail.moreTaskActions", { defaultValue: "More task actions" })}
+                  title={t("issueDetail.moreTaskActions", { defaultValue: "More task actions" })}
                   onKeyDown={(event) => {
                     if (event.key === "Enter" || event.key === " ") {
                       event.preventDefault();
@@ -7248,9 +7229,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
                         setMoreOpen(false);
                       }}
                     >
-                      <Plus className="h-3 w-3" />
-                      Add subtask
-                    </button>
+                      <Plus className="h-3 w-3" />{t("issueDetail.addSubtask", { defaultValue: "Add subtask" })}</button>
                     <button
                       className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-xs hover:bg-accent/50"
                       onClick={() => {
@@ -7275,9 +7254,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
                           setMoreOpen(false);
                         }}
                       >
-                        <Archive className="h-3 w-3" />
-                        Archive from inbox
-                      </button>
+                        <Archive className="h-3 w-3" />{t("issueDetail.archiveFromInbox", { defaultValue: "Archive from inbox" })}</button>
                     ) : null}
                   </>
                 ) : null}
@@ -7333,9 +7310,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
                     setMoreOpen(false);
                   }}
                 >
-                  <EyeOff className="h-3 w-3" />
-                  Hide this task
-                </button>
+                  <EyeOff className="h-3 w-3" />{t("issueDetail.hideThisTask", { defaultValue: "Hide this task" })}</button>
               </PopoverContent>
             </Popover>
           </div>
@@ -7371,7 +7346,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
           onSave={(description) => updateIssue.mutateAsync({ description })}
           as="p"
           className="text-sm leading-7 text-foreground"
-          placeholder="Add a description..."
+          placeholder={t("issueDetail.addADescription", { defaultValue: "Add a description..." })}
           multiline
           foldable
           mentions={mentionOptions}
@@ -7477,7 +7452,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
           />
 
           {issue.status === "in_review" && issue.externalConversationState === "waiting" && (
-            <p role="status" className="text-sm text-muted-foreground">Reply sent. Send a message to continue.</p>
+            <p role="status" className="text-sm text-muted-foreground">{t("issueDetail.replySentSendAMessageToContinue", { defaultValue: "Reply sent. Send a message to continue." })}</p>
           )}
 
           {issue.hiddenAt && (
@@ -7488,9 +7463,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
                 taskChatShellEnabled && (isMobile ? "mt-4" : "mt-3"),
               )}
             >
-              <EyeOff className="h-4 w-4 shrink-0" />
-              This task is hidden
-            </div>
+              <EyeOff className="h-4 w-4 shrink-0" />{t("issueDetail.thisTaskIsHidden", { defaultValue: "This task is hidden" })}</div>
           )}
           {treeControlWakeWarning ? (
             <p
@@ -7518,9 +7491,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
           {taskChatShellEnabled ? null : showRichSubIssuesSection ? (
             <div className="space-y-3">
               <div className="flex items-center justify-between gap-2">
-                <h3 className="text-sm font-medium text-muted-foreground">
-                  Sub-tasks
-                </h3>
+                <h3 className="text-sm font-medium text-muted-foreground">{t("issueDetail.subTasks", { defaultValue: "Sub-tasks" })}</h3>
               </div>
               <IssuesList
                 issues={childIssues}
@@ -7557,9 +7528,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
                 onClick={openNewSubIssue}
                 className="shrink-0 shadow-none"
               >
-                <Plus className="mr-1.5 h-3.5 w-3.5" />
-                New Sub-task
-              </Button>
+                <Plus className="mr-1.5 h-3.5 w-3.5" />{t("issueDetail.newSubTask", { defaultValue: "New Sub-task" })}</Button>
             </div>
           )}
 
@@ -7703,9 +7672,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
               return (
                 <div className="space-y-3">
                   <div className="flex items-center justify-between gap-2">
-                    <h3 className="text-sm font-medium text-muted-foreground">
-                      Artifacts
-                    </h3>
+                    <h3 className="text-sm font-medium text-muted-foreground">{t("issueDetail.artifacts", { defaultValue: "Artifacts" })}</h3>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {workProductsWithFileRefs.map(({ product, fileRef }) => (
@@ -7743,17 +7710,11 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
                 className={cn("w-full justify-start gap-1", shellSectionClass)}
               >
                 <TabsTrigger value="chat" className="gap-1.5">
-                  <MessageSquare className="h-3.5 w-3.5" />
-                  Chat
-                </TabsTrigger>
+                  <MessageSquare className="h-3.5 w-3.5" />{t("issueDetail.chat", { defaultValue: "Chat" })}</TabsTrigger>
                 <TabsTrigger value="activity" className="gap-1.5">
-                  <ActivityIcon className="h-3.5 w-3.5" />
-                  Activity
-                </TabsTrigger>
+                  <ActivityIcon className="h-3.5 w-3.5" />{t("issueDetail.activity", { defaultValue: "Activity" })}</TabsTrigger>
                 <TabsTrigger value="related-work" className="gap-1.5">
-                  <ListTree className="h-3.5 w-3.5" />
-                  Related work
-                </TabsTrigger>
+                  <ListTree className="h-3.5 w-3.5" />{t("issueDetail.relatedWork", { defaultValue: "Related work" })}</TabsTrigger>
                 {issuePluginTabItems.map((item) => (
                   <TabsTrigger key={item.value} value={item.value}>
                     {item.label}
@@ -8194,7 +8155,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
               {taskChatShellEnabled ? (
                 <>
                   <SheetHeader className="sr-only">
-                    <SheetTitle>Task side panel</SheetTitle>
+                    <SheetTitle>{t("issueDetail.taskSidePanel", { defaultValue: "Task side panel" })}</SheetTitle>
                   </SheetHeader>
                   <TaskSidePanel
                     openBrowserId={openBrowserId}

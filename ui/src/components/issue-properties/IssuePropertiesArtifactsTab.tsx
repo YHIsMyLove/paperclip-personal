@@ -1,5 +1,6 @@
 import { TextAttachmentContext } from "@/context/TextAttachmentContext";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { t } from "@/i18n";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type {
   AttachmentArtifactWorkProductMetadata,
@@ -149,9 +150,7 @@ function MarkdownWorkProductRow({
   let expandedBody: React.ReactNode;
   if (tooLarge) {
     expandedBody = (
-      <p className="text-sm text-muted-foreground">
-        This Markdown file is too large to preview. Use Raw or Download instead.
-      </p>
+      <p className="text-sm text-muted-foreground">{t("issueProps.artifacts.thisMarkdownFileIsTooLargeToPreviewUseRawOrDownl", { defaultValue: "This Markdown file is too large to preview. Use Raw or Download instead." })}</p>
     );
   } else if (reviewDoc) {
     expandedBody =
@@ -171,7 +170,7 @@ function MarkdownWorkProductRow({
           <MarkdownBody>{reviewDoc.body}</MarkdownBody>
         </IssueDocumentAnnotations>
       ) : (
-        <p className="text-sm text-muted-foreground">Document is empty.</p>
+        <p className="text-sm text-muted-foreground">{t("issueProps.artifacts.documentIsEmpty", { defaultValue: "Document is empty." })}</p>
       );
   } else if (ensure.isError) {
     expandedBody = (
@@ -189,15 +188,13 @@ function MarkdownWorkProductRow({
               ensure.reset();
               ensure.mutate();
             }}
-          >
-            Retry
-          </button>
+          >{t("issueProps.artifacts.retry", { defaultValue: "Retry" })}</button>
         ) : null}
       </div>
     );
   } else {
     expandedBody = (
-      <p className="text-sm text-muted-foreground">Preparing preview…</p>
+      <p className="text-sm text-muted-foreground">{t("issueProps.artifacts.preparingPreview", { defaultValue: "Preparing preview…" })}</p>
     );
   }
 
@@ -239,7 +236,7 @@ function MarkdownWorkProductRow({
                   type="button"
                   onClick={() => openTextAttachment(metadata.attachmentId, metadata.originalFilename ?? workProduct.title)}
                   aria-label={`Open in tab: ${workProduct.title}`}
-                  title="Open in tab"
+                  title={t("issueProps.artifacts.openInTab", { defaultValue: "Open in tab" })}
                   className="shrink-0 px-1.5 py-1.5 text-muted-foreground hover:text-foreground"
                 >
                   <FileText className="h-3 w-3" />
@@ -250,7 +247,7 @@ function MarkdownWorkProductRow({
                 target="_blank"
                 rel="noreferrer"
                 aria-label={`Open raw ${workProduct.title}`}
-                title="Open raw"
+                title={t("issueProps.artifacts.openRaw", { defaultValue: "Open raw" })}
                 className="shrink-0 px-1.5 py-1.5 text-muted-foreground hover:text-foreground"
               >
                 <ExternalLink className="h-3 w-3" />
@@ -258,7 +255,7 @@ function MarkdownWorkProductRow({
               <a
                 href={metadata.downloadPath}
                 aria-label={`Download ${workProduct.title}`}
-                title="Download"
+                title={t("issueProps.artifacts.download", { defaultValue: "Download" })}
                 className="shrink-0 py-1.5 pr-2 pl-0.5 text-muted-foreground hover:text-foreground"
               >
                 <Download className="h-3 w-3" />
@@ -343,7 +340,7 @@ function DocumentRow({
               <MarkdownBody>{doc.body}</MarkdownBody>
             </IssueDocumentAnnotations>
           ) : (
-            <p className="text-sm text-muted-foreground">Document is empty.</p>
+            <p className="text-sm text-muted-foreground">{t("issueProps.artifacts.documentIsEmpty", { defaultValue: "Document is empty." })}</p>
           )}
         </div>
       ) : null}
@@ -496,23 +493,17 @@ export function IssuePropertiesArtifactsTab({
   const loadError = attachmentsError || productsError || documentsError;
   const loading = attachmentsPending || productsPending || documentsPending;
   const feedback = loadError ? (
-    <div role="alert" className="px-1 py-3 text-sm text-muted-foreground">
-      Some artifacts could not be loaded.
-      <button
+    <div role="alert" className="px-1 py-3 text-sm text-muted-foreground">{t("issueProps.artifacts.someArtifactsCouldNotBeLoaded", { defaultValue: "Some artifacts could not be loaded." })}<button
         className="ml-2 underline"
         onClick={() => {
           void refetchAttachments();
           void refetchProducts();
           void refetchDocuments();
         }}
-      >
-        Retry
-      </button>
+      >{t("issueProps.artifacts.retry", { defaultValue: "Retry" })}</button>
     </div>
   ) : loading ? (
-    <p role="status" className="px-1 py-3 text-sm text-muted-foreground">
-      Loading artifacts…
-    </p>
+    <p role="status" className="px-1 py-3 text-sm text-muted-foreground">{t("issueProps.artifacts.loadingArtifacts", { defaultValue: "Loading artifacts…" })}</p>
   ) : null;
 
   if (
@@ -522,10 +513,7 @@ export function IssuePropertiesArtifactsTab({
   ) {
     if (feedback) return feedback;
     return (
-      <div className="px-1 py-6 text-sm text-muted-foreground">
-        No artifacts yet. Work products, documents, and agent-produced files
-        will appear here.
-      </div>
+      <div className="px-1 py-6 text-sm text-muted-foreground">{t("issueProps.artifacts.noArtifactsYetWorkProductsDocumentsAndAgentProdu", { defaultValue: "No artifacts yet. Work products, documents, and agent-produced files will appear here." })}</div>
     );
   }
 

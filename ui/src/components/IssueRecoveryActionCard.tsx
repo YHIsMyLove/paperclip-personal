@@ -2,6 +2,7 @@ import { isNativeWorkspaceExportRepairCause } from "@paperclipai/shared";
 import { useWorkspaceIsolationControls } from "@/hooks/useWorkspaceIsolationControls";
 import { requiresExecutionReconciliation } from "@paperclipai/shared";
 import { useMemo, useState } from "react";
+import { t } from "@/i18n";
 import type {
   Agent,
   GitWorktreeBranchAncestryVerdict,
@@ -457,9 +458,7 @@ function DivergenceDiagnosis({
       )}
     >
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-eyebrow) text-muted-foreground">
-          Divergence diagnosis
-        </span>
+        <span className="text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-eyebrow) text-muted-foreground">{t("issueChat.recovery.divergenceDiagnosis", { defaultValue: "Divergence diagnosis" })}</span>
         <Badge variant="outline"
           data-testid="recovery-ancestry-verdict"
           className={cn(
@@ -472,12 +471,12 @@ function DivergenceDiagnosis({
       </div>
       <div className="grid gap-2 sm:grid-cols-2">
         <BranchFacet
-          label="Expected · recorded"
+          label={t("issueChat.recovery.expectedRecorded", { defaultValue: "Expected · recorded" })}
           branch={divergence.expectedBranch}
           sha={divergence.expectedHeadSha}
         />
         <BranchFacet
-          label="Live · checked out"
+          label={t("issueChat.recovery.liveCheckedOut", { defaultValue: "Live · checked out" })}
           branch={divergence.liveBranch}
           sha={divergence.liveHeadSha}
         />
@@ -558,9 +557,7 @@ function BreakGlassOverride({
             id="recovery-breakglass-title"
             className="flex items-center gap-1.5 text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-eyebrow) text-red-700 dark:text-red-300"
           >
-            <OctagonAlert className="h-3.5 w-3.5" aria-hidden />
-            Break-glass reconciliation
-          </div>
+            <OctagonAlert className="h-3.5 w-3.5" aria-hidden />{t("issueChat.recovery.breakGlassReconciliation", { defaultValue: "Break-glass reconciliation" })}</div>
           <p className="text-xs leading-5 text-muted-foreground">
             This overrides Paperclip&apos;s safety check and points the recorded workspace at the live
             branch{" "}
@@ -573,27 +570,26 @@ function BreakGlassOverride({
           className="space-y-1.5 rounded-md border border-red-400/40 bg-red-500/5 px-2.5 py-2 text-(length:--text-micro)"
         >
           <div className="flex items-center justify-between gap-2">
-            <dt className="shrink-0 text-muted-foreground">Recorded · expected</dt>
+            <dt className="shrink-0 text-muted-foreground">{t("issueChat.recovery.recordedExpected", { defaultValue: "Recorded · expected" })}</dt>
             <dd className="min-w-0 truncate font-mono text-foreground/90">
               {divergence.expectedBranch ?? "detached"}
               {expectedSha ? ` @ ${expectedSha}` : ""}
             </dd>
           </div>
           <div className="flex items-center justify-between gap-2">
-            <dt className="shrink-0 text-muted-foreground">Live · checked out</dt>
+            <dt className="shrink-0 text-muted-foreground">{t("issueChat.recovery.liveCheckedOut", { defaultValue: "Live · checked out" })}</dt>
             <dd className="min-w-0 truncate font-mono text-foreground/90">
               {divergence.liveBranch ?? "detached"}
               {liveSha ? ` @ ${liveSha}` : ""}
             </dd>
           </div>
           <div className="flex items-center justify-between gap-2">
-            <dt className="shrink-0 text-muted-foreground">Ancestry verdict</dt>
+            <dt className="shrink-0 text-muted-foreground">{t("issueChat.recovery.ancestryVerdict", { defaultValue: "Ancestry verdict" })}</dt>
             <dd className="font-medium">{verdictBadge.label}</dd>
           </div>
         </dl>
         <div className="space-y-1">
-          <Label htmlFor="recovery-breakglass-reason" className="text-(length:--text-micro) text-muted-foreground">
-            Reason <span className="text-red-600 dark:text-red-400">(required — recorded in the audit log)</span>
+          <Label htmlFor="recovery-breakglass-reason" className="text-(length:--text-micro) text-muted-foreground">{t("issueChat.recovery.reason", { defaultValue: "Reason" })}<span className="text-red-600 dark:text-red-400">(required — recorded in the audit log)</span>
           </Label>
           <Textarea
             id="recovery-breakglass-reason"
@@ -695,9 +691,7 @@ function RepairWorkspace({
             id="recovery-repair-title"
             className="flex items-center gap-1.5 text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-eyebrow) text-sky-700 dark:text-sky-300"
           >
-            <Wrench className="h-3.5 w-3.5" aria-hidden />
-            Repair workspace
-          </div>
+            <Wrench className="h-3.5 w-3.5" aria-hidden />{t("issueChat.recovery.repairWorkspace", { defaultValue: "Repair workspace" })}</div>
           <p className="text-xs leading-5 text-muted-foreground">
             This is lossless — no reason required. Your uncommitted changes are committed onto a fresh
             rescue branch, then the recorded branch is restored so the task can resume. The live branch
@@ -709,20 +703,20 @@ function RepairWorkspace({
           className="space-y-1.5 rounded-md border border-sky-400/30 bg-sky-500/5 px-2.5 py-2 text-(length:--text-micro)"
         >
           <div className="flex items-center justify-between gap-2">
-            <dt className="shrink-0 text-muted-foreground">Dirty changes</dt>
+            <dt className="shrink-0 text-muted-foreground">{t("issueChat.recovery.dirtyChanges", { defaultValue: "Dirty changes" })}</dt>
             <dd data-testid="recovery-repair-dirty-count" className="font-medium text-foreground/90">
               {dirtyLabel}
             </dd>
           </div>
           <div className="flex items-center justify-between gap-2">
-            <dt className="shrink-0 text-muted-foreground">Live branch</dt>
+            <dt className="shrink-0 text-muted-foreground">{t("issueChat.recovery.liveBranch", { defaultValue: "Live branch" })}</dt>
             <dd className="min-w-0 truncate font-mono text-foreground/90">
               {divergence.liveBranch ?? "detached"}
               <span className="ml-1 font-sans text-muted-foreground">(left untouched)</span>
             </dd>
           </div>
           <div className="flex items-center justify-between gap-2">
-            <dt className="shrink-0 text-muted-foreground">Rescue branch</dt>
+            <dt className="shrink-0 text-muted-foreground">{t("issueChat.recovery.rescueBranch", { defaultValue: "Rescue branch" })}</dt>
             <dd
               data-testid="recovery-repair-rescue-branch"
               className="min-w-0 truncate font-mono text-foreground/90"
@@ -732,7 +726,7 @@ function RepairWorkspace({
             </dd>
           </div>
           <div className="flex items-center justify-between gap-2">
-            <dt className="shrink-0 text-muted-foreground">Restore to</dt>
+            <dt className="shrink-0 text-muted-foreground">{t("issueChat.recovery.restoreTo", { defaultValue: "Restore to" })}</dt>
             <dd className="min-w-0 truncate font-mono text-foreground/90">
               {divergence.expectedBranch ?? "recorded branch"}
             </dd>
@@ -1167,7 +1161,7 @@ export function IssueRecoveryActionCard({
       <dl className={cn("border-t bg-background/40 dark:bg-background/20", tone.divider)}>
         {lineage ? (
           <>
-            <MetadataRow label="Task owner">
+            <MetadataRow label={t("issueChat.recovery.taskOwner", { defaultValue: "Task owner" })}>
               <span
                 className="inline-flex flex-wrap items-center gap-1.5"
                 data-testid="recovery-source-owner"
@@ -1180,18 +1174,18 @@ export function IssueRecoveryActionCard({
                 <span className="text-muted-foreground">keeps this task</span>
               </span>
             </MetadataRow>
-            <MetadataRow label="Recovery owner">
+            <MetadataRow label={t("issueChat.recovery.recoveryOwner", { defaultValue: "Recovery owner" })}>
               <span
                 className="inline-flex flex-wrap items-center gap-1.5"
                 data-testid="recovery-recovery-owner"
               >
                 {lineage.lane === "native_run" && (action.ownerType !== "board" || Boolean(lineage.liveRunId)) ? (
                   <>
-                    <span className="font-medium">Paperclip</span>
+                    <span className="font-medium">{t("issueChat.recovery.paperclip", { defaultValue: "Paperclip" })}</span>
                     <span className="text-muted-foreground">recovers the existing run</span>
                   </>
                 ) : recoveryOwnerIsSourceOwner ? (
-                  <span className="font-medium">Original owner — retrying itself</span>
+                  <span className="font-medium">{t("issueChat.recovery.originalOwnerRetryingItself", { defaultValue: "Original owner — retrying itself" })}</span>
                 ) : action.ownerType === "agent" && action.ownerAgentId ? (
                   <>
                     <AgentLink agentId={action.ownerAgentId} agentMap={agentMap} />
@@ -1199,7 +1193,7 @@ export function IssueRecoveryActionCard({
                   </>
                 ) : action.ownerType === "board" ? (
                   <>
-                    <span className="font-medium">Board</span>
+                    <span className="font-medium">{t("issueChat.recovery.board", { defaultValue: "Board" })}</span>
                     <span className="text-muted-foreground">decides the next step only</span>
                   </>
                 ) : action.ownerType === "user" && action.ownerUserId ? (
@@ -1209,7 +1203,7 @@ export function IssueRecoveryActionCard({
                 )}
               </span>
             </MetadataRow>
-            <MetadataRow label="Retry progress">
+            <MetadataRow label={t("issueChat.recovery.retryProgress", { defaultValue: "Retry progress" })}>
               <span
                 className="inline-flex flex-wrap items-center gap-x-2 gap-y-1"
                 data-testid="recovery-retry-progress"
@@ -1224,9 +1218,7 @@ export function IssueRecoveryActionCard({
                     className={RETRY_PILL_CLASS}
                     title={formatTimeAbsolute(lineage.nextRetryAt) ?? undefined}
                     data-testid="recovery-next-retry"
-                  >
-                    Attempt running now
-                  </span>
+                  >{t("issueChat.recovery.attemptRunningNow", { defaultValue: "Attempt running now" })}</span>
                 ) : lineage.retryExpired ? (
                   // The due time is stated plainly as missed. Rendering it as "Next try 5m
                   // ago" is what made an abandoned lane read as healthy recovery.
@@ -1247,14 +1239,12 @@ export function IssueRecoveryActionCard({
                     {retryOffset === "now" ? "Next try now" : `Next try ${retryOffset}`}
                   </span>
                 ) : lineage.exhausted ? (
-                  <span className={RETRY_PILL_CLASS} data-testid="recovery-next-retry">
-                    Automatic retries used up
-                  </span>
+                  <span className={RETRY_PILL_CLASS} data-testid="recovery-next-retry">{t("issueChat.recovery.automaticRetriesUsedUp", { defaultValue: "Automatic retries used up" })}</span>
                 ) : null}
               </span>
             </MetadataRow>
             {lineage.lane !== "source_owner" && lineage.sourceMaxAttempts !== null ? (
-              <MetadataRow label="Owner retries">
+              <MetadataRow label={t("issueChat.recovery.ownerRetries", { defaultValue: "Owner retries" })}>
                 <span data-testid="recovery-source-attempts">
                   The original owner used {lineage.sourceAttempt ?? lineage.sourceMaxAttempts} of{" "}
                   {lineage.sourceMaxAttempts} automatic attempts.
@@ -1263,19 +1253,19 @@ export function IssueRecoveryActionCard({
             ) : null}
           </>
         ) : (
-        <MetadataRow label="Owner">
+        <MetadataRow label={t("issueChat.recovery.owner", { defaultValue: "Owner" })}>
           <span className="inline-flex flex-wrap items-center gap-1.5">
             {action.ownerType === "agent" && action.ownerAgentId ? (
               <>
-                <span className="text-muted-foreground">Recovery:</span>
+                <span className="text-muted-foreground">{t("issueChat.recovery.recovery", { defaultValue: "Recovery:" })}</span>
                 <AgentLink agentId={action.ownerAgentId} agentMap={agentMap} />
               </>
             ) : action.ownerType === "board" ? (
-              <span className="font-medium">Board</span>
+              <span className="font-medium">{t("issueChat.recovery.board", { defaultValue: "Board" })}</span>
             ) : action.ownerType === "user" && action.ownerUserId ? (
               <span className="font-medium">user {action.ownerUserId.slice(0, 6)}</span>
             ) : action.ownerType === "system" ? (
-              <span className="font-medium">System</span>
+              <span className="font-medium">{t("issueChat.recovery.system", { defaultValue: "System" })}</span>
             ) : (
               <span className="text-muted-foreground">unassigned — pick one to wake them</span>
             )}
@@ -1288,15 +1278,15 @@ export function IssueRecoveryActionCard({
           </span>
         </MetadataRow>
         )}
-        <MetadataRow label="Source run">
+        <MetadataRow label={t("issueChat.recovery.sourceRun", { defaultValue: "Source run" })}>
           <RunChip runId={sourceRunId} agentId={action.previousOwnerAgentId} />
         </MetadataRow>
         {correctiveRunId ? (
-          <MetadataRow label="Corrective run">
+          <MetadataRow label={t("issueChat.recovery.correctiveRun", { defaultValue: "Corrective run" })}>
             <RunChip runId={correctiveRunId} agentId={action.previousOwnerAgentId} />
           </MetadataRow>
         ) : null}
-        <MetadataRow label="Evidence">
+        <MetadataRow label={t("issueChat.recovery.evidence", { defaultValue: "Evidence" })}>
           {evidenceSummary ? (
             evidenceSummary.isCode ? (
               <span className="break-words font-mono text-(length:--text-micro) text-foreground/80">
@@ -1309,10 +1299,10 @@ export function IssueRecoveryActionCard({
             <MissingValue />
           )}
         </MetadataRow>
-        <MetadataRow label="Next action">
+        <MetadataRow label={t("issueChat.recovery.nextAction", { defaultValue: "Next action" })}>
           {action.nextAction ? <span>{action.nextAction}</span> : <MissingValue />}
         </MetadataRow>
-        <MetadataRow label="Follow-up">
+        <MetadataRow label={t("issueChat.recovery.followUp", { defaultValue: "Follow-up" })}>
           <span className="inline-flex flex-wrap items-center gap-1.5">
             {wakeSummary ? <span>{wakeSummary}</span> : <MissingValue />}
             {showAttempt ? (
@@ -1328,7 +1318,7 @@ export function IssueRecoveryActionCard({
           </span>
         </MetadataRow>
         {cardState === "resolved" && action.outcome ? (
-          <MetadataRow label="Resolution">
+          <MetadataRow label={t("issueChat.recovery.resolution", { defaultValue: "Resolution" })}>
             <span className={cn("font-medium", tone.labelClass)}>
               Resolved as {OUTCOME_LABEL[action.outcome]}
               {action.resolvedAt ? ` · ${formatTimeShort(action.resolvedAt) ?? ""}` : ""}
@@ -1348,19 +1338,15 @@ export function IssueRecoveryActionCard({
                   size="sm"
                   variant="default"
                   data-testid="recovery-action-resolve-trigger"
-                  aria-label="Resolve recovery"
-                >
-                  Resolve…
-                </Button>
+                  aria-label={t("issueChat.recovery.resolveRecovery", { defaultValue: "Resolve recovery" })}
+                >{t("issueChat.recovery.resolve", { defaultValue: "Resolve…" })}</Button>
               </PopoverTrigger>
               <PopoverContent
                 align="start"
                 sideOffset={6}
                 className="w-72 p-1.5"
               >
-                <div className="px-2 py-1 text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-eyebrow) text-muted-foreground">
-                  Resolve recovery
-                </div>
+                <div className="px-2 py-1 text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-eyebrow) text-muted-foreground">{t("issueChat.recovery.resolveRecovery", { defaultValue: "Resolve recovery" })}</div>
                 <div className="flex flex-col">
                   {visibleResolveOptions.map((option) => (
                     <button
@@ -1428,36 +1414,29 @@ export function IssueRecoveryActionCard({
                     <span
                       data-testid="recovery-reissue-recommended"
                       className="ml-1 rounded-sm bg-background/25 px-1.5 py-0.5 text-(length:--text-nano) font-semibold uppercase tracking-(--tracking-label)"
-                    >
-                      Recommended
-                    </span>
+                    >{t("issueChat.recovery.recommended", { defaultValue: "Recommended" })}</span>
                   ) : null}
                 </Button>
               </PopoverTrigger>
               <PopoverContent align="start" sideOffset={6} className="w-80 space-y-3 p-3">
                 <div className="space-y-1">
-                  <div className="text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-eyebrow) text-muted-foreground">
-                    Re-issue on isolated workspace
-                  </div>
-                  <p className="text-xs leading-5 text-muted-foreground">
-                    Creates a fresh copy of this task on an isolated git worktree based on the live
-                    branch. Your current workspace and its commits are left untouched.
-                  </p>
+                  <div className="text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-eyebrow) text-muted-foreground">{t("issueChat.recovery.reIssueOnIsolatedWorkspace", { defaultValue: "Re-issue on isolated workspace" })}</div>
+                  <p className="text-xs leading-5 text-muted-foreground">{t("issueChat.recovery.createsAFreshCopyOfThisTaskOnAnIsolatedGitWorktr", { defaultValue: "Creates a fresh copy of this task on an isolated git worktree based on the live branch. Your current workspace and its commits are left untouched." })}</p>
                 </div>
                 <dl className="space-y-1 rounded-md border border-border/70 bg-muted/30 px-2.5 py-2 text-(length:--text-micro)">
                   <div className="flex items-center justify-between gap-2">
-                    <dt className="text-muted-foreground">Base ref</dt>
+                    <dt className="text-muted-foreground">{t("issueChat.recovery.baseRef", { defaultValue: "Base ref" })}</dt>
                     <dd className="min-w-0 truncate font-mono text-foreground/90">{reissueBaseRef}</dd>
                   </div>
                   <div className="flex items-center justify-between gap-2">
-                    <dt className="text-muted-foreground">Recorded</dt>
+                    <dt className="text-muted-foreground">{t("issueChat.recovery.recorded", { defaultValue: "Recorded" })}</dt>
                     <dd className="min-w-0 truncate font-mono text-foreground/80">
                       {divergence.expectedBranch ?? "—"}
                     </dd>
                   </div>
                   {reissueVerdictBadge ? (
                     <div className="flex items-center justify-between gap-2">
-                      <dt className="text-muted-foreground">Ancestry</dt>
+                      <dt className="text-muted-foreground">{t("issueChat.recovery.ancestry", { defaultValue: "Ancestry" })}</dt>
                       <dd className="font-medium">{reissueVerdictBadge.label}</dd>
                     </div>
                   ) : null}
@@ -1491,13 +1470,9 @@ export function IssueRecoveryActionCard({
           ) : null}
           {showResolveActions ? (
             cardState === "observe_only" ? (
-              <span className="text-(length:--text-micro) text-muted-foreground">
-                Recovery is observing without interrupting the live run.
-              </span>
+              <span className="text-(length:--text-micro) text-muted-foreground">{t("issueChat.recovery.recoveryIsObservingWithoutInterruptingTheLiveRun", { defaultValue: "Recovery is observing without interrupting the live run." })}</span>
             ) : (
-              <span className="text-(length:--text-micro) text-muted-foreground">
-                The card stays open until an explicit decision is recorded.
-              </span>
+              <span className="text-(length:--text-micro) text-muted-foreground">{t("issueChat.recovery.theCardStaysOpenUntilAnExplicitDecisionIsRecorde", { defaultValue: "The card stays open until an explicit decision is recorded." })}</span>
             )
           ) : null}
         </div>

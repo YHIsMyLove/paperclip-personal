@@ -1,4 +1,5 @@
 import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { t } from "@/i18n";
 import { Link, useLocation, useNavigate } from "@/lib/router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { deriveOriginatingActor, INBOX_MINE_ISSUE_STATUS_FILTER, isHeartbeatRunVisibleInMine } from "@paperclipai/shared";
@@ -397,7 +398,7 @@ export function FailedRunInboxRow({
                   "inline-flex h-4 w-4 items-center justify-center rounded-full transition-colors",
                   "hover:bg-blue-500/20",
                 )}
-                aria-label="Mark as read"
+                aria-label={t("inbox.markAsRead", { defaultValue: "Mark as read" })}
               >
                 <span className={cn(
                   "block h-2 w-2 rounded-full transition-opacity duration-300",
@@ -463,7 +464,7 @@ export function FailedRunInboxRow({
               type="button"
               onClick={onDismiss}
               className="rounded-md p-1 text-muted-foreground opacity-0 transition-opacity hover:bg-accent hover:text-foreground group-hover:opacity-100"
-              aria-label="Dismiss"
+              aria-label={t("inbox.dismiss", { defaultValue: "Dismiss" })}
             >
               <X className="h-4 w-4" />
             </button>
@@ -487,7 +488,7 @@ export function FailedRunInboxRow({
             type="button"
             onClick={onDismiss}
             className="rounded-md p-1 text-muted-foreground hover:bg-accent hover:text-foreground"
-            aria-label="Dismiss"
+            aria-label={t("inbox.dismiss", { defaultValue: "Dismiss" })}
           >
             <X className="h-4 w-4" />
           </button>
@@ -546,7 +547,7 @@ function ApprovalInboxRow({
                   "inline-flex h-4 w-4 items-center justify-center rounded-full transition-colors",
                   "hover:bg-blue-500/20",
                 )}
-                aria-label="Mark as read"
+                aria-label={t("inbox.markAsRead", { defaultValue: "Mark as read" })}
               >
                 <span className={cn(
                   "block h-2 w-2 rounded-full transition-opacity duration-300",
@@ -594,18 +595,14 @@ function ApprovalInboxRow({
                   className="h-8 min-w-(--sz-64px) justify-center bg-green-700 px-3 text-white hover:bg-green-600"
                   onClick={onApprove}
                   disabled={isPending}
-                >
-                  Approve
-                </Button>
+                >{t("inbox.approve", { defaultValue: "Approve" })}</Button>
                 <Button
                   variant="destructive"
                   size="sm"
                   className="h-8 min-w-(--sz-64px) justify-center px-3"
                   onClick={onReject}
                   disabled={isPending}
-                >
-                  Reject
-                </Button>
+                >{t("inbox.reject", { defaultValue: "Reject" })}</Button>
               </>
             ) : null}
           </div>
@@ -618,18 +615,14 @@ function ApprovalInboxRow({
             className="h-8 min-w-(--sz-64px) justify-center bg-green-700 px-3 text-white hover:bg-green-600"
             onClick={onApprove}
             disabled={isPending}
-          >
-            Approve
-          </Button>
+          >{t("inbox.approve", { defaultValue: "Approve" })}</Button>
           <Button
             variant="destructive"
             size="sm"
             className="h-8 min-w-(--sz-64px) justify-center px-3"
             onClick={onReject}
             disabled={isPending}
-          >
-            Reject
-          </Button>
+          >{t("inbox.reject", { defaultValue: "Reject" })}</Button>
         </div>
       ) : null}
     </div>
@@ -679,7 +672,7 @@ function JoinRequestInboxRow({
                   "inline-flex h-4 w-4 items-center justify-center rounded-full transition-colors",
                   "hover:bg-blue-500/20",
                 )}
-                aria-label="Mark as read"
+                aria-label={t("inbox.markAsRead", { defaultValue: "Mark as read" })}
               >
                 <span className={cn(
                   "block h-2 w-2 rounded-full transition-opacity duration-300",
@@ -717,18 +710,14 @@ function JoinRequestInboxRow({
             className="h-8 bg-green-700 px-3 text-white hover:bg-green-600"
             onClick={onApprove}
             disabled={isPending}
-          >
-            Approve
-          </Button>
+          >{t("inbox.approve", { defaultValue: "Approve" })}</Button>
           <Button
             variant="destructive"
             size="sm"
             className="h-8 px-3"
             onClick={onReject}
             disabled={isPending}
-          >
-            Reject
-          </Button>
+          >{t("inbox.reject", { defaultValue: "Reject" })}</Button>
         </div>
       </div>
       <div className="mt-3 flex gap-2 sm:hidden">
@@ -737,18 +726,14 @@ function JoinRequestInboxRow({
           className="h-8 bg-green-700 px-3 text-white hover:bg-green-600"
           onClick={onApprove}
           disabled={isPending}
-        >
-          Approve
-        </Button>
+        >{t("inbox.approve", { defaultValue: "Approve" })}</Button>
         <Button
           variant="destructive"
           size="sm"
           className="h-8 px-3"
           onClick={onReject}
           disabled={isPending}
-        >
-          Reject
-        </Button>
+        >{t("inbox.reject", { defaultValue: "Reject" })}</Button>
       </div>
     </div>
   );
@@ -2328,7 +2313,7 @@ function StreamlinedInbox() {
   }, [selectedIndex]);
 
   if (!selectedCompanyId) {
-    return <EmptyState icon={InboxIcon} message="Select an organization to view inbox." />;
+    return <EmptyState icon={InboxIcon} message={t("inbox.selectAnOrganizationToViewInbox", { defaultValue: "Select an organization to view inbox." })} />;
   }
 
   const hasRunFailures = failedRuns.length > 0;
@@ -2397,7 +2382,7 @@ function StreamlinedInbox() {
     <div className="space-y-6">
       <InboxCollectionToolbar
         streamlined={streamlinedUiEnabled}
-        ariaLabel="Inbox controls"
+        ariaLabel={t("inbox.inboxControls", { defaultValue: "Inbox controls" })}
         context={(
           <Tabs value={tab} onValueChange={(value) => navigate(`/inbox/${value}`)}>
             <PageTabBar
@@ -2416,7 +2401,7 @@ function StreamlinedInbox() {
             <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="Search inbox…"
+              placeholder={t("inbox.searchInbox", { defaultValue: "Search inbox…" })}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={(e) => {
@@ -2468,7 +2453,7 @@ function StreamlinedInbox() {
                     variant="outline"
                     size="icon"
                     className={cn("h-8 w-8 shrink-0", blockedGroupBy !== "none" && "bg-accent")}
-                    title="Group"
+                    title={t("inbox.group", { defaultValue: "Group" })}
                   >
                     <Layers className="h-3.5 w-3.5" />
                   </Button>
@@ -2504,7 +2489,7 @@ function StreamlinedInbox() {
                   }));
                 }}
                 onResetColumns={() => setIssueColumns(DEFAULT_INBOX_ISSUE_COLUMNS)}
-                title="Choose which inbox columns stay visible"
+                title={t("inbox.chooseWhichInboxColumnsStayVisible", { defaultValue: "Choose which inbox columns stay visible" })}
                 iconOnly
               />
               <Popover>
@@ -2514,7 +2499,7 @@ function StreamlinedInbox() {
                     variant="outline"
                     size="icon"
                     className="h-8 w-8 shrink-0"
-                    title="Sort"
+                    title={t("inbox.sort", { defaultValue: "Sort" })}
                   >
                     <ArrowUpDown className="h-3.5 w-3.5" />
                   </Button>
@@ -2588,7 +2573,7 @@ function StreamlinedInbox() {
                     variant="outline"
                     size="icon"
                     className={cn("h-8 w-8 shrink-0", groupBy !== "none" && "bg-accent")}
-                    title="Group"
+                    title={t("inbox.group", { defaultValue: "Group" })}
                   >
                     <Layers className="h-3.5 w-3.5" />
                   </Button>
@@ -2630,7 +2615,7 @@ function StreamlinedInbox() {
                   }));
                 }}
                 onResetColumns={() => setIssueColumns(DEFAULT_INBOX_ISSUE_COLUMNS)}
-                title="Choose which inbox columns stay visible"
+                title={t("inbox.chooseWhichInboxColumnsStayVisible", { defaultValue: "Choose which inbox columns stay visible" })}
                 iconOnly
                 rowPresentation={streamlinedUiEnabled ? "task" : "legacy"}
               />
@@ -2649,23 +2634,19 @@ function StreamlinedInbox() {
                   <Dialog open={showMarkAllReadConfirm} onOpenChange={setShowMarkAllReadConfirm}>
                     <DialogContent className="sm:max-w-md">
                       <DialogHeader>
-                        <DialogTitle>Mark all as read?</DialogTitle>
+                        <DialogTitle>{t("inbox.markAllAsRead", { defaultValue: "Mark all as read?" })}</DialogTitle>
                         <DialogDescription>
                           This will mark {unreadIssueIds.length} unread {unreadIssueIds.length === 1 ? "item" : "items"} as read.
                         </DialogDescription>
                       </DialogHeader>
                       <DialogFooter>
-                        <Button variant="outline" onClick={() => setShowMarkAllReadConfirm(false)}>
-                          Cancel
-                        </Button>
+                        <Button variant="outline" onClick={() => setShowMarkAllReadConfirm(false)}>{t("inbox.cancel", { defaultValue: "Cancel" })}</Button>
                         <Button
                           onClick={() => {
                             setShowMarkAllReadConfirm(false);
                             markAllReadMutation.mutate(unreadIssueIds);
                           }}
-                        >
-                          Mark all as read
-                        </Button>
+                        >{t("inbox.markAllAsRead2", { defaultValue: "Mark all as read" })}</Button>
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>
@@ -3050,9 +3031,7 @@ function StreamlinedInbox() {
                           <span
                             className="shrink-0 text-(length:--text-micro) font-medium uppercase tracking-wider text-muted-foreground/70"
                             data-date-group-label=""
-                          >
-                            Earlier
-                          </span>
+                          >{t("inbox.earlier", { defaultValue: "Earlier" })}</span>
                         </div>,
                       );
                     }
@@ -3265,9 +3244,7 @@ function StreamlinedInbox() {
         <>
           {showSeparatorBefore("alerts") && <Separator />}
           <div>
-            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-              Alerts
-            </h3>
+            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">{t("inbox.alerts", { defaultValue: "Alerts" })}</h3>
             <div className="divide-y divide-border border border-border">
               {showAggregateAgentError && (
                 <div className="group/alert relative flex items-center gap-3 px-4 py-3 transition-colors hover:bg-accent/50">
@@ -3285,7 +3262,7 @@ function StreamlinedInbox() {
                     type="button"
                     onClick={() => dismissAlert("alert:agent-errors")}
                     className="rounded-md p-1 text-muted-foreground opacity-0 transition-opacity hover:bg-accent hover:text-foreground group-hover/alert:opacity-100"
-                    aria-label="Dismiss"
+                    aria-label={t("inbox.dismiss", { defaultValue: "Dismiss" })}
                   >
                     <X className="h-3.5 w-3.5" />
                   </button>
@@ -3308,7 +3285,7 @@ function StreamlinedInbox() {
                     type="button"
                     onClick={() => dismissAlert("alert:budget")}
                     className="rounded-md p-1 text-muted-foreground opacity-0 transition-opacity hover:bg-accent hover:text-foreground group-hover/alert:opacity-100"
-                    aria-label="Dismiss"
+                    aria-label={t("inbox.dismiss", { defaultValue: "Dismiss" })}
                   >
                     <X className="h-3.5 w-3.5" />
                   </button>

@@ -1,4 +1,5 @@
 import { useState, type MouseEvent } from "react";
+import { t } from "@/i18n";
 import type { Issue } from "@paperclipai/shared";
 import { Link } from "@/lib/router";
 import { Button } from "@/components/ui/button";
@@ -76,15 +77,11 @@ export function RemovableIssueReferencePill({
               {issue.identifier ? (
                 <DropdownMenuItem asChild>
                   <Link to={`/issues/${issue.identifier}`}>
-                    <ArrowUpRight className="h-4 w-4" />
-                    Visit task
-                  </Link>
+                    <ArrowUpRight className="h-4 w-4" />{t("issueProps.relations.visitTask", { defaultValue: "Visit task" })}</Link>
                 </DropdownMenuItem>
               ) : null}
               <DropdownMenuItem variant="destructive" onSelect={openRemoveConfirmation}>
-                <X className="h-4 w-4" />
-                Remove blocker
-              </DropdownMenuItem>
+                <X className="h-4 w-4" />{t("issueProps.relations.removeBlocker", { defaultValue: "Remove blocker" })}</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
@@ -124,18 +121,16 @@ export function RemovableIssueReferencePill({
       <Dialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Remove blocker?</DialogTitle>
+            <DialogTitle>{t("issueProps.relations.removeBlocker2", { defaultValue: "Remove blocker?" })}</DialogTitle>
             <DialogDescription>
               Remove {confirmLabel} as a blocker for this task.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <DialogClose asChild>
-              <Button type="button" variant="outline">Cancel</Button>
+              <Button type="button" variant="outline">{t("issueProps.relations.cancel", { defaultValue: "Cancel" })}</Button>
             </DialogClose>
-            <Button type="button" variant="destructive" onClick={confirmRemove}>
-              Remove blocker
-            </Button>
+            <Button type="button" variant="destructive" onClick={confirmRemove}>{t("issueProps.relations.removeBlocker", { defaultValue: "Remove blocker" })}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

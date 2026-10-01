@@ -1,5 +1,6 @@
 import { AgentIdentity } from "@/components/AgentIdentity";
 import { useMemo, useState } from "react";
+import { t } from "@/i18n";
 import { Link } from "@/lib/router";
 import {
   DndContext,
@@ -335,12 +336,10 @@ function KanbanCard({
           {isSuccessfulRunHandoffRequired(issue) ? (
             <Badge variant="outline"
               className="border-amber-400/45 bg-amber-50/60 px-1.5 text-(length:--text-nano) text-amber-700 dark:border-amber-300/35 dark:bg-amber-400/10 dark:text-amber-300"
-              title="This task needs a next step"
-              aria-label="Needs next step"
+              title={t("issues.kanban.thisTaskNeedsANextStep", { defaultValue: "This task needs a next step" })}
+              aria-label={t("issues.kanban.needsNextStep", { defaultValue: "Needs next step" })}
             >
-              <AlertTriangle className="h-3 w-3" />
-              Next step
-            </Badge>
+              <AlertTriangle className="h-3 w-3" />{t("issues.kanban.nextStep", { defaultValue: "Next step" })}</Badge>
           ) : null}
           {isLive && (
             <span className="inline-flex shrink-0 items-center gap-1 text-(length:--text-nano) font-medium text-blue-600 dark:text-blue-400">

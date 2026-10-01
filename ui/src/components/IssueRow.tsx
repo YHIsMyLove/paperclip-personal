@@ -1,5 +1,6 @@
 import { requiresExecutionReconciliation } from "@paperclipai/shared";
 import type { ReactNode } from "react";
+import { t } from "@/i18n";
 import type { ExternalObjectSummary, Issue, IssueRecoveryAction } from "@paperclipai/shared";
 import { Link } from "@/lib/router";
 import { Archive, Flag } from "lucide-react";
@@ -109,11 +110,9 @@ export function InboxArchiveButton({
         "inline-flex shrink-0 items-center gap-1.5 rounded-md px-2 text-xs font-medium text-muted-foreground opacity-0 transition-opacity hover:bg-accent hover:text-foreground group-hover:opacity-100 focus-visible:opacity-100 disabled:pointer-events-none disabled:opacity-30",
         compact ? "h-5 py-0" : "py-1",
       )}
-      aria-label="Archive"
+      aria-label={t("issues.row.archive", { defaultValue: "Archive" })}
     >
-      <Archive className="h-3.5 w-3.5" />
-      Archive
-    </button>
+      <Archive className="h-3.5 w-3.5" />{t("issues.row.archive", { defaultValue: "Archive" })}</button>
   );
 }
 
@@ -178,7 +177,7 @@ export function IssueRow({
         "inline-flex h-4 w-4 items-center justify-center rounded-full transition-colors",
         selected ? "hover:bg-muted/80" : "hover:bg-blue-500/20",
       )}
-      aria-label="Mark as read"
+      aria-label={t("issues.row.markAsRead", { defaultValue: "Mark as read" })}
     >
       <span
         className={cn(
@@ -207,11 +206,9 @@ export function IssueRow({
     <Badge variant="outline"
       data-testid="issue-row-parked-blocker"
       className="[&>svg]:size-2.5 ml-1.5 gap-0.5 border-amber-500/60 bg-amber-500/15 text-(length:--text-nano) text-amber-700 dark:text-amber-300"
-      title="Blocked by parked work — at least one assigned blocker is in backlog and will not wake its assignee."
+      title={t("issues.row.blockedByParkedWorkAtLeastOneAssignedBlockerIsIn", { defaultValue: "Blocked by parked work — at least one assigned blocker is in backlog and will not wake its assignee." })}
     >
-      <Flag className="h-2.5 w-2.5" aria-hidden />
-      Blocked by parked work
-    </Badge>
+      <Flag className="h-2.5 w-2.5" aria-hidden />{t("issues.row.blockedByParkedWork", { defaultValue: "Blocked by parked work" })}</Badge>
   ) : null;
 
   if (presentation === "task") {
